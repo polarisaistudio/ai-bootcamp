@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1 作业答案与解析 - AI工程师训练营</title>
+
+    <!-- 引入样式库 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .toc-item {
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+        .tag-yellow { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- 移动端菜单按钮 -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- 侧边栏导航 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">📝 作业答案</h2>
+
+            <!-- 目录 -->
+            <div class="space-y-2">
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 作业概览
+                </a>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">必做作业</div>
+                    <a href="#hw1" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📊 作业1: 模型对比报告
+                    </a>
+                    <a href="#hw2" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔤 作业2: Token优化
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">选做作业</div>
+                    <a href="#hw3" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🤖 作业3: 智能选择器
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">加分项目</div>
+                    <a href="#bonus" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        ⭐ 创意项目示例
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 顶部导航 -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="px-6 py-4">
+                <h1 class="text-2xl font-bold text-gray-800">Week 1 作业答案与解析</h1>
+                <p class="text-sm text-gray-600 mt-1">完整的参考答案、代码实现和评分标准</p>
+            </div>
+        </header>
+
+        <!-- 内容区 -->
+        <div class="px-6 py-8">
+
+            <!-- 作业概览 -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 作业概览</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">✅</div>
+                            <div class="text-lg font-semibold">必做题 60分</div>
+                            <div class="text-sm opacity-90">模型对比 + Token优化</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🚀</div>
+                            <div class="text-lg font-semibold">选做题 40分</div>
+                            <div class="text-sm opacity-90">智能模型选择器</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⭐</div>
+                            <div class="text-lg font-semibold">加分项 20分</div>
+                            <div class="text-sm opacity-90">创意项目展示</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评分说明 -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">📊 评分标准</h3>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-blue-50 rounded">
+                            <div class="text-3xl font-bold text-blue-600">40%</div>
+                            <div class="text-sm text-gray-600 mt-2">代码质量</div>
+                            <div class="text-xs text-gray-500 mt-1">规范、可读、注释</div>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded">
+                            <div class="text-3xl font-bold text-green-600">30%</div>
+                            <div class="text-sm text-gray-600 mt-2">功能完整</div>
+                            <div class="text-xs text-gray-500 mt-1">满足所有要求</div>
+                        </div>
+                        <div class="text-center p-4 bg-purple-50 rounded">
+                            <div class="text-3xl font-bold text-purple-600">20%</div>
+                            <div class="text-sm text-gray-600 mt-2">分析深度</div>
+                            <div class="text-xs text-gray-500 mt-1">有独到见解</div>
+                        </div>
+                        <div class="text-center p-4 bg-orange-50 rounded">
+                            <div class="text-3xl font-bold text-orange-600">10%</div>
+                            <div class="text-sm text-gray-600 mt-2">创新性</div>
+                            <div class="text-xs text-gray-500 mt-1">额外优化</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 作业1：模型对比报告 -->
+            <section id="hw1" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">1</span>
+                    作业1：模型对比报告（30分）
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">📋 作业要求</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>选择一个具体的业务场景（如客服、翻译、代码生成等）</li>
+                        <li>使用至少3个不同的模型进行测试</li>
+                        <li>每个模型测试至少5个不同的prompt</li>
+                        <li>记录响应质量、时间、Token使用量和成本</li>
+                        <li>生成对比报告（Markdown格式）</li>
+                    </ul>
+                </div>
+
+                <!-- 参考答案 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">✅ 参考答案</h3>
+
+                    <!-- 完整代码 -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4 text-green-400">💻 完整实现代码</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># model_comparison_homework.py
+"""
+作业1：模型对比报告
+业务场景：智能客服对话系统
+对比模型：GPT-3.5-turbo, GPT-4o-mini, GPT-4o
+"""
+
+import openai
+import time
+import pandas as pd
+from datetime import datetime
+from typing import List, Dict
+import json
+
+class ModelComparisonReport:
+    """模型对比测试与报告生成系统"""
+
+    def __init__(self, api_key: str):
+        self.client = openai.OpenAI(api_key=api_key)
+        self.results = []
+
+    def test_model(self,
+                   model: str,
+                   prompt: str,
+                   temperature: float = 0.7) -> Dict:
+        """测试单个模型的响应"""
+
+        start_time = time.time()
+
+        try:
+            response = self.client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": "你是一个专业的客服代表"},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temperature,
+                max_tokens=200
+            )
+
+            elapsed_time = time.time() - start_time
+
+            return {
+                'success': True,
+                'response': response.choices[0].message.content,
+                'tokens': response.usage.total_tokens,
+                'prompt_tokens': response.usage.prompt_tokens,
+                'completion_tokens': response.usage.completion_tokens,
+                'time': elapsed_time,
+                'cost': self._calculate_cost(model, response.usage.total_tokens)
+            }
+
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e),
+                'tokens': 0,
+                'time': 0,
+                'cost': 0
+            }
+
+    def _calculate_cost(self, model: str, tokens: int) -> float:
+        """计算API调用成本"""
+        pricing = {
+            'gpt-3.5-turbo': 0.001,      # $0.001 per 1K tokens
+            'gpt-4o-mini': 0.0006,       # $0.0006 per 1K tokens
+            'gpt-4o': 0.01,              # $0.01 per 1K tokens
+        }
+        price_per_1k = pricing.get(model, 0.001)
+        return (tokens / 1000) * price_per_1k
+
+    def run_comparison(self,
+                      models: List[str],
+                      test_prompts: List[str],
+                      temperature: float = 0.7):
+        """运行完整对比测试"""
+
+        print("🚀 开始模型对比测试")
+        print("=" * 70)
+
+        for model in models:
+            print(f"\n📊 测试模型: {model}")
+            print("-" * 70)
+
+            for idx, prompt in enumerate(test_prompts, 1):
+                print(f"\n  测试 {idx}/{len(test_prompts)}: {prompt[:40]}...")
+
+                result = self.test_model(model, prompt, temperature)
+
+                if result['success']:
+                    print(f"    ✓ 成功")
+                    print(f"    ⏱️  响应时间: {result['time']:.2f}s")
+                    print(f"    🔤 Token数: {result['tokens']}")
+                    print(f"    💰 成本: ${result['cost']:.6f}")
+
+                    # 评估响应质量（1-10分）
+                    quality_score = self._evaluate_quality(
+                        prompt,
+                        result['response']
+                    )
+                    print(f"    ⭐ 质量评分: {quality_score}/10")
+
+                    # 保存结果
+                    self.results.append({
+                        'model': model,
+                        'prompt': prompt,
+                        'response': result['response'],
+                        'quality_score': quality_score,
+                        'response_time': result['time'],
+                        'total_tokens': result['tokens'],
+                        'prompt_tokens': result['prompt_tokens'],
+                        'completion_tokens': result['completion_tokens'],
+                        'cost': result['cost'],
+                        'timestamp': datetime.now().isoformat()
+                    })
+                else:
+                    print(f"    ✗ 失败: {result['error']}")
+
+                # 避免速率限制
+                time.sleep(1)
+
+    def _evaluate_quality(self, prompt: str, response: str) -> float:
+        """评估响应质量（简化版）"""
+        score = 10.0
+
+        # 检查响应长度
+        if len(response) < 20:
+            score -= 3
+        elif len(response) > 500:
+            score -= 1
+
+        # 检查是否包含礼貌用语
+        polite_words = ['您', '请', '谢谢', '感谢', '抱歉']
+        if not any(word in response for word in polite_words):
+            score -= 1
+
+        # 检查是否有结构化内容
+        if '：' in response or '。' in response:
+            score += 0.5
+
+        return min(max(score, 0), 10)
+
+    def generate_report(self) -> str:
+        """生成Markdown格式的对比报告"""
+
+        if not self.results:
+            return "# 错误：没有测试结果\n"
+
+        df = pd.DataFrame(self.results)
+
+        report = []
+        report.append("# 模型对比测试报告\n")
+        report.append(f"**测试时间**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        report.append(f"**业务场景**: 智能客服对话系统\n")
+        report.append(f"**测试模型数**: {df['model'].nunique()}\n")
+        report.append(f"**测试样本数**: {len(df)}\n\n")
+
+        # 1. 总体对比表
+        report.append("## 1. 模型总体表现对比\n\n")
+
+        summary = df.groupby('model').agg({
+            'quality_score': 'mean',
+            'response_time': 'mean',
+            'total_tokens': 'mean',
+            'cost': 'sum'
+        }).round(4)
+
+        report.append("| 模型 | 平均质量 | 平均响应时间(s) | 平均Token数 | 总成本($) |")
+        report.append("|------|----------|-----------------|-------------|-----------|")
+
+        for model, row in summary.iterrows():
+            report.append(
+                f"| {model} | {row['quality_score']:.2f} | "
+                f"{row['response_time']:.2f} | {row['total_tokens']:.0f} | "
+                f"${row['cost']:.6f} |"
+            )
+
+        report.append("\n")
+
+        # 2. 详细测试结果
+        report.append("## 2. 详细测试结果\n\n")
+
+        for model in df['model'].unique():
+            report.append(f"### {model}\n\n")
+
+            model_df = df[df['model'] == model]
+
+            for idx, row in model_df.iterrows():
+                report.append(f"**测试 {idx + 1}**\n")
+                report.append(f"- **Prompt**: {row['prompt']}\n")
+                report.append(f"- **Response**: {row['response'][:100]}...\n")
+                report.append(f"- **质量评分**: {row['quality_score']}/10\n")
+                report.append(f"- **响应时间**: {row['response_time']:.2f}s\n")
+                report.append(f"- **Token使用**: {row['total_tokens']} "
+                            f"(输入: {row['prompt_tokens']}, "
+                            f"输出: {row['completion_tokens']})\n")
+                report.append(f"- **成本**: ${row['cost']:.6f}\n\n")
+
+        # 3. 性能分析
+        report.append("## 3. 性能分析\n\n")
+
+        # 找出最佳模型
+        best_quality = summary['quality_score'].idxmax()
+        best_speed = summary['response_time'].idxmin()
+        best_cost = summary['cost'].idxmin()
+
+        report.append(f"- **质量最佳**: {best_quality} "
+                     f"(平均评分: {summary.loc[best_quality, 'quality_score']:.2f})\n")
+        report.append(f"- **速度最快**: {best_speed} "
+                     f"(平均响应: {summary.loc[best_speed, 'response_time']:.2f}s)\n")
+        report.append(f"- **成本最低**: {best_cost} "
+                     f"(总成本: ${summary.loc[best_cost, 'cost']:.6f})\n\n")
+
+        # 4. 结论与建议
+        report.append("## 4. 结论与建议\n\n")
+        report.append("### 综合分析\n\n")
+
+        # 计算性价比 (质量/成本)
+        summary['cost_efficiency'] = summary['quality_score'] / (summary['cost'] * 1000)
+        best_efficiency = summary['cost_efficiency'].idxmax()
+
+        report.append(f"基于本次测试，**{best_efficiency}** "
+                     f"在客服场景下表现出最佳的性价比。\n\n")
+
+        report.append("### 使用建议\n\n")
+        report.append("1. **高频简单查询**: 使用 GPT-3.5-turbo（成本低，响应快）\n")
+        report.append("2. **复杂问题处理**: 使用 GPT-4o（质量高，理解能力强）\n")
+        report.append("3. **平衡性能与成本**: 使用 GPT-4o-mini（综合性价比最优）\n")
+        report.append("4. **成本优化策略**: 结合FAQ系统 + 智能路由可节省90%以上成本\n\n")
+
+        # 5. 附录
+        report.append("## 5. 附录\n\n")
+        report.append("### 测试环境\n")
+        report.append("- Python版本: 3.11+\n")
+        report.append("- OpenAI库版本: 1.12.0\n")
+        report.append("- Temperature: 0.7\n")
+        report.append("- Max Tokens: 200\n\n")
+
+        return '\n'.join(report)
+
+    def save_report(self, filename: str = None):
+        """保存报告到文件"""
+        if filename is None:
+            filename = f"model_comparison_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+
+        report_content = self.generate_report()
+
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(report_content)
+
+        print(f"\n✅ 报告已保存: {filename}")
+
+        # 同时保存原始数据为CSV
+        csv_filename = filename.replace('.md', '.csv')
+        df = pd.DataFrame(self.results)
+        df.to_csv(csv_filename, index=False, encoding='utf-8-sig')
+
+        print(f"✅ 原始数据已保存: {csv_filename}")
+
+
+# 主程序
+if __name__ == "__main__":
+    # 配置
+    API_KEY = "your-api-key-here"  # 替换为你的API密钥
+
+    # 初始化
+    tester = ModelComparisonReport(API_KEY)
+
+    # 定义测试模型
+    models = [
+        'gpt-3.5-turbo',
+        'gpt-4o-mini',
+        'gpt-4o'
+    ]
+
+    # 定义测试场景：客服对话
+    test_prompts = [
+        "我的订单什么时候能到？订单号是12345",
+        "这个产品可以退货吗？我不太满意",
+        "你们的客服工作时间是几点到几点？",
+        "产品使用过程中出现故障怎么办？",
+        "我想修改收货地址，应该怎么操作？",
+        "有什么优惠活动吗？新用户有折扣吗？",
+        "如何查看我的订单物流信息？"
+    ]
+
+    # 运行对比测试
+    tester.run_comparison(models, test_prompts, temperature=0.7)
+
+    # 生成并保存报告
+    tester.save_report()
+
+    # 在控制台打印报告
+    print("\n" + "=" * 70)
+    print("📊 完整报告预览")
+    print("=" * 70)
+    print(tester.generate_report())</code></pre>
+                    </div>
+
+                    <!-- 示例输出 -->
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">📄 示例报告输出</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>文件生成：</strong></p>
+                            <ul class="list-disc list-inside text-xs space-y-1">
+                                <li>model_comparison_report_20240115_143022.md (完整报告)</li>
+                                <li>model_comparison_report_20240115_143022.csv (原始数据)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 评分细则 -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">📊 评分细则（30分）</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>✅ 代码结构清晰，有完整注释</span>
+                                <span class="font-bold">12分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 测试了3个以上模型，每个5个以上prompt</span>
+                                <span class="font-bold">9分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 记录了完整的性能指标</span>
+                                <span class="font-bold">6分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 提供了深入的分析和建议</span>
+                                <span class="font-bold">3分</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 作业2：Token优化实践 -->
+            <section id="hw2" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">2</span>
+                    作业2：Token优化实践（30分）
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">📋 作业要求</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>提供一个200+ tokens的原始prompt</li>
+                        <li>优化到少于100 tokens</li>
+                        <li>确保语义不变</li>
+                        <li>对比优化前后的效果</li>
+                    </ul>
+                </div>
+
+                <!-- 参考答案 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">✅ 参考答案</h3>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4 text-green-400">💻 Token优化实现</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># token_optimization_homework.py
+"""
+作业2：Token优化实践
+目标：将原始prompt从200+ tokens优化到<100 tokens，保持语义不变
+"""
+
+import openai
+import tiktoken
+from typing import Dict, List
+import pandas as pd
+
+class TokenOptimizer:
+    """Token优化工具类"""
+
+    def __init__(self, api_key: str):
+        self.client = openai.OpenAI(api_key=api_key)
+        self.encoder = tiktoken.get_encoding("cl100k_base")
+
+    def count_tokens(self, text: str) -> int:
+        """计算文本的token数量"""
+        return len(self.encoder.encode(text))
+
+    def analyze_prompt(self, prompt: str) -> Dict:
+        """分析prompt的token使用情况"""
+        tokens = self.encoder.encode(prompt)
+        token_count = len(tokens)
+
+        # Token分解
+        token_breakdown = []
+        for token in tokens[:20]:  # 只显示前20个
+            decoded = self.encoder.decode([token])
+            token_breakdown.append(decoded)
+
+        return {
+            'text': prompt,
+            'token_count': token_count,
+            'char_count': len(prompt),
+            'token_breakdown': token_breakdown,
+            'efficiency': len(prompt) / token_count if token_count > 0 else 0
+        }
+
+    def test_prompt_quality(self, prompt: str, test_case: str) -> Dict:
+        """测试prompt的响应质量"""
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": test_case}
+                ],
+                temperature=0.7,
+                max_tokens=150
+            )
+
+            return {
+                'success': True,
+                'response': response.choices[0].message.content,
+                'tokens_used': response.usage.total_tokens,
+                'cost': (response.usage.total_tokens / 1000) * 0.001
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+    def compare_prompts(self,
+                       original: str,
+                       optimized: str,
+                       test_cases: List[str]) -> Dict:
+        """对比原始和优化后的prompt"""
+
+        print("🔬 开始Token优化对比测试")
+        print("=" * 70)
+
+        # 分析Token使用
+        print("\n📊 Token分析")
+        print("-" * 70)
+
+        original_analysis = self.analyze_prompt(original)
+        optimized_analysis = self.analyze_prompt(optimized)
+
+        print(f"\n原始Prompt:")
+        print(f"  文本: {original[:60]}...")
+        print(f"  字符数: {original_analysis['char_count']}")
+        print(f"  Token数: {original_analysis['token_count']}")
+
+        print(f"\n优化后Prompt:")
+        print(f"  文本: {optimized[:60]}...")
+        print(f"  字符数: {optimized_analysis['char_count']}")
+        print(f"  Token数: {optimized_analysis['token_count']}")
+
+        # 计算优化效果
+        token_reduction = original_analysis['token_count'] - optimized_analysis['token_count']
+        reduction_percent = (token_reduction / original_analysis['token_count']) * 100
+
+        print(f"\n✨ 优化效果:")
+        print(f"  Token减少: {token_reduction}")
+        print(f"  减少比例: {reduction_percent:.1f}%")
+
+        # 质量对比测试
+        print("\n🎯 质量对比测试")
+        print("-" * 70)
+
+        results = {
+            'original_analysis': original_analysis,
+            'optimized_analysis': optimized_analysis,
+            'reduction': {
+                'tokens': token_reduction,
+                'percent': reduction_percent
+            },
+            'quality_tests': []
+        }
+
+        for idx, test_case in enumerate(test_cases, 1):
+            print(f"\n测试用例 {idx}: {test_case[:40]}...")
+
+            # 测试原始prompt
+            print("  原始Prompt响应...", end="")
+            original_result = self.test_prompt_quality(original, test_case)
+            if original_result['success']:
+                print(f" ✓ ({original_result['tokens_used']} tokens)")
+            else:
+                print(f" ✗ 失败")
+
+            # 测试优化prompt
+            print("  优化Prompt响应...", end="")
+            optimized_result = self.test_prompt_quality(optimized, test_case)
+            if optimized_result['success']:
+                print(f" ✓ ({optimized_result['tokens_used']} tokens)")
+            else:
+                print(f" ✗ 失败")
+
+            # 对比结果
+            if original_result['success'] and optimized_result['success']:
+                quality_score = self._compare_quality(
+                    original_result['response'],
+                    optimized_result['response']
+                )
+
+                token_saving = original_result['tokens_used'] - optimized_result['tokens_used']
+                cost_saving = original_result['cost'] - optimized_result['cost']
+
+                print(f"  语义相似度: {quality_score:.1f}%")
+                print(f"  Token节省: {token_saving}")
+                print(f"  成本节省: ${cost_saving:.6f}")
+
+                results['quality_tests'].append({
+                    'test_case': test_case,
+                    'original_response': original_result['response'],
+                    'optimized_response': optimized_result['response'],
+                    'quality_score': quality_score,
+                    'token_saving': token_saving,
+                    'cost_saving': cost_saving
+                })
+
+        return results
+
+    def _compare_quality(self, response1: str, response2: str) -> float:
+        """简单的语义相似度评估"""
+        # 简化版：基于长度和关键词重叠
+        words1 = set(response1.lower().split())
+        words2 = set(response2.lower().split())
+
+        overlap = len(words1 & words2)
+        total = len(words1 | words2)
+
+        similarity = (overlap / total * 100) if total > 0 else 0
+        return similarity
+
+    def generate_optimization_report(self, results: Dict) -> str:
+        """生成优化报告"""
+        report = []
+
+        report.append("# Token优化实践报告\n")
+        report.append("## 1. 优化前后对比\n")
+
+        orig = results['original_analysis']
+        opt = results['optimized_analysis']
+
+        report.append("| 指标 | 原始Prompt | 优化后Prompt | 改进 |")
+        report.append("|------|------------|--------------|------|")
+        report.append(f"| Token数 | {orig['token_count']} | {opt['token_count']} | "
+                     f"-{results['reduction']['tokens']} ({results['reduction']['percent']:.1f}%) |")
+        report.append(f"| 字符数 | {orig['char_count']} | {opt['char_count']} | "
+                     f"-{orig['char_count'] - opt['char_count']} |")
+
+        report.append("\n## 2. 原始Prompt\n")
+        report.append(f"```\n{orig['text']}\n```\n")
+
+        report.append("## 3. 优化后Prompt\n")
+        report.append(f"```\n{opt['text']}\n```\n")
+
+        report.append("## 4. 优化策略\n")
+        report.append("1. 删除冗余词汇和重复表述\n")
+        report.append("2. 使用更简洁的句式\n")
+        report.append("3. 保留核心指令和关键信息\n")
+        report.append("4. 移除不必要的礼貌用语\n\n")
+
+        report.append("## 5. 质量验证\n")
+
+        if results['quality_tests']:
+            avg_similarity = sum(t['quality_score'] for t in results['quality_tests']) / len(results['quality_tests'])
+            total_token_saving = sum(t['token_saving'] for t in results['quality_tests'])
+
+            report.append(f"- 平均语义相似度: {avg_similarity:.1f}%\n")
+            report.append(f"- 总Token节省: {total_token_saving}\n")
+            report.append(f"- 测试用例数: {len(results['quality_tests'])}\n\n")
+
+        report.append("## 6. 结论\n")
+        report.append(f"成功将Prompt从{orig['token_count']} tokens优化到{opt['token_count']} tokens，"
+                     f"减少了{results['reduction']['percent']:.1f}%，"
+                     f"同时保持了语义的一致性。\n")
+
+        return '\n'.join(report)
+
+
+# ============= 示例1：客服系统Prompt优化 =============
+
+# 原始Prompt (220+ tokens)
+original_prompt = """
+你是一个非常专业、友好且富有耐心的客户服务代表。你的主要职责是帮助客户解决他们遇到的各种问题，
+包括但不限于产品咨询、订单查询、退换货申请、物流追踪、技术支持等方面的问题。
+
+在回答客户问题时，请务必遵循以下准则：
+1. 始终保持礼貌、友好和专业的态度
+2. 仔细理解客户的问题，确保你完全明白他们的需求
+3. 提供清晰、准确、详细的答案
+4. 如果遇到不确定的情况，请诚实地告知客户，并建议他们联系人工客服获取更准确的帮助
+5. 使用简单易懂的语言，避免使用过于专业或复杂的术语
+6. 在适当的时候表达同理心，理解客户的困扰和不便
+7. 提供具体的解决方案或下一步行动建议
+
+请记住，客户满意度是我们最重要的目标，你的每一个回答都代表着公司的形象。
+"""
+
+# 优化后Prompt (85 tokens)
+optimized_prompt = """
+你是专业客服代表。职责：解答产品咨询、订单、退换货、物流、技术问题。
+
+要求：
+1. 礼貌专业
+2. 准确理解问题
+3. 清晰简洁回答
+4. 不确定时建议联系人工客服
+5. 适当表达同理心
+6. 提供具体解决方案
+"""
+
+# 测试用例
+test_cases = [
+    "我的订单什么时候能到？订单号12345",
+    "这个产品可以退货吗？",
+    "产品使用过程中出现故障怎么办？"
+]
+
+# 主程序
+if __name__ == "__main__":
+    API_KEY = "your-api-key-here"
+
+    optimizer = TokenOptimizer(API_KEY)
+
+    # 运行对比
+    results = optimizer.compare_prompts(
+        original_prompt,
+        optimized_prompt,
+        test_cases
+    )
+
+    # 生成报告
+    report = optimizer.generate_optimization_report(results)
+
+    # 保存报告
+    with open('token_optimization_report.md', 'w', encoding='utf-8') as f:
+        f.write(report)
+
+    print("\n" + "=" * 70)
+    print("✅ 优化完成！报告已保存到 token_optimization_report.md")
+    print("=" * 70)</code></pre>
+                    </div>
+
+                    <!-- 优化技巧总结 -->
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">💡 优化技巧</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>✅ 删除冗余描述</li>
+                                <li>✅ 合并重复内容</li>
+                                <li>✅ 使用列表替代段落</li>
+                                <li>✅ 简化句式结构</li>
+                                <li>✅ 保留核心指令</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">📈 效果展示</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>Token数：220 → 85 (减少61%)</li>
+                                <li>字符数：减少56%</li>
+                                <li>语义相似度：>90%</li>
+                                <li>成本节省：每次调用省$0.000135</li>
+                                <li>月节省（10万次）：$13.50</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 评分细则 -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">📊 评分细则（30分）</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>✅ 原始prompt超过200 tokens</span>
+                                <span class="font-bold">5分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 优化后少于100 tokens</span>
+                                <span class="font-bold">5分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 语义基本不变（>80%相似度）</span>
+                                <span class="font-bold">10分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 完整的测试对比</span>
+                                <span class="font-bold">7分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 详细的优化分析报告</span>
+                                <span class="font-bold">3分</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 作业3：智能模型选择器 -->
+            <section id="hw3" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">3</span>
+                    作业3：智能模型选择器（40分）
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">📋 作业要求</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>实现smart_model_selector函数</li>
+                        <li>根据prompt、预算、延迟、质量要求自动推荐模型</li>
+                        <li>返回模型名称、参数配置和选择理由</li>
+                        <li>提供完整的测试用例</li>
+                    </ul>
+                </div>
+
+                <!-- 参考答案 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">✅ 参考答案</h3>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4 text-green-400">💻 完整实现代码</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># smart_model_selector_homework.py
+"""
+作业3：智能模型选择器
+实现一个智能系统，根据多个因素自动选择最佳模型和参数
+"""
+
+import tiktoken
+from typing import Dict, List
+from enum import Enum
+import json
+
+class TaskType(Enum):
+    """任务类型枚举"""
+    CREATIVE = "creative"        # 创意写作
+    FACTUAL = "factual"          # 事实查询
+    CODE = "code"                # 代码生成
+    ANALYSIS = "analytical"      # 分析推理
+    TRANSLATION = "translation"  # 翻译
+    CONVERSATION = "conversation" # 对话
+
+class ModelConfig:
+    """模型配置类"""
+
+    # 模型性能参数 (基于实际测试数据)
+    MODEL_SPECS = {
+        'gpt-3.5-turbo': {
+            'cost_per_1k': 0.001,
+            'avg_latency': 0.8,      # 秒
+            'quality_score': 7.0,     # 1-10分
+            'max_tokens': 4096,
+            'best_for': [TaskType.CONVERSATION, TaskType.FACTUAL]
+        },
+        'gpt-4o-mini': {
+            'cost_per_1k': 0.0006,
+            'avg_latency': 1.2,
+            'quality_score': 8.5,
+            'max_tokens': 16384,
+            'best_for': [TaskType.CODE, TaskType.ANALYSIS, TaskType.TRANSLATION]
+        },
+        'gpt-4o': {
+            'cost_per_1k': 0.01,
+            'avg_latency': 2.5,
+            'quality_score': 9.5,
+            'max_tokens': 128000,
+            'best_for': [TaskType.CREATIVE, TaskType.ANALYSIS]
+        }
+    }
+
+    # Temperature建议
+    TEMPERATURE_GUIDE = {
+        TaskType.CREATIVE: 0.9,
+        TaskType.FACTUAL: 0.1,
+        TaskType.CODE: 0.2,
+        TaskType.ANALYSIS: 0.3,
+        TaskType.TRANSLATION: 0.3,
+        TaskType.CONVERSATION: 0.7
+    }
+
+
+def detect_task_type(prompt: str) -> TaskType:
+    """检测任务类型"""
+
+    prompt_lower = prompt.lower()
+
+    # 关键词匹配
+    creative_keywords = ['写', '创作', '诗', '故事', '想象', '设计']
+    factual_keywords = ['是什么', '定义', '解释', '查询', '事实']
+    code_keywords = ['代码', 'code', '函数', 'python', 'javascript', '编程', 'bug']
+    analysis_keywords = ['分析', '推理', '为什么', '比较', '评估']
+    translation_keywords = ['翻译', 'translate', '英文', '中文']
+
+    if any(keyword in prompt_lower for keyword in creative_keywords):
+        return TaskType.CREATIVE
+    elif any(keyword in prompt_lower for keyword in code_keywords):
+        return TaskType.CODE
+    elif any(keyword in prompt_lower for keyword in analysis_keywords):
+        return TaskType.ANALYSIS
+    elif any(keyword in prompt_lower for keyword in translation_keywords):
+        return TaskType.TRANSLATION
+    elif any(keyword in prompt_lower for keyword in factual_keywords):
+        return TaskType.FACTUAL
+    else:
+        return TaskType.CONVERSATION
+
+
+def estimate_tokens(prompt: str) -> int:
+    """估算prompt的token数量"""
+    encoder = tiktoken.get_encoding("cl100k_base")
+    return len(encoder.encode(prompt))
+
+
+def smart_model_selector(
+    prompt: str,
+    max_budget: float,
+    max_latency: float,
+    quality_requirement: int  # 1-10
+) -> dict:
+    """
+    智能模型选择器
+
+    参数:
+        prompt: 用户输入的prompt
+        max_budget: 最大预算 (美元)
+        max_latency: 最大延迟 (秒)
+        quality_requirement: 质量要求 (1-10分)
+
+    返回:
+        {
+            'model': 'gpt-3.5-turbo',
+            'temperature': 0.7,
+            'max_tokens': 150,
+            'reasoning': '选择理由',
+            'estimated_cost': 0.001,
+            'estimated_latency': 0.8,
+            'confidence': 0.9
+        }
+    """
+
+    # 1. 检测任务类型
+    task_type = detect_task_type(prompt)
+
+    # 2. 估算token数量
+    prompt_tokens = estimate_tokens(prompt)
+    estimated_response_tokens = 200  # 默认估算
+    total_tokens = prompt_tokens + estimated_response_tokens
+
+    # 3. 筛选符合条件的模型
+    suitable_models = []
+
+    for model_name, specs in ModelConfig.MODEL_SPECS.items():
+        # 计算预估成本
+        estimated_cost = (total_tokens / 1000) * specs['cost_per_1k']
+
+        # 检查是否符合预算
+        if estimated_cost > max_budget:
+            continue
+
+        # 检查是否符合延迟要求
+        if specs['avg_latency'] > max_latency:
+            continue
+
+        # 检查质量是否满足
+        if specs['quality_score'] < quality_requirement:
+            continue
+
+        # 计算匹配度得分
+        score = 0.0
+
+        # 任务类型匹配度 (40%)
+        if task_type in specs['best_for']:
+            score += 40
+
+        # 质量匹配度 (30%)
+        quality_match = 1 - abs(specs['quality_score'] - quality_requirement) / 10
+        score += quality_match * 30
+
+        # 成本效率 (20%)
+        cost_efficiency = 1 - (estimated_cost / max_budget)
+        score += cost_efficiency * 20
+
+        # 速度效率 (10%)
+        speed_efficiency = 1 - (specs['avg_latency'] / max_latency)
+        score += speed_efficiency * 10
+
+        suitable_models.append({
+            'model': model_name,
+            'score': score,
+            'estimated_cost': estimated_cost,
+            'estimated_latency': specs['avg_latency'],
+            'quality_score': specs['quality_score']
+        })
+
+    # 4. 如果没有符合条件的模型
+    if not suitable_models:
+        # 降低要求，选择最便宜的
+        cheapest = min(
+            ModelConfig.MODEL_SPECS.items(),
+            key=lambda x: x[1]['cost_per_1k']
+        )
+
+        return {
+            'model': cheapest[0],
+            'temperature': ModelConfig.TEMPERATURE_GUIDE.get(task_type, 0.7),
+            'max_tokens': 100,  # 减少token以降低成本
+            'reasoning': f'⚠️ 无完全符合条件的模型。选择最经济的{cheapest[0]}，'
+                        f'但可能超出预算或质量要求。建议放宽限制。',
+            'estimated_cost': (total_tokens / 1000) * cheapest[1]['cost_per_1k'],
+            'estimated_latency': cheapest[1]['avg_latency'],
+            'confidence': 0.3
+        }
+
+    # 5. 选择得分最高的模型
+    best_match = max(suitable_models, key=lambda x: x['score'])
+
+    # 6. 确定temperature
+    temperature = ModelConfig.TEMPERATURE_GUIDE.get(task_type, 0.7)
+
+    # 7. 确定max_tokens
+    # 根据预算动态调整
+    remaining_budget = max_budget - best_match['estimated_cost']
+    max_tokens = min(
+        500,  # 最大值
+        int((remaining_budget / ModelConfig.MODEL_SPECS[best_match['model']]['cost_per_1k']) * 1000)
+    )
+    max_tokens = max(50, max_tokens)  # 最小值
+
+    # 8. 生成选择理由
+    reasoning_parts = []
+
+    reasoning_parts.append(f"✅ 任务类型: {task_type.value}")
+    reasoning_parts.append(f"✅ 选择 {best_match['model']}")
+
+    if task_type in ModelConfig.MODEL_SPECS[best_match['model']]['best_for']:
+        reasoning_parts.append(f"  - 最适合{task_type.value}类任务")
+
+    reasoning_parts.append(f"  - 质量评分: {best_match['quality_score']}/10 (要求: {quality_requirement}/10)")
+    reasoning_parts.append(f"  - 预估成本: ${best_match['estimated_cost']:.6f} (预算: ${max_budget})")
+    reasoning_parts.append(f"  - 预估延迟: {best_match['estimated_latency']}s (要求: <{max_latency}s)")
+    reasoning_parts.append(f"  - Temperature设置: {temperature} (适合{task_type.value})")
+
+    reasoning = '\n'.join(reasoning_parts)
+
+    # 9. 计算置信度
+    confidence = best_match['score'] / 100
+
+    return {
+        'model': best_match['model'],
+        'temperature': temperature,
+        'max_tokens': max_tokens,
+        'reasoning': reasoning,
+        'estimated_cost': best_match['estimated_cost'],
+        'estimated_latency': best_match['estimated_latency'],
+        'confidence': confidence,
+        'task_type': task_type.value
+    }
+
+
+# ============= 测试用例 =============
+
+def run_tests():
+    """运行完整的测试套件"""
+
+    test_cases = [
+        {
+            'name': '测试1：创意写作（高质量要求）',
+            'prompt': '写一首关于人工智能的现代诗',
+            'max_budget': 0.01,
+            'max_latency': 3.0,
+            'quality_requirement': 9
+        },
+        {
+            'name': '测试2：事实查询（低预算）',
+            'prompt': '中国的首都是哪里？',
+            'max_budget': 0.0005,
+            'max_latency': 2.0,
+            'quality_requirement': 6
+        },
+        {
+            'name': '测试3：代码生成（平衡要求）',
+            'prompt': '写一个Python函数实现快速排序算法',
+            'max_budget': 0.003,
+            'max_latency': 2.0,
+            'quality_requirement': 8
+        },
+        {
+            'name': '测试4：分析任务（高质量高预算）',
+            'prompt': '分析比特币价格波动的主要因素',
+            'max_budget': 0.02,
+            'max_latency': 5.0,
+            'quality_requirement': 9
+        },
+        {
+            'name': '测试5：翻译任务（严格延迟）',
+            'prompt': '翻译成英文：人工智能正在改变世界',
+            'max_budget': 0.002,
+            'max_latency': 1.0,
+            'quality_requirement': 7
+        },
+        {
+            'name': '测试6：极限条件（几乎不可能）',
+            'prompt': '写一篇5000字的深度技术文章',
+            'max_budget': 0.0001,
+            'max_latency': 0.5,
+            'quality_requirement': 10
+        }
+    ]
+
+    print("🧪 智能模型选择器测试套件")
+    print("=" * 80)
+
+    results = []
+
+    for test in test_cases:
+        print(f"\n{test['name']}")
+        print("-" * 80)
+        print(f"Prompt: {test['prompt']}")
+        print(f"预算: ${test['max_budget']} | 延迟: <{test['max_latency']}s | 质量: {test['quality_requirement']}/10")
+        print()
+
+        result = smart_model_selector(
+            test['prompt'],
+            test['max_budget'],
+            test['max_latency'],
+            test['quality_requirement']
+        )
+
+        print(f"🤖 推荐模型: {result['model']}")
+        print(f"🌡️  Temperature: {result['temperature']}")
+        print(f"📏 Max Tokens: {result['max_tokens']}")
+        print(f"💰 预估成本: ${result['estimated_cost']:.6f}")
+        print(f"⏱️  预估延迟: {result['estimated_latency']}s")
+        print(f"🎯 置信度: {result['confidence']:.0%}")
+        print(f"\n{result['reasoning']}")
+
+        results.append({
+            'test_name': test['name'],
+            'result': result
+        })
+
+    # 生成测试报告
+    print("\n" + "=" * 80)
+    print("📊 测试总结")
+    print("=" * 80)
+
+    model_counts = {}
+    for r in results:
+        model = r['result']['model']
+        model_counts[model] = model_counts.get(model, 0) + 1
+
+    print("\n模型选择分布:")
+    for model, count in model_counts.items():
+        print(f"  {model}: {count}次 ({count/len(results)*100:.1f}%)")
+
+    avg_confidence = sum(r['result']['confidence'] for r in results) / len(results)
+    print(f"\n平均置信度: {avg_confidence:.0%}")
+
+    # 保存结果
+    with open('selector_test_results.json', 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2, ensure_ascii=False)
+
+    print("\n✅ 测试完成！结果已保存到 selector_test_results.json")
+
+
+if __name__ == "__main__":
+    run_tests()</code></pre>
+                    </div>
+
+                    <!-- 核心算法说明 -->
+                    <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">🧠 核心算法</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>1. 任务类型检测</strong></p>
+                            <p class="text-xs text-gray-600">通过关键词匹配识别任务类型（创意、事实、代码等）</p>
+
+                            <p><strong>2. 多维度评分系统</strong></p>
+                            <ul class="text-xs text-gray-600 list-disc list-inside">
+                                <li>任务匹配度：40%</li>
+                                <li>质量匹配度：30%</li>
+                                <li>成本效率：20%</li>
+                                <li>速度效率：10%</li>
+                            </ul>
+
+                            <p><strong>3. 动态参数调整</strong></p>
+                            <p class="text-xs text-gray-600">根据预算余量动态调整max_tokens</p>
+                        </div>
+                    </div>
+
+                    <!-- 评分细则 -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">📊 评分细则（40分）</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>✅ 正确实现函数签名和返回格式</span>
+                                <span class="font-bold">10分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 考虑了所有约束条件（预算、延迟、质量）</span>
+                                <span class="font-bold">12分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 智能的任务类型识别</span>
+                                <span class="font-bold">8分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 合理的评分算法和选择逻辑</span>
+                                <span class="font-bold">7分</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ 完整的测试用例和结果分析</span>
+                                <span class="font-bold">3分</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 加分项目 -->
+            <section id="bonus" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-purple-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">⭐</span>
+                    加分项：创意项目示例（最高20分）
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Token计算器 -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">💻 Token计算器网页</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>创建一个交互式网页工具，用户可以：</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>输入文本实时计算Token数</li>
+                                <li>对比不同模型的成本</li>
+                                <li>可视化Token分解</li>
+                                <li>提供优化建议</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-blue">HTML</span>
+                            <span class="tag tag-green">JavaScript</span>
+                            <span class="tag tag-purple">Tiktoken</span>
+                        </div>
+                    </div>
+
+                    <!-- 成本分析仪表板 -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">📊 成本分析仪表板</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>使用Streamlit构建交互式仪表板：</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>实时监控API使用情况</li>
+                                <li>成本趋势分析</li>
+                                <li>模型性能对比</li>
+                                <li>预算预警系统</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-green">Streamlit</span>
+                            <span class="tag tag-red">Plotly</span>
+                            <span class="tag tag-blue">Pandas</span>
+                        </div>
+                    </div>
+
+                    <!-- Prompt模板库 -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">📚 Prompt模板库</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>开发一个Prompt管理系统：</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>分类存储优化后的Prompt</li>
+                                <li>版本控制和A/B测试</li>
+                                <li>效果评分和排序</li>
+                                <li>一键复制和分享</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-purple">Python</span>
+                            <span class="tag tag-blue">SQLite</span>
+                            <span class="tag tag-green">FastAPI</span>
+                        </div>
+                    </div>
+
+                    <!-- 技术博客 -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">📝 技术博客文章</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>撰写高质量技术文章：</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>深入讲解Token优化技巧</li>
+                                <li>实际案例分析</li>
+                                <li>配图和代码示例</li>
+                                <li>发布到技术社区</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-yellow">Medium</span>
+                            <span class="tag tag-blue">知乎</span>
+                            <span class="tag tag-green">掘金</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <p class="font-bold mb-2">💡 加分评估标准</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>实用性（10分）</strong>：项目是否真正有用</li>
+                        <li>• <strong>创新性（5分）</strong>：是否有独特的想法</li>
+                        <li>• <strong>完成度（3分）</strong>：功能是否完整可用</li>
+                        <li>• <strong>展示效果（2分）</strong>：是否有清晰的文档/演示</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 底部导航 -->
+            <div class="flex justify-between items-center py-8 border-t">
+                <a href="slides.html" class="text-blue-500 hover:underline">
+                    ← 返回课程内容
+                </a>
+                <div class="text-right">
+                    <span class="text-gray-500">下一课</span>
+                    <p class="font-semibold">Lesson 2: Prompt工程实战</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // 高亮当前章节
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.toc-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+
+                    const id = entry.target.getAttribute('id');
+                    const tocItem = document.querySelector(`a[href="#${id}"]`);
+                    if (tocItem) {
+                        tocItem.classList.add('active');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

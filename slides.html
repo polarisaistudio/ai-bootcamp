@@ -203,6 +203,9 @@
                     <a href="#part4-project" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
                         🚀 综合项目
                     </a>
+                    <a href="#part4-summary" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📚 知识总结
+                    </a>
                     <a href="#part4-homework" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
                         📝 作业布置
                     </a>
@@ -482,7 +485,7 @@ print(f"📝 回答: {response_gpt35.choices[0].message.content[:100]}...")</cod
             <!-- Part 2: Token深度理解 -->
             <section id="part2-tokens" class="mb-12">
                 <h3 class="text-xl font-bold mb-4">🔤 Token深度理解</h3>
-                
+
                 <div class="bg-white p-6 rounded-lg shadow">
                     <!-- Token概念说明 -->
                     <div class="bg-blue-50 p-4 rounded-lg mb-4">
@@ -494,9 +497,9 @@ print(f"📝 回答: {response_gpt35.choices[0].message.content[:100]}...")</cod
                             <li>这直接影响你的成本！</li>
                         </ul>
                     </div>
-                    
+
                     <!-- Token可视化工具 -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
                         <h4 class="font-bold mb-4">🔍 Token实时分析器</h4>
                         <div class="space-y-4">
                             <textarea class="w-full p-3 border rounded-lg" rows="3" id="tokenInput">
@@ -529,6 +532,199 @@ Hello世界! 这是2024年的AI课程。</textarea>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Token经济学代码 -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h4 class="font-bold mb-4 text-green-400">💰 Token经济学演示代码</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># token_economics.py
+import tiktoken
+import matplotlib.pyplot as plt
+
+class TokenEconomicsDemo:
+    def __init__(self):
+        self.encoder = tiktoken.get_encoding("cl100k_base")
+
+    def compare_languages(self):
+        """对比不同语言的Token效率"""
+
+        test_cases = {
+            'English': "Artificial Intelligence is transforming the world",
+            '中文': "人工智能正在改变世界",
+            '日本語': "人工知能は世界を変えています",
+            'Code': "def hello(): return 'world'",
+            'Mixed': "AI(人工智能) is 改变ing the world"
+        }
+
+        print("🌍 多语言Token效率对比")
+        print("-" * 50)
+
+        results = []
+        for lang, text in test_cases.items():
+            tokens = self.encoder.encode(text)
+            char_count = len(text)
+            token_count = len(tokens)
+            efficiency = char_count / token_count
+
+            print(f"\n{lang}:")
+            print(f"  文本: {text}")
+            print(f"  字符数: {char_count}")
+            print(f"  Token数: {token_count}")
+            print(f"  效率比: {efficiency:.2f}")
+
+            results.append({
+                'Language': lang,
+                'Tokens': token_count,
+                'Efficiency': efficiency
+            })
+
+        return results
+
+# 成本计算实战
+def calculate_cost(text, model='gpt-3.5-turbo', calls_per_day=1000):
+    """实时计算API成本"""
+
+    encoder = tiktoken.get_encoding("cl100k_base")
+    tokens = len(encoder.encode(text))
+
+    # 价格表（2024年最新）
+    pricing = {
+        'gpt-3.5-turbo': 0.001,
+        'gpt-4o-mini': 0.0006,
+        'gpt-4o': 0.01,
+        'claude-sonnet': 0.003
+    }
+
+    cost_per_call = (tokens / 1000) * pricing[model]
+    daily_cost = cost_per_call * calls_per_day
+    monthly_cost = daily_cost * 30
+
+    print(f"📝 Token数: {tokens}")
+    print(f"💵 单次成本: ${cost_per_call:.6f}")
+    print(f"📅 日成本({calls_per_day}次): ${daily_cost:.2f}")
+    print(f"📆 月成本: ${monthly_cost:.2f}")
+    print(f"🎯 年成本: ${monthly_cost*12:.2f}")
+
+    return monthly_cost</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Temperature参数实验 -->
+            <section id="part2-params" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🎛️ Temperature参数实验</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">Temperature参数解释</h4>
+                        <p class="mb-2">Temperature控制输出的随机性：</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>Temperature = 0</strong>：严肃的会计师，永远准确</li>
+                            <li><strong>Temperature = 1</strong>：创意总监，天马行空</li>
+                            <li><strong>Temperature = 2</strong>：喝醉的诗人，完全随机</li>
+                        </ul>
+                    </div>
+
+                    <!-- Temperature对比图 -->
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="border rounded-lg p-4 bg-blue-50">
+                            <h5 class="font-bold mb-2">Temperature: 0.0-0.3</h5>
+                            <p class="text-sm">✅ 适用于：</p>
+                            <ul class="text-xs list-disc list-inside">
+                                <li>数学计算</li>
+                                <li>事实查询</li>
+                                <li>代码生成</li>
+                            </ul>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-yellow-50">
+                            <h5 class="font-bold mb-2">Temperature: 0.5-0.8</h5>
+                            <p class="text-sm">✅ 适用于：</p>
+                            <ul class="text-xs list-disc list-inside">
+                                <li>客服对话</li>
+                                <li>文章写作</li>
+                                <li>通用对话</li>
+                            </ul>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-red-50">
+                            <h5 class="font-bold mb-2">Temperature: 0.9-2.0</h5>
+                            <p class="text-sm">✅ 适用于：</p>
+                            <ul class="text-xs list-disc list-inside">
+                                <li>创意写作</li>
+                                <li>头脑风暴</li>
+                                <li>艺术创作</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 实验代码 -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h4 class="font-bold mb-4 text-green-400">🔬 Temperature实验代码</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># parameter_lab.py
+import openai
+import time
+from typing import List
+
+class ParameterLab:
+    """参数实验室"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.results = []
+
+    def experiment_temperature(self,
+                              prompt: str,
+                              temperatures: List[float] = [0, 0.5, 1.0, 1.5],
+                              n_samples: int = 3):
+        """Temperature实验"""
+
+        print(f"🧪 Temperature实验")
+        print(f"Prompt: {prompt}")
+        print("=" * 60)
+
+        for temp in temperatures:
+            print(f"\n🌡️ Temperature = {temp}")
+            print("-" * 40)
+
+            samples = []
+            for i in range(n_samples):
+                response = self.client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=temp,
+                    max_tokens=30
+                )
+
+                text = response.choices[0].message.content
+                samples.append(text)
+                print(f"  样本{i+1}: {text}")
+
+            # 计算多样性
+            diversity = self._calculate_diversity(samples)
+            print(f"  📊 多样性得分: {diversity:.2f}")
+
+    def _calculate_diversity(self, texts: List[str]) -> float:
+        """计算文本多样性"""
+        if len(texts) < 2:
+            return 0.0
+
+        all_words = []
+        for text in texts:
+            all_words.extend(text.split())
+
+        unique_words = set(all_words)
+        diversity = len(unique_words) / len(all_words) if all_words else 0
+
+        return diversity
+
+# 使用示例
+if __name__ == "__main__":
+    lab = ParameterLab()
+
+    # 测试创意写作
+    lab.experiment_temperature("用一句话描述夕阳")
+
+    # 测试事实查询
+    lab.experiment_temperature("中国的首都是", temperatures=[0, 0.5, 1.0])</code></pre>
                     </div>
                 </div>
             </section>
@@ -652,12 +848,12 @@ if __name__ == "__main__":
             <!-- Part 3: 第一个API调用 -->
             <section id="part3-api" class="mb-12">
                 <h3 class="text-xl font-bold mb-4">🔌 第一个API调用</h3>
-                
+
                 <div class="bg-white p-6 rounded-lg shadow">
                     <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
                         <p class="font-semibold">🎉 让我们写第一个程序！</p>
                     </div>
-                    
+
                     <div class="bg-gray-900 text-white p-4 rounded-lg">
                         <pre class="overflow-x-auto"><code class="language-python"># first_api_call.py
 import openai
@@ -666,19 +862,19 @@ import json
 
 def my_first_chat():
     """我的第一个AI对话"""
-    
+
     # 1. 设置客户端
     client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
-    
+
     # 2. 准备消息
     messages = [
         {"role": "system", "content": "你是一个友好的AI助手"},
         {"role": "user", "content": "你好！请用一句话介绍自己。"}
     ]
-    
+
     print("🤖 正在调用OpenAI API...")
     print("-" * 50)
-    
+
     # 3. 调用API
     try:
         response = client.chat.completions.create(
@@ -687,32 +883,32 @@ def my_first_chat():
             temperature=0.7,
             max_tokens=50
         )
-        
+
         # 4. 提取回复
         ai_message = response.choices[0].message.content
-        
+
         # 5. 显示结果
         print(f"AI回复: {ai_message}")
         print("-" * 50)
-        
+
         # 6. 显示使用统计
         print(f"📊 使用统计:")
         print(f"  - 模型: {response.model}")
         print(f"  - 输入Token: {response.usage.prompt_tokens}")
         print(f"  - 输出Token: {response.usage.completion_tokens}")
         print(f"  - 总Token: {response.usage.total_tokens}")
-        
+
         # 7. 计算成本
         cost = (response.usage.total_tokens / 1000) * 0.001
         print(f"  - 成本: ${cost:.6f}")
-        
+
     except Exception as e:
         print(f"❌ 错误: {e}")
 
 if __name__ == "__main__":
     my_first_chat()</code></pre>
                     </div>
-                    
+
                     <!-- 预期输出 -->
                     <div class="mt-4 bg-gray-100 p-4 rounded-lg">
                         <h4 class="font-bold mb-2">预期输出：</h4>
@@ -729,26 +925,545 @@ AI回复: 我是一个友好的AI助手，随时准备帮助你解答问题和�
                     </div>
                 </div>
             </section>
+
+            <!-- Part 3: 模型对比实战 -->
+            <section id="part3-compare" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📊 多模型对比实战</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">🎯 实验目标</h4>
+                        <p class="text-sm">对比不同模型在实际任务中的表现，帮助你在实际项目中做出最佳选择。</p>
+                    </div>
+
+                    <!-- 测试套件说明 -->
+                    <div class="grid md:grid-cols-4 gap-4 mb-6">
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-blue-50 to-blue-100">
+                            <div class="text-2xl mb-2">✍️</div>
+                            <h5 class="font-bold text-sm">创意写作</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.9</p>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-green-50 to-green-100">
+                            <div class="text-2xl mb-2">🧮</div>
+                            <h5 class="font-bold text-sm">分析推理</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.3</p>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-purple-50 to-purple-100">
+                            <div class="text-2xl mb-2">💻</div>
+                            <h5 class="font-bold text-sm">代码生成</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.2</p>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-yellow-50 to-yellow-100">
+                            <div class="text-2xl mb-2">🌐</div>
+                            <h5 class="font-bold text-sm">翻译任务</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.3</p>
+                        </div>
+                    </div>
+
+                    <!-- 完整测试代码 -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h4 class="font-bold mb-4 text-green-400">🏁 完整基准测试代码</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># model_benchmark.py
+import openai
+import time
+import pandas as pd
+from datetime import datetime
+
+class ModelBenchmark:
+    """模型基准测试系统"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.test_suites = {
+            'creative': {
+                'name': '创意写作',
+                'prompts': [
+                    "写一个六字微小说",
+                    "为咖啡店起3个创意名字",
+                    "用emoji讲一个故事"
+                ],
+                'best_temp': 0.9
+            },
+            'analytical': {
+                'name': '分析推理',
+                'prompts': [
+                    "分析这个数列的规律：2, 4, 8, 16, ?",
+                    "如果所有玫瑰都是花，那么玫瑰需要什么？",
+                ],
+                'best_temp': 0.3
+            },
+            'coding': {
+                'name': '代码生成',
+                'prompts': [
+                    "写一个Python函数检查素数",
+                    "用一行代码反转字符串",
+                ],
+                'best_temp': 0.2
+            }
+        }
+        self.results = []
+
+    def benchmark_models(self, models=['gpt-3.5-turbo', 'gpt-4o-mini']):
+        """对比测试多个模型"""
+
+        print("🏁 开始模型基准测试")
+        print("=" * 70)
+
+        for suite_name, suite in self.test_suites.items():
+            print(f"\n📋 测试套件: {suite['name']}")
+            print("-" * 70)
+
+            for model in models:
+                print(f"\n  🤖 测试模型: {model}")
+
+                total_time = 0
+                total_tokens = 0
+                total_cost = 0
+
+                for prompt in suite['prompts']:
+                    start_time = time.time()
+
+                    try:
+                        response = self.client.chat.completions.create(
+                            model=model,
+                            messages=[{"role": "user", "content": prompt}],
+                            temperature=suite['best_temp'],
+                            max_tokens=100
+                        )
+
+                        elapsed = time.time() - start_time
+                        tokens = response.usage.total_tokens
+                        cost = self._calculate_cost(model, tokens)
+
+                        total_time += elapsed
+                        total_tokens += tokens
+                        total_cost += cost
+
+                        print(f"    ✓ {prompt[:30]}...")
+                        print(f"      时间: {elapsed:.2f}s | Tokens: {tokens}")
+
+                    except Exception as e:
+                        print(f"    ✗ 错误: {str(e)}")
+
+                # 汇总统计
+                avg_time = total_time / len(suite['prompts'])
+                avg_tokens = total_tokens / len(suite['prompts'])
+
+                print(f"\n    📊 统计:")
+                print(f"      平均响应: {avg_time:.2f}s")
+                print(f"      平均Token: {avg_tokens:.0f}")
+                print(f"      总成本: ${total_cost:.4f}")
+
+                self.results.append({
+                    'suite': suite['name'],
+                    'model': model,
+                    'avg_time': avg_time,
+                    'avg_tokens': avg_tokens,
+                    'total_cost': total_cost
+                })
+
+    def _calculate_cost(self, model, tokens):
+        """计算成本"""
+        pricing = {
+            'gpt-3.5-turbo': 0.001,
+            'gpt-4o-mini': 0.0006,
+            'gpt-4o': 0.01
+        }
+        price_per_1k = pricing.get(model, 0.001)
+        return (tokens / 1000) * price_per_1k
+
+    def generate_report(self):
+        """生成对比报告"""
+        df = pd.DataFrame(self.results)
+
+        print("\n" + "=" * 70)
+        print("📊 模型对比报告")
+        print("=" * 70)
+
+        for suite in df['suite'].unique():
+            suite_df = df[df['suite'] == suite]
+            print(f"\n### {suite}")
+            print("-" * 40)
+
+            for _, row in suite_df.iterrows():
+                print(f"  {row['model']:20} | "
+                      f"⏱️ {row['avg_time']:.2f}s | "
+                      f"🔤 {row['avg_tokens']:.0f} tokens | "
+                      f"💰 ${row['total_cost']:.4f}")
+
+        return df
+
+# 运行基准测试
+if __name__ == "__main__":
+    benchmark = ModelBenchmark()
+    benchmark.benchmark_models(['gpt-3.5-turbo', 'gpt-4o-mini'])
+    report = benchmark.generate_report()
+
+    # 保存结果
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    report.to_csv(f'benchmark_{timestamp}.csv', index=False)</code></pre>
+                    </div>
+                </div>
+            </section>
             
+            <!-- Part 3: 场景应用 - 智能客服 -->
+            <section id="part3-scenarios" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🎯 实际场景应用</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <span class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">1</span>
+                        场景1：智能客服系统
+                    </h4>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                        <p class="font-semibold">💡 核心思路：</p>
+                        <p class="text-sm">根据问题类型自动选择最合适的模型和参数，实现成本与质量的最佳平衡。</p>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h5 class="font-bold mb-4 text-green-400">🤖 智能客服系统代码</h5>
+                        <pre class="overflow-x-auto"><code class="language-python"># smart_customer_service.py
+import openai
+import sqlite3
+from typing import Dict
+
+class SmartCustomerService:
+    """智能客服系统 - 自动选择模型和参数"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.faq = {
+            '退货': {
+                'keywords': ['退货', '退款', '退换', '不满意'],
+                'response': '我们提供30天无理由退换货服务。',
+                'needs_ai': False
+            },
+            '物流': {
+                'keywords': ['快递', '物流', '发货', '配送'],
+                'response': '一般订单24小时内发货，3-5个工作日送达。',
+                'needs_ai': False
+            },
+            '技术支持': {
+                'keywords': ['不会用', '怎么用', '故障'],
+                'needs_ai': True
+            }
+        }
+
+    def detect_intent(self, message: str) -> str:
+        """意图识别"""
+        for intent, config in self.faq.items():
+            for keyword in config['keywords']:
+                if keyword in message.lower():
+                    return intent
+        return 'general'
+
+    def select_model_and_params(self, intent: str, message_length: int) -> Dict:
+        """根据意图选择最佳模型和参数"""
+
+        if intent == 'general':
+            # 一般咨询，使用便宜快速的模型
+            return {
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.7,
+                'max_tokens': 150,
+                'system_prompt': '你是一个友好专业的客服代表。'
+            }
+        elif intent == '技术支持':
+            # 技术问题，需要准确性
+            return {
+                'model': 'gpt-4o-mini',
+                'temperature': 0.3,
+                'max_tokens': 300,
+                'system_prompt': '你是一个技术支持专家。'
+            }
+        elif message_length > 200:
+            # 长消息，可能是复杂问题
+            return {
+                'model': 'gpt-4o-mini',
+                'temperature': 0.5,
+                'max_tokens': 400,
+                'system_prompt': '你是一个高级客服专员。'
+            }
+        else:
+            return {
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.6,
+                'max_tokens': 100,
+                'system_prompt': '你是一个客服助手。'
+            }
+
+    def handle_message(self, user_id: str, message: str) -> Dict:
+        """处理用户消息"""
+
+        print(f"\n📨 收到消息: {message}")
+        print("-" * 50)
+
+        # 1. 意图识别
+        intent = self.detect_intent(message)
+        print(f"🎯 识别意图: {intent}")
+
+        # 2. 检查FAQ
+        if intent in self.faq and not self.faq[intent]['needs_ai']:
+            response = self.faq[intent]['response']
+            print(f"📋 使用预设回答")
+
+            return {
+                'response': response,
+                'model_used': 'FAQ',
+                'tokens_used': 0,
+                'cost': 0
+            }
+
+        # 3. 选择模型和参数
+        config = self.select_model_and_params(intent, len(message))
+        print(f"🤖 选择模型: {config['model']}")
+
+        # 4. 调用AI
+        try:
+            response_obj = self.client.chat.completions.create(
+                model=config['model'],
+                messages=[
+                    {"role": "system", "content": config['system_prompt']},
+                    {"role": "user", "content": message}
+                ],
+                temperature=config['temperature'],
+                max_tokens=config['max_tokens']
+            )
+
+            response = response_obj.choices[0].message.content
+            tokens = response_obj.usage.total_tokens
+            cost = (tokens / 1000) * 0.001
+
+            print(f"\n💬 回复: {response[:50]}...")
+            print(f"💰 成本: ${cost:.6f}")
+
+            return {
+                'response': response,
+                'model_used': config['model'],
+                'tokens_used': tokens,
+                'cost': cost
+            }
+
+        except Exception as e:
+            return {
+                'response': "抱歉，系统暂时无法处理。",
+                'model_used': 'error',
+                'tokens_used': 0,
+                'cost': 0
+            }
+
+# 测试
+if __name__ == "__main__":
+    service = SmartCustomerService()
+
+    # 模拟不同类型的用户咨询
+    test_messages = [
+        ("user001", "我的订单什么时候能到？"),
+        ("user002", "这个产品怎么用？能详细说明一下吗？"),
+        ("user003", "我想退货"),
+    ]
+
+    for user_id, message in test_messages:
+        result = service.handle_message(user_id, message)
+        print(f"✅ 处理完成\n")</code></pre>
+                    </div>
+
+                    <!-- 成本节省对比 -->
+                    <div class="mt-4 grid md:grid-cols-3 gap-4">
+                        <div class="border rounded-lg p-4 bg-green-50">
+                            <div class="text-2xl font-bold text-green-600">90%</div>
+                            <div class="text-sm text-gray-600">成本节省</div>
+                            <p class="text-xs mt-2">通过FAQ和智能路由</p>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-blue-50">
+                            <div class="text-2xl font-bold text-blue-600">0.5s</div>
+                            <div class="text-sm text-gray-600">平均响应时间</div>
+                            <p class="text-xs mt-2">FAQ即时响应</p>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-purple-50">
+                            <div class="text-2xl font-bold text-purple-600">95%</div>
+                            <div class="text-sm text-gray-600">问题解决率</div>
+                            <p class="text-xs mt-2">智能模型选择</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 场景2：内容创作助手 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <span class="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">2</span>
+                        场景2：内容创作助手
+                    </h4>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="font-semibold">💡 核心思路：</p>
+                        <p class="text-sm">根据内容类型使用不同的模板和参数，确保创作质量和成本效率。</p>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h5 class="font-bold mb-4 text-green-400">✍️ 内容创作助手代码</h5>
+                        <pre class="overflow-x-auto"><code class="language-python"># content_creation_assistant.py
+from enum import Enum
+from typing import List, Dict
+
+class ContentType(Enum):
+    BLOG_POST = "blog_post"
+    SOCIAL_MEDIA = "social_media"
+    PRODUCT_DESC = "product_description"
+
+class ContentCreationAssistant:
+    """内容创作助手"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.templates = {
+            ContentType.BLOG_POST: {
+                'structure': ['标题', '导言', '主体', '结论'],
+                'tone': 'professional',
+                'length': 800,
+                'model': 'gpt-4o-mini',
+                'temperature': 0.7
+            },
+            ContentType.SOCIAL_MEDIA: {
+                'structure': ['Hook', '内容', 'Hashtags'],
+                'tone': 'casual',
+                'length': 280,
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.9
+            },
+            ContentType.PRODUCT_DESC: {
+                'structure': ['特点', '优势', '场景'],
+                'tone': 'persuasive',
+                'length': 200,
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.6
+            }
+        }
+
+    def create_content(self,
+                      content_type: ContentType,
+                      topic: str,
+                      keywords: List[str] = None) -> Dict:
+        """创建内容"""
+
+        template = self.templates[content_type]
+
+        # 构建prompt
+        prompt = self._build_prompt(
+            content_type,
+            topic,
+            keywords,
+            template['tone'],
+            template['structure'],
+            template['length']
+        )
+
+        print(f"\n✍️ 创建 {content_type.value}")
+        print(f"📝 主题: {topic}")
+        print(f"🤖 模型: {template['model']}")
+        print(f"🌡️ Temperature: {template['temperature']}")
+
+        # 生成内容
+        response = self.client.chat.completions.create(
+            model=template['model'],
+            messages=[
+                {"role": "system", "content": "你是专业内容创作者"},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=template['temperature'],
+            max_tokens=template['length'] * 2
+        )
+
+        content = response.choices[0].message.content
+        tokens = response.usage.total_tokens
+        cost = (tokens / 1000) * 0.001
+
+        # 质量评分
+        quality = self._evaluate_quality(content, keywords)
+
+        print(f"\n📊 生成完成:")
+        print(f"  长度: {len(content)}字符")
+        print(f"  质量: {quality:.1f}/10")
+        print(f"  成本: ${cost:.4f}")
+
+        return {
+            'content': content,
+            'quality_score': quality,
+            'cost': cost
+        }
+
+    def _build_prompt(self, content_type, topic, keywords,
+                     tone, structure, length) -> str:
+        """构建优化的prompt"""
+
+        parts = [
+            f"创建一篇关于'{topic}'的{content_type.value}。",
+            f"\n要求:",
+            f"1. 语气: {tone}",
+            f"2. 长度: 约{length}字",
+            f"3. 结构: {', '.join(structure)}"
+        ]
+
+        if keywords:
+            parts.append(f"4. 关键词: {', '.join(keywords)}")
+
+        parts.append("\n请直接输出内容。")
+
+        return '\n'.join(parts)
+
+    def _evaluate_quality(self, content: str,
+                         keywords: List[str]) -> float:
+        """评估内容质量"""
+        score = 10.0
+
+        if len(content) < 50:
+            score -= 2
+
+        if keywords:
+            covered = sum(1 for kw in keywords
+                         if kw.lower() in content.lower())
+            score *= (covered / len(keywords))
+
+        return min(max(score, 0), 10)
+
+# 使用示例
+if __name__ == "__main__":
+    assistant = ContentCreationAssistant()
+
+    # 创建社交媒体帖子
+    result = assistant.create_content(
+        content_type=ContentType.SOCIAL_MEDIA,
+        topic="早安正能量",
+        keywords=["新的一天", "加油"]
+    )
+
+    print(f"\n📱 社交媒体帖子:")
+    print(result['content'])</code></pre>
+                    </div>
+                </div>
+            </section>
+
             <!-- Part 4: 综合项目 -->
             <section id="part4-project" class="mb-12">
                 <h2 class="text-2xl font-bold mb-6 flex items-center">
                     <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">4</span>
                     项目实战
                 </h2>
-                
+
                 <h3 class="text-xl font-bold mb-4">🚀 综合项目：AI模型选择器</h3>
-                
+
                 <div class="bg-white p-6 rounded-lg shadow">
                     <div class="grid md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <h4 class="font-bold mb-2">项目功能</h4>
                             <ul class="list-disc list-inside space-y-1 text-sm">
-                                <li>自动分析业务场景</li>
-                                <li>推荐最佳模型配置</li>
-                                <li>实时成本计算</li>
-                                <li>性能对比测试</li>
-                                <li>导出配置文件</li>
+                                <li>✅ 自动分析业务场景</li>
+                                <li>✅ 推荐最佳模型配置</li>
+                                <li>✅ 实时成本计算</li>
+                                <li>✅ 性能对比测试</li>
+                                <li>✅ 导出配置文件</li>
+                                <li>✅ 可视化报告生成</li>
                             </ul>
                         </div>
                         <div>
@@ -758,31 +1473,164 @@ AI回复: 我是一个友好的AI助手，随时准备帮助你解答问题和�
                                 <span class="tag tag-green">Streamlit</span>
                                 <span class="tag tag-purple">OpenAI API</span>
                                 <span class="tag tag-red">Plotly</span>
+                                <span class="tag tag-blue">Pandas</span>
+                            </div>
+                            <h4 class="font-bold mt-4 mb-2">适用场景</h4>
+                            <div class="text-sm space-y-1">
+                                <div>💬 客服对话系统</div>
+                                <div>✍️ 内容创作平台</div>
+                                <div>💻 代码辅助工具</div>
+                                <div>📊 数据分析应用</div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- 项目预览图 -->
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                        <img src="/api/placeholder/800/400" alt="项目预览" class="w-full rounded">
+
+                    <!-- 核心功能展示 -->
+                    <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-3">🎯 智能推荐算法</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <strong>输入分析：</strong>
+                                <ul class="text-xs mt-1 space-y-1">
+                                    <li>• 任务类型识别</li>
+                                    <li>• Token数量估算</li>
+                                    <li>• 复杂度评估</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>智能决策：</strong>
+                                <ul class="text-xs mt-1 space-y-1">
+                                    <li>• 成本预算平衡</li>
+                                    <li>• 性能要求匹配</li>
+                                    <li>• 最优参数调整</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    
+
                     <!-- 获取代码 -->
                     <div class="flex space-x-4">
-                        <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                            📦 下载完整代码
+                        <a href="#code" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            📦 查看完整代码
                         </a>
-                        <a href="#" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
-                            🎥 观看演示视频
+                        <a href="#resources" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                            📚 下载学习资料
                         </a>
                     </div>
                 </div>
             </section>
             
+            <!-- 知识总结 -->
+            <section id="part4-summary" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📚 知识点总结</h3>
+
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg shadow-xl mb-6">
+                    <h4 class="text-2xl font-bold mb-4">🎓 今日学习成果</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-bold mb-2">✅ 核心知识掌握</h5>
+                            <ul class="space-y-1 text-sm">
+                                <li>• LLM模型生态认知</li>
+                                <li>• Token机制与计费</li>
+                                <li>• Context Window限制</li>
+                                <li>• Temperature等参数作用</li>
+                                <li>• 成本优化方法</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-bold mb-2">✅ 实战技能获得</h5>
+                            <ul class="space-y-1 text-sm">
+                                <li>• API调用实现</li>
+                                <li>• 参数优化技巧</li>
+                                <li>• 模型对比测试</li>
+                                <li>• 场景化应用设计</li>
+                                <li>• 智能选择策略</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 关键要点卡片 -->
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="text-3xl mb-2">🎯</div>
+                        <h5 class="font-bold mb-2">模型选择原则</h5>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• 简单任务用GPT-3.5</li>
+                            <li>• 复杂推理用GPT-4</li>
+                            <li>• 长文本用Claude</li>
+                            <li>• 成本优先看场景</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="text-3xl mb-2">💰</div>
+                        <h5 class="font-bold mb-2">成本优化策略</h5>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• 优化Prompt长度</li>
+                            <li>• 使用FAQ缓存</li>
+                            <li>• 智能路由分配</li>
+                            <li>• 控制max_tokens</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="text-3xl mb-2">🌡️</div>
+                        <h5 class="font-bold mb-2">参数调优指南</h5>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• 事实查询：temp=0</li>
+                            <li>• 通用对话：temp=0.7</li>
+                            <li>• 创意写作：temp=0.9</li>
+                            <li>• 根据场景调整</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 下节课预告 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h4 class="font-bold mb-3 flex items-center">
+                        <span class="text-2xl mr-2">🔜</span>
+                        下节课预告：Lesson 2 - Prompt工程实战
+                    </h4>
+                    <div class="grid md:grid-cols-3 gap-4 text-sm">
+                        <div>
+                            <h5 class="font-semibold mb-2">📖 Prompt设计原则</h5>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Zero-shot vs Few-shot</li>
+                                <li>• Chain-of-Thought</li>
+                                <li>• Role-Task-Format框架</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold mb-2">🚀 高级Prompt技巧</h5>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• 模板化设计</li>
+                                <li>• 动态Prompt生成</li>
+                                <li>• Prompt注入防御</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold mb-2">💻 实战项目</h5>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Prompt优化器</li>
+                                <li>• A/B测试框架</li>
+                                <li>• Prompt库管理</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 bg-blue-50 p-3 rounded">
+                        <p class="text-sm"><strong>📝 课前准备：</strong></p>
+                        <ul class="text-xs text-gray-600 mt-1 space-y-1">
+                            <li>• 完成本节作业</li>
+                            <li>• 阅读推荐文章</li>
+                            <li>• 准备3个想优化的Prompt</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
             <!-- 作业布置 -->
             <section id="part4-homework" class="mb-12">
                 <h3 class="text-xl font-bold mb-4">📝 作业布置</h3>
-                
+
                 <div class="space-y-6">
                     <!-- 必做题 -->
                     <div class="bg-white p-6 rounded-lg shadow">
@@ -790,7 +1638,7 @@ AI回复: 我是一个友好的AI助手，随时准备帮助你解答问题和�
                             <span class="bg-green-500 text-white px-2 py-1 rounded text-sm mr-2">必做</span>
                             基础练习（60分）
                         </h4>
-                        
+
                         <div class="space-y-4">
                             <div class="border-l-4 border-blue-400 pl-4">
                                 <h5 class="font-semibold">作业1：模型对比报告（30分）</h5>
@@ -798,53 +1646,157 @@ AI回复: 我是一个友好的AI助手，随时准备帮助你解答问题和�
                                     选择一个具体的业务场景，使用至少3个不同的模型进行测试，
                                     记录响应质量、时间、Token使用量和成本。
                                 </p>
+                                <div class="bg-gray-50 p-3 rounded mt-2 text-xs">
+                                    <strong>要求：</strong>
+                                    <ul class="mt-1 space-y-1">
+                                        <li>• 每个模型测试至少5个不同的prompt</li>
+                                        <li>• 记录完整的性能指标</li>
+                                        <li>• 生成对比报告（Markdown格式）</li>
+                                        <li>• 提供分析结论和建议</li>
+                                    </ul>
+                                </div>
                             </div>
-                            
+
                             <div class="border-l-4 border-blue-400 pl-4">
                                 <h5 class="font-semibold">作业2：Token优化实践（30分）</h5>
                                 <p class="text-sm text-gray-600 mt-1">
                                     提供一个200+ tokens的原始prompt，优化到少于100 tokens，
                                     确保语义不变，对比优化前后的效果。
                                 </p>
+                                <div class="bg-gray-50 p-3 rounded mt-2">
+                                    <pre class="text-xs"><code class="language-python"># 示例格式
+original_prompt = """
+[你的原始prompt，200+ tokens]
+"""
+
+optimized_prompt = """
+[优化后的prompt，<100 tokens]
+"""
+
+# 测试并对比效果
+def test_prompts():
+    # 你的测试代码
+    pass</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- 选做题 -->
                     <div class="bg-white p-6 rounded-lg shadow">
                         <h4 class="font-bold mb-4 flex items-center">
                             <span class="bg-yellow-500 text-white px-2 py-1 rounded text-sm mr-2">选做</span>
                             进阶挑战（40分）
                         </h4>
-                        
+
                         <div class="border-l-4 border-yellow-400 pl-4">
-                            <h5 class="font-semibold">作业3：智能模型选择器</h5>
+                            <h5 class="font-semibold">作业3：智能模型选择器（40分）</h5>
                             <p class="text-sm text-gray-600 mt-1">
                                 实现一个函数，根据输入的场景、预算、延迟要求等参数，
                                 自动推荐最佳的模型和参数配置。
                             </p>
                             <div class="bg-gray-100 p-3 rounded mt-2">
-                                <pre class="text-xs"><code>def smart_model_selector(
+                                <pre class="text-xs"><code class="language-python">def smart_model_selector(
     prompt: str,
     max_budget: float,
     max_latency: float,
-    quality_requirement: int
+    quality_requirement: int  # 1-10
 ) -> dict:
+    """
+    返回：
+    {
+        'model': 'gpt-3.5-turbo',
+        'temperature': 0.7,
+        'max_tokens': 150,
+        'reasoning': '选择理由'
+    }
+    """
     # 你的实现
-    pass</code></pre>
+    pass
+
+# 测试用例
+test_cases = [
+    {
+        'prompt': '写一首诗',
+        'max_budget': 0.001,
+        'max_latency': 2.0,
+        'quality_requirement': 7
+    },
+    # 添加更多测试用例
+]</code></pre>
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- 加分项 -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h4 class="font-bold mb-4 flex items-center">
+                            <span class="bg-purple-500 text-white px-2 py-1 rounded text-sm mr-2">加分</span>
+                            创意项目（最高20分）
+                        </h4>
+
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold mb-2">💻 工具开发</h5>
+                                <ul class="text-xs text-gray-600 space-y-1">
+                                    <li>• Token计算器网页</li>
+                                    <li>• 成本分析仪表板</li>
+                                    <li>• Prompt模板库</li>
+                                </ul>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold mb-2">📝 内容创作</h5>
+                                <ul class="text-xs text-gray-600 space-y-1">
+                                    <li>• 技术博客文章</li>
+                                    <li>• 学习笔记整理</li>
+                                    <li>• 教程视频制作</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 提交说明 -->
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h4 class="font-bold mb-2">📅 提交说明</h4>
-                        <ul class="text-sm space-y-1">
-                            <li>• 截止时间：下周一 23:59</li>
-                            <li>• 提交方式：GitHub PR</li>
-                            <li>• 命名格式：week1_[你的名字]</li>
-                            <li>• 包含README说明文档</li>
-                        </ul>
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border-2 border-blue-200">
+                        <h4 class="font-bold mb-3">📅 提交说明</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h5 class="font-semibold mb-2">⏰ 时间要求</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li>• <strong>截止时间：</strong>下周一 23:59</li>
+                                    <li>• <strong>延迟提交：</strong>扣除20%分数</li>
+                                    <li>• <strong>提前提交：</strong>额外5%奖励</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">📦 提交方式</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li>• <strong>方式：</strong>GitHub PR</li>
+                                    <li>• <strong>命名：</strong>week1_[你的名字]</li>
+                                    <li>• <strong>格式：</strong>包含README.md</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-white p-3 rounded">
+                            <h5 class="font-semibold mb-2 text-sm">📊 评分标准</h5>
+                            <div class="grid grid-cols-4 gap-2 text-xs">
+                                <div class="text-center">
+                                    <div class="font-bold text-blue-600">40%</div>
+                                    <div class="text-gray-600">代码质量</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-bold text-green-600">30%</div>
+                                    <div class="text-gray-600">功能完整</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-bold text-purple-600">20%</div>
+                                    <div class="text-gray-600">分析深度</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-bold text-orange-600">10%</div>
+                                    <div class="text-gray-600">创新性</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

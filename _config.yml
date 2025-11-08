@@ -1,0 +1,121 @@
+# Site settings
+title: AI工程师训练营
+description: 从零开始，4周成为AI工程师 | AI Engineering Bootcamp
+author: Polaris AI Studio
+email: contact@polarisaistudio.com
+url: "https://polarisaistudio.github.io"
+baseurl: "/ai-bootcamp"
+
+# Repository
+repository: polarisaistudio/ai-bootcamp
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Theme
+theme: minima
+remote_theme: pages-themes/minimal@v0.2.0
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-relative-links
+
+# Collections
+collections:
+  lessons:
+    output: true
+    permalink: /lessons/:name/
+    sort_by: order
+  assignments:
+    output: true
+    permalink: /assignments/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "lessons"
+    values:
+      layout: "lesson"
+      comments: true
+  - scope:
+      path: ""
+      type: "assignments"
+    values:
+      layout: "assignment"
+  - scope:
+      path: "assets/images"
+    values:
+      image: true
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .vscode
+  - .git
+  - README.md
+  - PUBLISHING_GUIDE.md
+  - "*.pyc"
+  - __pycache__
+  - venv
+  - .env
+
+# Include
+include:
+  - _pages
+
+# Reading files
+encoding: "utf-8"
+
+# Conversion
+highlighter: rouge
+
+# Outputting
+permalink: /:categories/:year/:month/:day/:title/
+timezone: Asia/Shanghai
+
+# Navigation
+navigation:
+  - title: 首页
+    url: /
+  - title: 课程
+    url: /lessons/
+  - title: 作业
+    url: /assignments/
+  - title: 资源
+    url: /resources/
+  - title: GitHub
+    url: https://github.com/yourusername/ai-bootcamp
+
+# Course information
+course:
+  weeks: 4
+  lessons_per_week: 2
+  total_lessons: 8
+  start_date: 2024-01-15
+  timezone: "Asia/Shanghai"
+
+# Social links
+social:
+  github: polarisaistudio
+  twitter: polarisaistudio
+  discord: https://discord.gg/polarisai
+
+# Google Analytics (optional)
+# google_analytics: UA-XXXXXXXXX-X
+
+# Disqus comments (optional)
+# disqus:
+#   shortname: your-disqus-shortname

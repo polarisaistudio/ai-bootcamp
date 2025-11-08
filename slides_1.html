@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI工程师训练营 - 完整课程指南</title>
+    
+    <!-- 引入样式库 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    
+    <style>
+        /* 自定义样式 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .toc-item {
+            transition: all 0.3s;
+        }
+        
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+        
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        
+        .lesson-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        @media print {
+            .sidebar, .no-print {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 280px;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4299e1 0%, #667eea 100%);
+            transform-origin: left;
+            z-index: 50;
+        }
+        
+        /* 标签样式 */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- 进度条 -->
+    <div class="progress-bar no-print" id="progressBar"></div>
+    
+    <!-- 移动端菜单按钮 -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded no-print" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+    
+    <!-- 侧边栏导航 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">🚀 AI训练营</h2>
+            
+            <!-- 搜索框 -->
+            <input type="text" placeholder="搜索..." class="w-full p-2 mb-4 bg-gray-700 text-white rounded" id="searchInput">
+            
+            <!-- 课程进度 -->
+            <div class="mb-6">
+                <div class="text-gray-400 text-sm mb-2">课程进度</div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full" style="width: 30%"></div>
+                </div>
+                <div class="text-gray-400 text-xs mt-1">3/10 课程完成</div>
+            </div>
+            
+            <!-- 目录 -->
+            <div class="space-y-2">
+                <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">课程内容</div>
+                
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 课程概览
+                </a>
+                
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 1: 开场激发</div>
+                    <a href="#part1-opening" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎬 开场与激发兴趣
+                    </a>
+                    <a href="#part1-pain" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        😫 痛点场景
+                    </a>
+                    <a href="#part1-goals" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 学习目标
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 2: 核心概念</div>
+                    <a href="#part2-models" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🤖 模型生态全景
+                    </a>
+                    <a href="#part2-tokens" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔤 Token深度理解
+                    </a>
+                    <a href="#part2-params" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎛️ 参数调优
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 3: 动手实践</div>
+                    <a href="#part3-setup" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💻 环境搭建
+                    </a>
+                    <a href="#part3-api" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔌 API调用
+                    </a>
+                    <a href="#part3-compare" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📊 模型对比
+                    </a>
+                    <a href="#part3-scenarios" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 场景应用
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 4: 项目实战</div>
+                    <a href="#part4-project" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🚀 综合项目
+                    </a>
+                    <a href="#part4-homework" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📝 作业布置
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">资源下载</div>
+                    <a href="#resources" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📦 学习资料
+                    </a>
+                    <a href="#code" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💻 代码仓库
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部信息 -->
+        <div class="p-6 border-t border-gray-700">
+            <div class="text-gray-400 text-sm">
+                <div>📧 support@ai-bootcamp.com</div>
+                <div>💬 Discord: AI训练营</div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 顶部导航 -->
+        <header class="bg-white shadow-sm border-b no-print">
+            <div class="px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Lesson 1: 认识LLM生态</h1>
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleTheme()" class="p-2 rounded hover:bg-gray-100">
+                        🌙
+                    </button>
+                    <button onclick="window.print()" class="p-2 rounded hover:bg-gray-100">
+                        🖨️
+                    </button>
+                    <button onclick="shareContent()" class="p-2 rounded hover:bg-gray-100">
+                        📤
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 内容区 -->
+        <div class="px-6 py-8">
+            
+            <!-- 课程概览 -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 课程概览</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⏱️</div>
+                            <div class="text-lg font-semibold">3小时</div>
+                            <div class="text-sm opacity-90">完整课程时长</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🎯</div>
+                            <div class="text-lg font-semibold">15个实验</div>
+                            <div class="text-sm opacity-90">动手练习</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">📦</div>
+                            <div class="text-lg font-semibold">10个项目</div>
+                            <div class="text-sm opacity-90">代码模板</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 学习目标 -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🎯 学习目标</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>掌握主流LLM模型的特点和差异</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>理解Token机制和成本计算</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>学会根据场景选择最佳模型</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>能够优化Prompt降低成本</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Part 1: 开场与激发兴趣 -->
+            <section id="part1-opening" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">1</span>
+                    开场与激发兴趣
+                </h2>
+                
+                <!-- 时间线 -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <div class="flex items-center mb-4">
+                        <span class="tag tag-blue">0:00-15:00</span>
+                        <span class="tag tag-green">理论</span>
+                        <span class="tag tag-purple">演示</span>
+                    </div>
+                    
+                    <!-- 开场白卡片 -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">📝 讲稿</h4>
+                        <div class="text-gray-700 italic">
+                            "大家好，欢迎来到AI工程师训练营的第一课！<br>
+                            我是[你的名字]，在接下来的4周里，我将带领大家从零开始，
+                            成为一名能够独立开发AI应用的工程师。<br><br>
+                            在开始之前，我想问大家一个问题：
+                            你们有没有遇到过这样的困扰？"
+                        </div>
+                    </div>
+                    
+                    <!-- 屏幕演示 -->
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <h4 class="font-bold mb-2 text-green-400">🖥️ 屏幕演示</h4>
+                        <pre class="code-block"><code class="language-python"># 屏幕显示: 个人介绍Slide
+- 照片 + 简介
+- 项目经验展示
+- 联系方式
+
+# 切换到: 问题Slide
+- 显示3个痛点场景的图片</code></pre>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Part 1: 痛点场景 -->
+            <section id="part1-pain" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">😫 痛点场景演示</h3>
+                
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <!-- 场景故事 -->
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                        <p class="font-semibold">真实案例：</p>
+                        <p>"上个月，我的一个朋友开了一家创业公司，他兴奋地告诉我：'我们用GPT-4做客服系统！'</p>
+                        <p>一个月后，他收到了OpenAI的账单：<span class="text-red-600 font-bold">$3,847.52</span></p>
+                    </div>
+                    
+                    <!-- 成本计算演示 -->
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <h4 class="font-bold mb-2 text-green-400">💰 成本计算演示</h4>
+                        <pre class="code-block"><code class="language-python"># 实时演示：打开OpenAI Usage页面
+1. 登录OpenAI账户
+2. 导航到Usage页面  
+3. 显示账单：$3,847.52
+
+# 切换到计算器
+"让我们算一下：
+- 每天1000个用户
+- 每用户10轮对话
+- 每轮约500 tokens
+- GPT-4定价：$0.03/1K tokens
+
+每天成本 = 1000 * 10 * 0.5 * 0.03 = $150
+每月成本 = $150 * 30 = $4,500 😱"</code></pre>
+                    </div>
+                    
+                    <!-- 互动投票 -->
+                    <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                        <h4 class="font-bold mb-2">💡 互动元素</h4>
+                        <p class="mb-2">你们猜，如果换成GPT-3.5，成本会是多少？</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button class="p-2 bg-white border rounded hover:bg-gray-100">A. $2,000</button>
+                            <button class="p-2 bg-white border rounded hover:bg-gray-100">B. $500</button>
+                            <button class="p-2 bg-white border rounded hover:bg-gray-100">C. $150</button>
+                            <button class="p-2 bg-green-500 text-white rounded">D. $45 ✓</button>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600">正确答案是 D: $45！相差100倍！</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Part 2: 模型生态全景 -->
+            <section id="part2-models" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">2</span>
+                    核心概念讲解
+                </h2>
+                
+                <h3 class="text-xl font-bold mb-4">🤖 模型生态全景</h3>
+                
+                <!-- 模型对比表格 -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4">主流模型对比</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2 text-left">模型</th>
+                                    <th class="px-4 py-2 text-left">速度</th>
+                                    <th class="px-4 py-2 text-left">质量</th>
+                                    <th class="px-4 py-2 text-left">成本</th>
+                                    <th class="px-4 py-2 text-left">最佳场景</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-4o</td>
+                                    <td class="px-4 py-2">⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
+                                    <td class="px-4 py-2">复杂推理</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-4o-mini</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-yellow-600">$$</td>
+                                    <td class="px-4 py-2">平衡选择</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-3.5</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-green-600">$</td>
+                                    <td class="px-4 py-2">简单对话</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Claude-Opus</td>
+                                    <td class="px-4 py-2">⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
+                                    <td class="px-4 py-2">长文本</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- 代码示例 -->
+                <div class="bg-gray-900 text-white p-6 rounded-lg shadow">
+                    <h4 class="font-bold mb-4 text-green-400">💻 实时对比测试代码</h4>
+                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py
+import openai
+import time
+import anthropic
+from datetime import datetime
+
+# 配置客户端
+openai_client = openai.OpenAI(api_key="sk-...")
+claude_client = anthropic.Anthropic(api_key="sk-ant-...")
+
+# 测试prompt
+test_prompt = "解释什么是递归，用一个简单的比喻"
+
+print("🔬 开始模型对比实验")
+print("=" * 50)
+
+# 测试GPT-3.5
+print("\\n1️⃣ 测试 GPT-3.5-turbo...")
+start = time.time()
+
+response_gpt35 = openai_client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": test_prompt}],
+    temperature=0.7
+)
+
+time_gpt35 = time.time() - start
+print(f"⏱️ 响应时间: {time_gpt35:.2f}秒")
+print(f"💰 成本: ${0.001:.4f}")
+print(f"📝 回答: {response_gpt35.choices[0].message.content[:100]}...")</code></pre>
+                </div>
+            </section>
+            
+            <!-- Part 2: Token深度理解 -->
+            <section id="part2-tokens" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🔤 Token深度理解</h3>
+                
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <!-- Token概念说明 -->
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">什么是Token？</h4>
+                        <p class="mb-2">想象Token就像乐高积木：</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>英文是标准积木，一个词一块</li>
+                            <li>中文是特殊积木，一个字可能要2-3块</li>
+                            <li>这直接影响你的成本！</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Token可视化工具 -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-4">🔍 Token实时分析器</h4>
+                        <div class="space-y-4">
+                            <textarea class="w-full p-3 border rounded-lg" rows="3" id="tokenInput">
+Hello世界! 这是2024年的AI课程。</textarea>
+                            <button onclick="analyzeTokens()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                分析Token
+                            </button>
+                            <div id="tokenOutput" class="p-4 bg-white border rounded-lg">
+                                <div class="space-y-2">
+                                    <div>Token分解：
+                                        <span class="inline-block px-2 py-1 m-1 bg-blue-100 rounded">Hello</span>
+                                        <span class="inline-block px-2 py-1 m-1 bg-red-100 rounded">世</span>
+                                        <span class="inline-block px-2 py-1 m-1 bg-red-100 rounded">界</span>
+                                        <span class="inline-block px-2 py-1 m-1 bg-gray-100 rounded">!</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-4 mt-4">
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold">15</div>
+                                            <div class="text-sm text-gray-600">总Token数</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold text-green-600">$0.000015</div>
+                                            <div class="text-sm text-gray-600">预估成本</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold">1.5</div>
+                                            <div class="text-sm text-gray-600">压缩比</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Part 3: 动手实践 -->
+            <section id="part3-setup" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">3</span>
+                    动手实践环节
+                </h2>
+                
+                <h3 class="text-xl font-bold mb-4">💻 环境搭建</h3>
+                
+                <!-- 环境搭建步骤 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <!-- Step 1 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">1</span>
+                            Python环境安装
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Windows用户
+1. 访问 https://python.org
+2. 下载 Python 3.11.x
+3. 运行安装程序 (勾选 "Add Python to PATH")
+4. 验证安装:
+   python --version
+
+# Mac用户
+brew install python@3.11
+
+# 创建项目文件夹
+mkdir ai-bootcamp
+cd ai-bootcamp
+
+# 创建虚拟环境
+python -m venv venv
+
+# 激活虚拟环境
+# Windows:
+venv\\Scripts\\activate
+# Mac/Linux:
+source venv/bin/activate</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">2</span>
+                            安装必要的包
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># 创建requirements.txt
+cat > requirements.txt << EOF
+openai==1.12.0
+anthropic==0.18.0
+tiktoken==0.6.0
+streamlit==1.31.0
+pandas==2.2.0
+plotly==5.18.0
+python-dotenv==1.0.1
+jupyter==1.0.0
+ipywidgets==8.1.1
+EOF
+
+# 安装所有依赖
+pip install -r requirements.txt
+
+# 验证安装
+python -c "import openai; print(f'OpenAI版本: {openai.__version__}')"</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                            配置API密钥
+                        </h4>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
+                            <p class="font-semibold">⚠️ 重要：永远不要把API密钥直接写在代码里！</p>
+                        </div>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># 创建.env文件
+cat > .env << EOF
+OPENAI_API_KEY=sk-...你的密钥...
+ANTHROPIC_API_KEY=sk-ant-...你的密钥...
+EOF
+
+# config.py
+import os
+from dotenv import load_dotenv
+
+# 加载环境变量
+load_dotenv()
+
+class Config:
+    """集中管理配置"""
+    
+    # API Keys
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    
+    @classmethod
+    def validate(cls):
+        if not cls.OPENAI_API_KEY:
+            raise ValueError("❌ 请设置OPENAI_API_KEY")
+        print("✅ OpenAI密钥已配置")
+
+# 测试配置
+if __name__ == "__main__":
+    Config.validate()
+    print("🎉 配置成功！")</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Part 3: 第一个API调用 -->
+            <section id="part3-api" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🔌 第一个API调用</h3>
+                
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+                        <p class="font-semibold">🎉 让我们写第一个程序！</p>
+                    </div>
+                    
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre class="overflow-x-auto"><code class="language-python"># first_api_call.py
+import openai
+from config import Config
+import json
+
+def my_first_chat():
+    """我的第一个AI对话"""
+    
+    # 1. 设置客户端
+    client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
+    
+    # 2. 准备消息
+    messages = [
+        {"role": "system", "content": "你是一个友好的AI助手"},
+        {"role": "user", "content": "你好！请用一句话介绍自己。"}
+    ]
+    
+    print("🤖 正在调用OpenAI API...")
+    print("-" * 50)
+    
+    # 3. 调用API
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            temperature=0.7,
+            max_tokens=50
+        )
+        
+        # 4. 提取回复
+        ai_message = response.choices[0].message.content
+        
+        # 5. 显示结果
+        print(f"AI回复: {ai_message}")
+        print("-" * 50)
+        
+        # 6. 显示使用统计
+        print(f"📊 使用统计:")
+        print(f"  - 模型: {response.model}")
+        print(f"  - 输入Token: {response.usage.prompt_tokens}")
+        print(f"  - 输出Token: {response.usage.completion_tokens}")
+        print(f"  - 总Token: {response.usage.total_tokens}")
+        
+        # 7. 计算成本
+        cost = (response.usage.total_tokens / 1000) * 0.001
+        print(f"  - 成本: ${cost:.6f}")
+        
+    except Exception as e:
+        print(f"❌ 错误: {e}")
+
+if __name__ == "__main__":
+    my_first_chat()</code></pre>
+                    </div>
+                    
+                    <!-- 预期输出 -->
+                    <div class="mt-4 bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">预期输出：</h4>
+                        <pre class="text-sm">🤖 正在调用OpenAI API...
+--------------------------------------------------
+AI回复: 我是一个友好的AI助手，随时准备帮助你解答问题和完成任务！
+--------------------------------------------------
+📊 使用统计:
+  - 模型: gpt-3.5-turbo-0125
+  - 输入Token: 26
+  - 输出Token: 18
+  - 总Token: 44
+  - 成本: $0.000044</pre>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Part 4: 综合项目 -->
+            <section id="part4-project" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">4</span>
+                    项目实战
+                </h2>
+                
+                <h3 class="text-xl font-bold mb-4">🚀 综合项目：AI模型选择器</h3>
+                
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold mb-2">项目功能</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm">
+                                <li>自动分析业务场景</li>
+                                <li>推荐最佳模型配置</li>
+                                <li>实时成本计算</li>
+                                <li>性能对比测试</li>
+                                <li>导出配置文件</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-2">技术栈</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tag tag-blue">Python</span>
+                                <span class="tag tag-green">Streamlit</span>
+                                <span class="tag tag-purple">OpenAI API</span>
+                                <span class="tag tag-red">Plotly</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 项目预览图 -->
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <img src="/api/placeholder/800/400" alt="项目预览" class="w-full rounded">
+                    </div>
+                    
+                    <!-- 获取代码 -->
+                    <div class="flex space-x-4">
+                        <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            📦 下载完整代码
+                        </a>
+                        <a href="#" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                            🎥 观看演示视频
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 作业布置 -->
+            <section id="part4-homework" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📝 作业布置</h3>
+                
+                <div class="space-y-6">
+                    <!-- 必做题 -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h4 class="font-bold mb-4 flex items-center">
+                            <span class="bg-green-500 text-white px-2 py-1 rounded text-sm mr-2">必做</span>
+                            基础练习（60分）
+                        </h4>
+                        
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h5 class="font-semibold">作业1：模型对比报告（30分）</h5>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    选择一个具体的业务场景，使用至少3个不同的模型进行测试，
+                                    记录响应质量、时间、Token使用量和成本。
+                                </p>
+                            </div>
+                            
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h5 class="font-semibold">作业2：Token优化实践（30分）</h5>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    提供一个200+ tokens的原始prompt，优化到少于100 tokens，
+                                    确保语义不变，对比优化前后的效果。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 选做题 -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h4 class="font-bold mb-4 flex items-center">
+                            <span class="bg-yellow-500 text-white px-2 py-1 rounded text-sm mr-2">选做</span>
+                            进阶挑战（40分）
+                        </h4>
+                        
+                        <div class="border-l-4 border-yellow-400 pl-4">
+                            <h5 class="font-semibold">作业3：智能模型选择器</h5>
+                            <p class="text-sm text-gray-600 mt-1">
+                                实现一个函数，根据输入的场景、预算、延迟要求等参数，
+                                自动推荐最佳的模型和参数配置。
+                            </p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre class="text-xs"><code>def smart_model_selector(
+    prompt: str,
+    max_budget: float,
+    max_latency: float,
+    quality_requirement: int
+) -> dict:
+    # 你的实现
+    pass</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 提交说明 -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">📅 提交说明</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• 截止时间：下周一 23:59</li>
+                            <li>• 提交方式：GitHub PR</li>
+                            <li>• 命名格式：week1_[你的名字]</li>
+                            <li>• 包含README说明文档</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 资源下载 -->
+            <section id="resources" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6">📦 学习资料下载</h2>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- 视频资料 -->
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">🎥</div>
+                        <h4 class="font-bold mb-2">视频教程</h4>
+                        <p class="text-sm text-gray-600 mb-4">完整3小时录播视频</p>
+                        <a href="#" class="text-blue-500 hover:underline">立即下载 →</a>
+                    </div>
+                    
+                    <!-- 代码仓库 -->
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">💻</div>
+                        <h4 class="font-bold mb-2">代码仓库</h4>
+                        <p class="text-sm text-gray-600 mb-4">所有示例代码和项目</p>
+                        <a href="#" class="text-blue-500 hover:underline">GitHub →</a>
+                    </div>
+                    
+                    <!-- PPT资料 -->
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">📊</div>
+                        <h4 class="font-bold mb-2">课件PPT</h4>
+                        <p class="text-sm text-gray-600 mb-4">30页详细课件</p>
+                        <a href="#" class="text-blue-500 hover:underline">立即下载 →</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 底部导航 -->
+            <div class="flex justify-between items-center py-8 border-t">
+                <div>
+                    <span class="text-gray-500">上一课</span>
+                    <p class="font-semibold">-</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-gray-500">下一课</span>
+                    <p class="font-semibold">Lesson 2: Prompt工程实战</p>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    
+    <script>
+        // 侧边栏切换
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        // 主题切换
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+        }
+        
+        // 分享功能
+        function shareContent() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI工程师训练营 - Lesson 1',
+                    text: '学习LLM生态，掌握AI应用开发',
+                    url: window.location.href
+                });
+            }
+        }
+        
+        // Token分析模拟
+        function analyzeTokens() {
+            const input = document.getElementById('tokenInput').value;
+            const output = document.getElementById('tokenOutput');
+            
+            // 模拟Token分析
+            const tokens = input.length / 4; // 简单估算
+            const cost = tokens * 0.000001;
+            
+            output.innerHTML = `
+                <div class="space-y-2">
+                    <div>文本长度: ${input.length} 字符</div>
+                    <div>估算Token数: ${Math.round(tokens)}</div>
+                    <div>预估成本: $${cost.toFixed(6)}</div>
+                </div>
+            `;
+        }
+        
+        // 滚动进度条
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.transform = `scaleX(${scrolled / 100})`;
+        });
+        
+        // 高亮当前章节
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 移除所有active类
+                    document.querySelectorAll('.toc-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // 添加active类到当前章节
+                    const id = entry.target.getAttribute('id');
+                    const tocItem = document.querySelector(`a[href="#${id}"]`);
+                    if (tocItem) {
+                        tocItem.classList.add('active');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        // 观察所有章节
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.toc-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

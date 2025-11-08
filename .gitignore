@@ -1,0 +1,63 @@
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+vendor/
+
+# Ruby
+*.gem
+.bundle
+Gemfile.lock
+
+# Python
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# Dependencies
+node_modules/
+
+# API Keys (IMPORTANT!)
+.env
+.env.local
+.env.*.local
+secrets.yml
+config/secrets.yml
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Media
+# Uncomment if you don't want to commit large media files
+# *.mp4
+# *.mov
+# *.avi
+
+# Build outputs
+dist/
+build/

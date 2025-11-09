@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1 Homework Answers & Solutions - AI Engineer Bootcamp</title>
+
+    <!-- Import style libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .toc-item {
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+        .tag-yellow { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Mobile menu button -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- Sidebar navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">📝 Homework Answers</h2>
+
+            <!-- Table of contents -->
+            <div class="space-y-2">
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 Homework Overview
+                </a>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Required Assignments</div>
+                    <a href="#hw1" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📊 Assignment 1: Model Comparison
+                    </a>
+                    <a href="#hw2" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔤 Assignment 2: Token Optimization
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Optional Assignments</div>
+                    <a href="#hw3" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🤖 Assignment 3: Smart Selector
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Bonus Projects</div>
+                    <a href="#bonus" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        ⭐ Creative Project Examples
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content area -->
+    <main class="main-content">
+        <!-- Top navigation -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="px-6 py-4">
+                <h1 class="text-2xl font-bold text-gray-800">Week 1 Homework Answers & Solutions</h1>
+                <p class="text-sm text-gray-600 mt-1">Complete reference answers, code implementation, and grading criteria</p>
+            </div>
+        </header>
+
+        <!-- Content area -->
+        <div class="px-6 py-8">
+
+            <!-- Homework overview -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 Homework Overview</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">✅</div>
+                            <div class="text-lg font-semibold">Required 60 pts</div>
+                            <div class="text-sm opacity-90">Model Comparison + Token Optimization</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🚀</div>
+                            <div class="text-lg font-semibold">Optional 40 pts</div>
+                            <div class="text-sm opacity-90">Smart Model Selector</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⭐</div>
+                            <div class="text-lg font-semibold">Bonus 20 pts</div>
+                            <div class="text-sm opacity-90">Creative Projects</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grading criteria -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">📊 Grading Criteria</h3>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-blue-50 rounded">
+                            <div class="text-3xl font-bold text-blue-600">40%</div>
+                            <div class="text-sm text-gray-600 mt-2">Code Quality</div>
+                            <div class="text-xs text-gray-500 mt-1">Standards, readability, comments</div>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded">
+                            <div class="text-3xl font-bold text-green-600">30%</div>
+                            <div class="text-sm text-gray-600 mt-2">Completeness</div>
+                            <div class="text-xs text-gray-500 mt-1">Meets all requirements</div>
+                        </div>
+                        <div class="text-center p-4 bg-purple-50 rounded">
+                            <div class="text-3xl font-bold text-purple-600">20%</div>
+                            <div class="text-sm text-gray-600 mt-2">Analysis Depth</div>
+                            <div class="text-xs text-gray-500 mt-1">Unique insights</div>
+                        </div>
+                        <div class="text-center p-4 bg-orange-50 rounded">
+                            <div class="text-3xl font-bold text-orange-600">10%</div>
+                            <div class="text-sm text-gray-600 mt-2">Innovation</div>
+                            <div class="text-xs text-gray-500 mt-1">Extra optimizations</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assignment 1: Model Comparison Report -->
+            <section id="hw1" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">1</span>
+                    Assignment 1: Model Comparison Report (30 pts)
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">📋 Requirements</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Choose a specific business scenario (e.g., customer service, translation, code generation)</li>
+                        <li>Test with at least 3 different models</li>
+                        <li>Each model tested with at least 5 different prompts</li>
+                        <li>Record response quality, time, token usage, and cost</li>
+                        <li>Generate comparison report (Markdown format)</li>
+                    </ul>
+                </div>
+
+                <!-- Reference answer -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">✅ Reference Answer</h3>
+
+                    <!-- Complete code -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4 text-green-400">💻 Complete Implementation Code</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># model_comparison_homework.py
+"""
+Assignment 1: Model Comparison Report
+Business Scenario: Smart Customer Service Dialogue System
+Comparison Models: GPT-3.5-turbo, GPT-4o-mini, GPT-4o
+"""
+
+import openai
+import time
+import pandas as pd
+from datetime import datetime
+from typing import List, Dict
+import json
+
+class ModelComparisonReport:
+    """Model Comparison Testing and Report Generation System"""
+
+    def __init__(self, api_key: str):
+        self.client = openai.OpenAI(api_key=api_key)
+        self.results = []
+
+    def test_model(self,
+                   model: str,
+                   prompt: str,
+                   temperature: float = 0.7) -> Dict:
+        """Test single model response"""
+
+        start_time = time.time()
+
+        try:
+            response = self.client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": "You are a professional customer service representative"},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temperature,
+                max_tokens=200
+            )
+
+            elapsed_time = time.time() - start_time
+
+            return {
+                'success': True,
+                'response': response.choices[0].message.content,
+                'tokens': response.usage.total_tokens,
+                'prompt_tokens': response.usage.prompt_tokens,
+                'completion_tokens': response.usage.completion_tokens,
+                'time': elapsed_time,
+                'cost': self._calculate_cost(model, response.usage.total_tokens)
+            }
+
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e),
+                'tokens': 0,
+                'time': 0,
+                'cost': 0
+            }
+
+    def _calculate_cost(self, model: str, tokens: int) -> float:
+        """Calculate API call cost"""
+        pricing = {
+            'gpt-3.5-turbo': 0.001,      # $0.001 per 1K tokens
+            'gpt-4o-mini': 0.0006,       # $0.0006 per 1K tokens
+            'gpt-4o': 0.01,              # $0.01 per 1K tokens
+        }
+        price_per_1k = pricing.get(model, 0.001)
+        return (tokens / 1000) * price_per_1k
+
+    def run_comparison(self,
+                      models: List[str],
+                      test_prompts: List[str],
+                      temperature: float = 0.7):
+        """Run complete comparison test"""
+
+        print("🚀 Starting Model Comparison Test")
+        print("=" * 70)
+
+        for model in models:
+            print(f"\n📊 Testing Model: {model}")
+            print("-" * 70)
+
+            for idx, prompt in enumerate(test_prompts, 1):
+                print(f"\n  Test {idx}/{len(test_prompts)}: {prompt[:40]}...")
+
+                result = self.test_model(model, prompt, temperature)
+
+                if result['success']:
+                    print(f"    ✓ Success")
+                    print(f"    ⏱️  Response time: {result['time']:.2f}s")
+                    print(f"    🔤 Token count: {result['tokens']}")
+                    print(f"    💰 Cost: ${result['cost']:.6f}")
+
+                    # Evaluate response quality (1-10 scale)
+                    quality_score = self._evaluate_quality(
+                        prompt,
+                        result['response']
+                    )
+                    print(f"    ⭐ Quality score: {quality_score}/10")
+
+                    # Save results
+                    self.results.append({
+                        'model': model,
+                        'prompt': prompt,
+                        'response': result['response'],
+                        'quality_score': quality_score,
+                        'response_time': result['time'],
+                        'total_tokens': result['tokens'],
+                        'prompt_tokens': result['prompt_tokens'],
+                        'completion_tokens': result['completion_tokens'],
+                        'cost': result['cost'],
+                        'timestamp': datetime.now().isoformat()
+                    })
+                else:
+                    print(f"    ✗ Failed: {result['error']}")
+
+                # Avoid rate limiting
+                time.sleep(1)
+
+    def _evaluate_quality(self, prompt: str, response: str) -> float:
+        """Evaluate response quality (simplified version)"""
+        score = 10.0
+
+        # Check response length
+        if len(response) < 20:
+            score -= 3
+        elif len(response) > 500:
+            score -= 1
+
+        # Check for polite language
+        polite_words = ['you', 'please', 'thank', 'appreciate', 'sorry']
+        if not any(word in response.lower() for word in polite_words):
+            score -= 1
+
+        # Check for structured content
+        if ':' in response or '.' in response:
+            score += 0.5
+
+        return min(max(score, 0), 10)
+
+    def generate_report(self) -> str:
+        """Generate Markdown format comparison report"""
+
+        if not self.results:
+            return "# Error: No test results\n"
+
+        df = pd.DataFrame(self.results)
+
+        report = []
+        report.append("# Model Comparison Test Report\n")
+        report.append(f"**Test Time**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        report.append(f"**Business Scenario**: Smart Customer Service Dialogue System\n")
+        report.append(f"**Models Tested**: {df['model'].nunique()}\n")
+        report.append(f"**Test Samples**: {len(df)}\n\n")
+
+        # 1. Overall comparison table
+        report.append("## 1. Overall Model Performance Comparison\n\n")
+
+        summary = df.groupby('model').agg({
+            'quality_score': 'mean',
+            'response_time': 'mean',
+            'total_tokens': 'mean',
+            'cost': 'sum'
+        }).round(4)
+
+        report.append("| Model | Avg Quality | Avg Response Time(s) | Avg Tokens | Total Cost($) |")
+        report.append("|-------|-------------|---------------------|------------|---------------|")
+
+        for model, row in summary.iterrows():
+            report.append(
+                f"| {model} | {row['quality_score']:.2f} | "
+                f"{row['response_time']:.2f} | {row['total_tokens']:.0f} | "
+                f"${row['cost']:.6f} |"
+            )
+
+        report.append("\n")
+
+        # 2. Detailed test results
+        report.append("## 2. Detailed Test Results\n\n")
+
+        for model in df['model'].unique():
+            report.append(f"### {model}\n\n")
+
+            model_df = df[df['model'] == model]
+
+            for idx, row in model_df.iterrows():
+                report.append(f"**Test {idx + 1}**\n")
+                report.append(f"- **Prompt**: {row['prompt']}\n")
+                report.append(f"- **Response**: {row['response'][:100]}...\n")
+                report.append(f"- **Quality Score**: {row['quality_score']}/10\n")
+                report.append(f"- **Response Time**: {row['response_time']:.2f}s\n")
+                report.append(f"- **Token Usage**: {row['total_tokens']} "
+                            f"(input: {row['prompt_tokens']}, "
+                            f"output: {row['completion_tokens']})\n")
+                report.append(f"- **Cost**: ${row['cost']:.6f}\n\n")
+
+        # 3. Performance analysis
+        report.append("## 3. Performance Analysis\n\n")
+
+        # Find best models
+        best_quality = summary['quality_score'].idxmax()
+        best_speed = summary['response_time'].idxmin()
+        best_cost = summary['cost'].idxmin()
+
+        report.append(f"- **Best Quality**: {best_quality} "
+                     f"(avg score: {summary.loc[best_quality, 'quality_score']:.2f})\n")
+        report.append(f"- **Fastest**: {best_speed} "
+                     f"(avg response: {summary.loc[best_speed, 'response_time']:.2f}s)\n")
+        report.append(f"- **Lowest Cost**: {best_cost} "
+                     f"(total cost: ${summary.loc[best_cost, 'cost']:.6f})\n\n")
+
+        # 4. Conclusions and recommendations
+        report.append("## 4. Conclusions and Recommendations\n\n")
+        report.append("### Comprehensive Analysis\n\n")
+
+        # Calculate cost efficiency (quality/cost)
+        summary['cost_efficiency'] = summary['quality_score'] / (summary['cost'] * 1000)
+        best_efficiency = summary['cost_efficiency'].idxmax()
+
+        report.append(f"Based on this test, **{best_efficiency}** "
+                     f"shows the best cost-effectiveness for customer service scenarios.\n\n")
+
+        report.append("### Usage Recommendations\n\n")
+        report.append("1. **High-frequency simple queries**: Use GPT-3.5-turbo (low cost, fast response)\n")
+        report.append("2. **Complex issue handling**: Use GPT-4o (high quality, strong understanding)\n")
+        report.append("3. **Balance performance and cost**: Use GPT-4o-mini (best overall value)\n")
+        report.append("4. **Cost optimization strategy**: Combining FAQ system + smart routing can save 90%+ costs\n\n")
+
+        # 5. Appendix
+        report.append("## 5. Appendix\n\n")
+        report.append("### Test Environment\n")
+        report.append("- Python version: 3.11+\n")
+        report.append("- OpenAI library version: 1.12.0\n")
+        report.append("- Temperature: 0.7\n")
+        report.append("- Max Tokens: 200\n\n")
+
+        return '\n'.join(report)
+
+    def save_report(self, filename: str = None):
+        """Save report to file"""
+        if filename is None:
+            filename = f"model_comparison_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+
+        report_content = self.generate_report()
+
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(report_content)
+
+        print(f"\n✅ Report saved: {filename}")
+
+        # Also save raw data as CSV
+        csv_filename = filename.replace('.md', '.csv')
+        df = pd.DataFrame(self.results)
+        df.to_csv(csv_filename, index=False, encoding='utf-8-sig')
+
+        print(f"✅ Raw data saved: {csv_filename}")
+
+
+# Main program
+if __name__ == "__main__":
+    # Configuration
+    API_KEY = "your-api-key-here"  # Replace with your API key
+
+    # Initialize
+    tester = ModelComparisonReport(API_KEY)
+
+    # Define test models
+    models = [
+        'gpt-3.5-turbo',
+        'gpt-4o-mini',
+        'gpt-4o'
+    ]
+
+    # Define test scenarios: customer service dialogue
+    test_prompts = [
+        "When will my order arrive? Order number is 12345",
+        "Can I return this product? I'm not satisfied",
+        "What are your customer service hours?",
+        "What should I do if the product malfunctions?",
+        "How do I change my delivery address?",
+        "Are there any promotions? Do new users get discounts?",
+        "How can I check my order tracking information?"
+    ]
+
+    # Run comparison test
+    tester.run_comparison(models, test_prompts, temperature=0.7)
+
+    # Generate and save report
+    tester.save_report()
+
+    # Print report to console
+    print("\n" + "=" * 70)
+    print("📊 Complete Report Preview")
+    print("=" * 70)
+    print(tester.generate_report())</code></pre>
+                    </div>
+
+                    <!-- Example output -->
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">📄 Example Report Output</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>Files Generated:</strong></p>
+                            <ul class="list-disc list-inside text-xs space-y-1">
+                                <li>model_comparison_report_20240115_143022.md (complete report)</li>
+                                <li>model_comparison_report_20240115_143022.csv (raw data)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Grading details -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">📊 Grading Details (30 pts)</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>✅ Clear code structure with complete comments</span>
+                                <span class="font-bold">12 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Tested 3+ models, 5+ prompts each</span>
+                                <span class="font-bold">9 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Recorded complete performance metrics</span>
+                                <span class="font-bold">6 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Provided in-depth analysis and recommendations</span>
+                                <span class="font-bold">3 pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assignment 2: Token Optimization Practice -->
+            <section id="hw2" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">2</span>
+                    Assignment 2: Token Optimization Practice (30 pts)
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">📋 Requirements</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Provide an original prompt with 200+ tokens</li>
+                        <li>Optimize to less than 100 tokens</li>
+                        <li>Ensure semantics remain unchanged</li>
+                        <li>Compare before and after effects</li>
+                    </ul>
+                </div>
+
+                <!-- Reference answer -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">✅ Reference Answer</h3>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4 text-green-400">💻 Token Optimization Implementation</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># token_optimization_homework.py
+"""
+Assignment 2: Token Optimization Practice
+Goal: Optimize original prompt from 200+ tokens to <100 tokens while maintaining semantics
+"""
+
+import openai
+import tiktoken
+from typing import Dict, List
+import pandas as pd
+
+class TokenOptimizer:
+    """Token Optimization Tool Class"""
+
+    def __init__(self, api_key: str):
+        self.client = openai.OpenAI(api_key=api_key)
+        self.encoder = tiktoken.get_encoding("cl100k_base")
+
+    def count_tokens(self, text: str) -> int:
+        """Calculate text token count"""
+        return len(self.encoder.encode(text))
+
+    def analyze_prompt(self, prompt: str) -> Dict:
+        """Analyze prompt token usage"""
+        tokens = self.encoder.encode(prompt)
+        token_count = len(tokens)
+
+        # Token breakdown
+        token_breakdown = []
+        for token in tokens[:20]:  # Only show first 20
+            decoded = self.encoder.decode([token])
+            token_breakdown.append(decoded)
+
+        return {
+            'text': prompt,
+            'token_count': token_count,
+            'char_count': len(prompt),
+            'token_breakdown': token_breakdown,
+            'efficiency': len(prompt) / token_count if token_count > 0 else 0
+        }
+
+    def test_prompt_quality(self, prompt: str, test_case: str) -> Dict:
+        """Test prompt response quality"""
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": test_case}
+                ],
+                temperature=0.7,
+                max_tokens=150
+            )
+
+            return {
+                'success': True,
+                'response': response.choices[0].message.content,
+                'tokens_used': response.usage.total_tokens,
+                'cost': (response.usage.total_tokens / 1000) * 0.001
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+    def compare_prompts(self,
+                       original: str,
+                       optimized: str,
+                       test_cases: List[str]) -> Dict:
+        """Compare original and optimized prompts"""
+
+        print("🔬 Starting Token Optimization Comparison Test")
+        print("=" * 70)
+
+        # Analyze token usage
+        print("\n📊 Token Analysis")
+        print("-" * 70)
+
+        original_analysis = self.analyze_prompt(original)
+        optimized_analysis = self.analyze_prompt(optimized)
+
+        print(f"\nOriginal Prompt:")
+        print(f"  Text: {original[:60]}...")
+        print(f"  Characters: {original_analysis['char_count']}")
+        print(f"  Tokens: {original_analysis['token_count']}")
+
+        print(f"\nOptimized Prompt:")
+        print(f"  Text: {optimized[:60]}...")
+        print(f"  Characters: {optimized_analysis['char_count']}")
+        print(f"  Tokens: {optimized_analysis['token_count']}")
+
+        # Calculate optimization effect
+        token_reduction = original_analysis['token_count'] - optimized_analysis['token_count']
+        reduction_percent = (token_reduction / original_analysis['token_count']) * 100
+
+        print(f"\n✨ Optimization Effect:")
+        print(f"  Tokens reduced: {token_reduction}")
+        print(f"  Reduction ratio: {reduction_percent:.1f}%")
+
+        # Quality comparison test
+        print("\n🎯 Quality Comparison Test")
+        print("-" * 70)
+
+        results = {
+            'original_analysis': original_analysis,
+            'optimized_analysis': optimized_analysis,
+            'reduction': {
+                'tokens': token_reduction,
+                'percent': reduction_percent
+            },
+            'quality_tests': []
+        }
+
+        for idx, test_case in enumerate(test_cases, 1):
+            print(f"\nTest case {idx}: {test_case[:40]}...")
+
+            # Test original prompt
+            print("  Original Prompt response...", end="")
+            original_result = self.test_prompt_quality(original, test_case)
+            if original_result['success']:
+                print(f" ✓ ({original_result['tokens_used']} tokens)")
+            else:
+                print(f" ✗ Failed")
+
+            # Test optimized prompt
+            print("  Optimized Prompt response...", end="")
+            optimized_result = self.test_prompt_quality(optimized, test_case)
+            if optimized_result['success']:
+                print(f" ✓ ({optimized_result['tokens_used']} tokens)")
+            else:
+                print(f" ✗ Failed")
+
+            # Compare results
+            if original_result['success'] and optimized_result['success']:
+                quality_score = self._compare_quality(
+                    original_result['response'],
+                    optimized_result['response']
+                )
+
+                token_saving = original_result['tokens_used'] - optimized_result['tokens_used']
+                cost_saving = original_result['cost'] - optimized_result['cost']
+
+                print(f"  Semantic similarity: {quality_score:.1f}%")
+                print(f"  Tokens saved: {token_saving}")
+                print(f"  Cost saved: ${cost_saving:.6f}")
+
+                results['quality_tests'].append({
+                    'test_case': test_case,
+                    'original_response': original_result['response'],
+                    'optimized_response': optimized_result['response'],
+                    'quality_score': quality_score,
+                    'token_saving': token_saving,
+                    'cost_saving': cost_saving
+                })
+
+        return results
+
+    def _compare_quality(self, response1: str, response2: str) -> float:
+        """Simple semantic similarity assessment"""
+        # Simplified version: based on length and keyword overlap
+        words1 = set(response1.lower().split())
+        words2 = set(response2.lower().split())
+
+        overlap = len(words1 & words2)
+        total = len(words1 | words2)
+
+        similarity = (overlap / total * 100) if total > 0 else 0
+        return similarity
+
+    def generate_optimization_report(self, results: Dict) -> str:
+        """Generate optimization report"""
+        report = []
+
+        report.append("# Token Optimization Practice Report\n")
+        report.append("## 1. Before and After Comparison\n")
+
+        orig = results['original_analysis']
+        opt = results['optimized_analysis']
+
+        report.append("| Metric | Original Prompt | Optimized Prompt | Improvement |")
+        report.append("|--------|-----------------|------------------|-------------|")
+        report.append(f"| Tokens | {orig['token_count']} | {opt['token_count']} | "
+                     f"-{results['reduction']['tokens']} ({results['reduction']['percent']:.1f}%) |")
+        report.append(f"| Characters | {orig['char_count']} | {opt['char_count']} | "
+                     f"-{orig['char_count'] - opt['char_count']} |")
+
+        report.append("\n## 2. Original Prompt\n")
+        report.append(f"```\n{orig['text']}\n```\n")
+
+        report.append("## 3. Optimized Prompt\n")
+        report.append(f"```\n{opt['text']}\n```\n")
+
+        report.append("## 4. Optimization Strategies\n")
+        report.append("1. Removed redundant words and repetitive expressions\n")
+        report.append("2. Used more concise sentence structures\n")
+        report.append("3. Retained core instructions and key information\n")
+        report.append("4. Removed unnecessary polite phrases\n\n")
+
+        report.append("## 5. Quality Validation\n")
+
+        if results['quality_tests']:
+            avg_similarity = sum(t['quality_score'] for t in results['quality_tests']) / len(results['quality_tests'])
+            total_token_saving = sum(t['token_saving'] for t in results['quality_tests'])
+
+            report.append(f"- Average semantic similarity: {avg_similarity:.1f}%\n")
+            report.append(f"- Total tokens saved: {total_token_saving}\n")
+            report.append(f"- Test cases: {len(results['quality_tests'])}\n\n")
+
+        report.append("## 6. Conclusion\n")
+        report.append(f"Successfully optimized prompt from {orig['token_count']} tokens to {opt['token_count']} tokens, "
+                     f"reducing by {results['reduction']['percent']:.1f}%, "
+                     f"while maintaining semantic consistency.\n")
+
+        return '\n'.join(report)
+
+
+# ============= Example 1: Customer Service System Prompt Optimization =============
+
+# Original Prompt (220+ tokens)
+original_prompt = """
+You are a very professional, friendly, and patient customer service representative. Your main responsibility is to help customers solve various problems they encounter,
+including but not limited to product inquiries, order queries, return/exchange requests, logistics tracking, technical support, and other aspects.
+
+When answering customer questions, please follow these guidelines:
+1. Always maintain a polite, friendly, and professional attitude
+2. Carefully understand the customer's question to ensure you fully understand their needs
+3. Provide clear, accurate, and detailed answers
+4. If you encounter uncertain situations, honestly inform the customer and suggest they contact human customer service for more accurate assistance
+5. Use simple and easy-to-understand language, avoiding overly technical or complex terminology
+6. Express empathy at appropriate times, understanding the customer's frustrations and inconveniences
+7. Provide specific solutions or next-step action suggestions
+
+Please remember that customer satisfaction is our most important goal, and each of your responses represents the company's image.
+"""
+
+# Optimized Prompt (85 tokens)
+optimized_prompt = """
+You are a professional customer service representative. Responsibilities: Answer product inquiries, orders, returns/exchanges, logistics, technical issues.
+
+Requirements:
+1. Polite and professional
+2. Accurately understand questions
+3. Clear and concise answers
+4. Suggest contacting human service if uncertain
+5. Express appropriate empathy
+6. Provide specific solutions
+"""
+
+# Test cases
+test_cases = [
+    "When will my order arrive? Order number 12345",
+    "Can I return this product?",
+    "What should I do if the product malfunctions?"
+]
+
+# Main program
+if __name__ == "__main__":
+    API_KEY = "your-api-key-here"
+
+    optimizer = TokenOptimizer(API_KEY)
+
+    # Run comparison
+    results = optimizer.compare_prompts(
+        original_prompt,
+        optimized_prompt,
+        test_cases
+    )
+
+    # Generate report
+    report = optimizer.generate_optimization_report(results)
+
+    # Save report
+    with open('token_optimization_report.md', 'w', encoding='utf-8') as f:
+        f.write(report)
+
+    print("\n" + "=" * 70)
+    print("✅ Optimization complete! Report saved to token_optimization_report.md")
+    print("=" * 70)</code></pre>
+                    </div>
+
+                    <!-- Optimization tips summary -->
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">💡 Optimization Tips</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>✅ Remove redundant descriptions</li>
+                                <li>✅ Merge repeated content</li>
+                                <li>✅ Use lists instead of paragraphs</li>
+                                <li>✅ Simplify sentence structure</li>
+                                <li>✅ Retain core instructions</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">📈 Effect Display</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>Tokens: 220 → 85 (61% reduction)</li>
+                                <li>Characters: 56% reduction</li>
+                                <li>Semantic similarity: >90%</li>
+                                <li>Cost saved per call: $0.000135</li>
+                                <li>Monthly savings (100k calls): $13.50</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Grading details -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">📊 Grading Details (30 pts)</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>✅ Original prompt exceeds 200 tokens</span>
+                                <span class="font-bold">5 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Optimized to less than 100 tokens</span>
+                                <span class="font-bold">5 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Semantics essentially unchanged (>80% similarity)</span>
+                                <span class="font-bold">10 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Complete test comparison</span>
+                                <span class="font-bold">7 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Detailed optimization analysis report</span>
+                                <span class="font-bold">3 pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assignment 3: Smart Model Selector -->
+            <section id="hw3" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">3</span>
+                    Assignment 3: Smart Model Selector (40 pts)
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">📋 Requirements</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Implement smart_model_selector function</li>
+                        <li>Automatically recommend model based on prompt, budget, latency, quality requirements</li>
+                        <li>Return model name, parameter configuration, and selection reasoning</li>
+                        <li>Provide complete test cases</li>
+                    </ul>
+                </div>
+
+                <!-- Reference answer -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">✅ Reference Answer</h3>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4 text-green-400">💻 Complete Implementation Code</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># smart_model_selector_homework.py
+"""
+Assignment 3: Smart Model Selector
+Implement an intelligent system that automatically selects the best model and parameters based on multiple factors
+"""
+
+import tiktoken
+from typing import Dict, List
+from enum import Enum
+import json
+
+class TaskType(Enum):
+    """Task type enumeration"""
+    CREATIVE = "creative"        # Creative writing
+    FACTUAL = "factual"          # Fact queries
+    CODE = "code"                # Code generation
+    ANALYSIS = "analytical"      # Analysis and reasoning
+    TRANSLATION = "translation"  # Translation
+    CONVERSATION = "conversation" # Conversation
+
+class ModelConfig:
+    """Model configuration class"""
+
+    # Model performance parameters (based on actual test data)
+    MODEL_SPECS = {
+        'gpt-3.5-turbo': {
+            'cost_per_1k': 0.001,
+            'avg_latency': 0.8,      # seconds
+            'quality_score': 7.0,     # 1-10 scale
+            'max_tokens': 4096,
+            'best_for': [TaskType.CONVERSATION, TaskType.FACTUAL]
+        },
+        'gpt-4o-mini': {
+            'cost_per_1k': 0.0006,
+            'avg_latency': 1.2,
+            'quality_score': 8.5,
+            'max_tokens': 16384,
+            'best_for': [TaskType.CODE, TaskType.ANALYSIS, TaskType.TRANSLATION]
+        },
+        'gpt-4o': {
+            'cost_per_1k': 0.01,
+            'avg_latency': 2.5,
+            'quality_score': 9.5,
+            'max_tokens': 128000,
+            'best_for': [TaskType.CREATIVE, TaskType.ANALYSIS]
+        }
+    }
+
+    # Temperature recommendations
+    TEMPERATURE_GUIDE = {
+        TaskType.CREATIVE: 0.9,
+        TaskType.FACTUAL: 0.1,
+        TaskType.CODE: 0.2,
+        TaskType.ANALYSIS: 0.3,
+        TaskType.TRANSLATION: 0.3,
+        TaskType.CONVERSATION: 0.7
+    }
+
+
+def detect_task_type(prompt: str) -> TaskType:
+    """Detect task type"""
+
+    prompt_lower = prompt.lower()
+
+    # Keyword matching
+    creative_keywords = ['write', 'create', 'poem', 'story', 'imagine', 'design']
+    factual_keywords = ['what is', 'define', 'explain', 'query', 'fact']
+    code_keywords = ['code', 'function', 'python', 'javascript', 'programming', 'bug']
+    analysis_keywords = ['analyze', 'reasoning', 'why', 'compare', 'evaluate']
+    translation_keywords = ['translate', 'english', 'chinese']
+
+    if any(keyword in prompt_lower for keyword in creative_keywords):
+        return TaskType.CREATIVE
+    elif any(keyword in prompt_lower for keyword in code_keywords):
+        return TaskType.CODE
+    elif any(keyword in prompt_lower for keyword in analysis_keywords):
+        return TaskType.ANALYSIS
+    elif any(keyword in prompt_lower for keyword in translation_keywords):
+        return TaskType.TRANSLATION
+    elif any(keyword in prompt_lower for keyword in factual_keywords):
+        return TaskType.FACTUAL
+    else:
+        return TaskType.CONVERSATION
+
+
+def estimate_tokens(prompt: str) -> int:
+    """Estimate prompt token count"""
+    encoder = tiktoken.get_encoding("cl100k_base")
+    return len(encoder.encode(prompt))
+
+
+def smart_model_selector(
+    prompt: str,
+    max_budget: float,
+    max_latency: float,
+    quality_requirement: int  # 1-10
+) -> dict:
+    """
+    Smart Model Selector
+
+    Parameters:
+        prompt: User input prompt
+        max_budget: Maximum budget (USD)
+        max_latency: Maximum latency (seconds)
+        quality_requirement: Quality requirement (1-10 scale)
+
+    Returns:
+        {
+            'model': 'gpt-3.5-turbo',
+            'temperature': 0.7,
+            'max_tokens': 150,
+            'reasoning': 'Selection reasoning',
+            'estimated_cost': 0.001,
+            'estimated_latency': 0.8,
+            'confidence': 0.9
+        }
+    """
+
+    # 1. Detect task type
+    task_type = detect_task_type(prompt)
+
+    # 2. Estimate token count
+    prompt_tokens = estimate_tokens(prompt)
+    estimated_response_tokens = 200  # Default estimate
+    total_tokens = prompt_tokens + estimated_response_tokens
+
+    # 3. Filter suitable models
+    suitable_models = []
+
+    for model_name, specs in ModelConfig.MODEL_SPECS.items():
+        # Calculate estimated cost
+        estimated_cost = (total_tokens / 1000) * specs['cost_per_1k']
+
+        # Check budget compliance
+        if estimated_cost > max_budget:
+            continue
+
+        # Check latency compliance
+        if specs['avg_latency'] > max_latency:
+            continue
+
+        # Check quality satisfaction
+        if specs['quality_score'] < quality_requirement:
+            continue
+
+        # Calculate match score
+        score = 0.0
+
+        # Task type match (40%)
+        if task_type in specs['best_for']:
+            score += 40
+
+        # Quality match (30%)
+        quality_match = 1 - abs(specs['quality_score'] - quality_requirement) / 10
+        score += quality_match * 30
+
+        # Cost efficiency (20%)
+        cost_efficiency = 1 - (estimated_cost / max_budget)
+        score += cost_efficiency * 20
+
+        # Speed efficiency (10%)
+        speed_efficiency = 1 - (specs['avg_latency'] / max_latency)
+        score += speed_efficiency * 10
+
+        suitable_models.append({
+            'model': model_name,
+            'score': score,
+            'estimated_cost': estimated_cost,
+            'estimated_latency': specs['avg_latency'],
+            'quality_score': specs['quality_score']
+        })
+
+    # 4. If no suitable models
+    if not suitable_models:
+        # Lower requirements, choose cheapest
+        cheapest = min(
+            ModelConfig.MODEL_SPECS.items(),
+            key=lambda x: x[1]['cost_per_1k']
+        )
+
+        return {
+            'model': cheapest[0],
+            'temperature': ModelConfig.TEMPERATURE_GUIDE.get(task_type, 0.7),
+            'max_tokens': 100,  # Reduce tokens to lower cost
+            'reasoning': f'⚠️ No fully compliant models. Selected the most economical {cheapest[0]}, '
+                        f'but may exceed budget or quality requirements. Consider relaxing constraints.',
+            'estimated_cost': (total_tokens / 1000) * cheapest[1]['cost_per_1k'],
+            'estimated_latency': cheapest[1]['avg_latency'],
+            'confidence': 0.3
+        }
+
+    # 5. Select highest scoring model
+    best_match = max(suitable_models, key=lambda x: x['score'])
+
+    # 6. Determine temperature
+    temperature = ModelConfig.TEMPERATURE_GUIDE.get(task_type, 0.7)
+
+    # 7. Determine max_tokens
+    # Dynamically adjust based on budget
+    remaining_budget = max_budget - best_match['estimated_cost']
+    max_tokens = min(
+        500,  # Maximum value
+        int((remaining_budget / ModelConfig.MODEL_SPECS[best_match['model']]['cost_per_1k']) * 1000)
+    )
+    max_tokens = max(50, max_tokens)  # Minimum value
+
+    # 8. Generate selection reasoning
+    reasoning_parts = []
+
+    reasoning_parts.append(f"✅ Task type: {task_type.value}")
+    reasoning_parts.append(f"✅ Selected {best_match['model']}")
+
+    if task_type in ModelConfig.MODEL_SPECS[best_match['model']]['best_for']:
+        reasoning_parts.append(f"  - Best suited for {task_type.value} tasks")
+
+    reasoning_parts.append(f"  - Quality score: {best_match['quality_score']}/10 (requirement: {quality_requirement}/10)")
+    reasoning_parts.append(f"  - Estimated cost: ${best_match['estimated_cost']:.6f} (budget: ${max_budget})")
+    reasoning_parts.append(f"  - Estimated latency: {best_match['estimated_latency']}s (requirement: <{max_latency}s)")
+    reasoning_parts.append(f"  - Temperature setting: {temperature} (suitable for {task_type.value})")
+
+    reasoning = '\n'.join(reasoning_parts)
+
+    # 9. Calculate confidence
+    confidence = best_match['score'] / 100
+
+    return {
+        'model': best_match['model'],
+        'temperature': temperature,
+        'max_tokens': max_tokens,
+        'reasoning': reasoning,
+        'estimated_cost': best_match['estimated_cost'],
+        'estimated_latency': best_match['estimated_latency'],
+        'confidence': confidence,
+        'task_type': task_type.value
+    }
+
+
+# ============= Test Cases =============
+
+def run_tests():
+    """Run complete test suite"""
+
+    test_cases = [
+        {
+            'name': 'Test 1: Creative Writing (High Quality)',
+            'prompt': 'Write a modern poem about artificial intelligence',
+            'max_budget': 0.01,
+            'max_latency': 3.0,
+            'quality_requirement': 9
+        },
+        {
+            'name': 'Test 2: Fact Query (Low Budget)',
+            'prompt': 'What is the capital of China?',
+            'max_budget': 0.0005,
+            'max_latency': 2.0,
+            'quality_requirement': 6
+        },
+        {
+            'name': 'Test 3: Code Generation (Balanced)',
+            'prompt': 'Write a Python function to implement quicksort algorithm',
+            'max_budget': 0.003,
+            'max_latency': 2.0,
+            'quality_requirement': 8
+        },
+        {
+            'name': 'Test 4: Analysis Task (High Quality High Budget)',
+            'prompt': 'Analyze the main factors of Bitcoin price volatility',
+            'max_budget': 0.02,
+            'max_latency': 5.0,
+            'quality_requirement': 9
+        },
+        {
+            'name': 'Test 5: Translation Task (Strict Latency)',
+            'prompt': 'Translate to English: Artificial intelligence is changing the world',
+            'max_budget': 0.002,
+            'max_latency': 1.0,
+            'quality_requirement': 7
+        },
+        {
+            'name': 'Test 6: Extreme Conditions (Nearly Impossible)',
+            'prompt': 'Write a 5000-word in-depth technical article',
+            'max_budget': 0.0001,
+            'max_latency': 0.5,
+            'quality_requirement': 10
+        }
+    ]
+
+    print("🧪 Smart Model Selector Test Suite")
+    print("=" * 80)
+
+    results = []
+
+    for test in test_cases:
+        print(f"\n{test['name']}")
+        print("-" * 80)
+        print(f"Prompt: {test['prompt']}")
+        print(f"Budget: ${test['max_budget']} | Latency: <{test['max_latency']}s | Quality: {test['quality_requirement']}/10")
+        print()
+
+        result = smart_model_selector(
+            test['prompt'],
+            test['max_budget'],
+            test['max_latency'],
+            test['quality_requirement']
+        )
+
+        print(f"🤖 Recommended model: {result['model']}")
+        print(f"🌡️  Temperature: {result['temperature']}")
+        print(f"📏 Max Tokens: {result['max_tokens']}")
+        print(f"💰 Estimated cost: ${result['estimated_cost']:.6f}")
+        print(f"⏱️  Estimated latency: {result['estimated_latency']}s")
+        print(f"🎯 Confidence: {result['confidence']:.0%}")
+        print(f"\n{result['reasoning']}")
+
+        results.append({
+            'test_name': test['name'],
+            'result': result
+        })
+
+    # Generate test report
+    print("\n" + "=" * 80)
+    print("📊 Test Summary")
+    print("=" * 80)
+
+    model_counts = {}
+    for r in results:
+        model = r['result']['model']
+        model_counts[model] = model_counts.get(model, 0) + 1
+
+    print("\nModel selection distribution:")
+    for model, count in model_counts.items():
+        print(f"  {model}: {count} times ({count/len(results)*100:.1f}%)")
+
+    avg_confidence = sum(r['result']['confidence'] for r in results) / len(results)
+    print(f"\nAverage confidence: {avg_confidence:.0%}")
+
+    # Save results
+    with open('selector_test_results.json', 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2, ensure_ascii=False)
+
+    print("\n✅ Testing complete! Results saved to selector_test_results.json")
+
+
+if __name__ == "__main__":
+    run_tests()</code></pre>
+                    </div>
+
+                    <!-- Core algorithm explanation -->
+                    <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">🧠 Core Algorithm</h4>
+                        <div class="text-sm space-y-2">
+                            <p><strong>1. Task Type Detection</strong></p>
+                            <p class="text-xs text-gray-600">Keyword matching to identify task types (creative, factual, code, etc.)</p>
+
+                            <p><strong>2. Multi-dimensional Scoring System</strong></p>
+                            <ul class="text-xs text-gray-600 list-disc list-inside">
+                                <li>Task match: 40%</li>
+                                <li>Quality match: 30%</li>
+                                <li>Cost efficiency: 20%</li>
+                                <li>Speed efficiency: 10%</li>
+                            </ul>
+
+                            <p><strong>3. Dynamic Parameter Adjustment</strong></p>
+                            <p class="text-xs text-gray-600">Dynamically adjust max_tokens based on remaining budget</p>
+                        </div>
+                    </div>
+
+                    <!-- Grading details -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">📊 Grading Details (40 pts)</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>✅ Correctly implemented function signature and return format</span>
+                                <span class="font-bold">10 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Considered all constraints (budget, latency, quality)</span>
+                                <span class="font-bold">12 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Intelligent task type identification</span>
+                                <span class="font-bold">8 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Reasonable scoring algorithm and selection logic</span>
+                                <span class="font-bold">7 pts</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✅ Complete test cases and result analysis</span>
+                                <span class="font-bold">3 pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bonus Projects -->
+            <section id="bonus" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-purple-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">⭐</span>
+                    Bonus: Creative Project Examples (Up to 20 pts)
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Token calculator -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">💻 Token Calculator Webpage</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>Create an interactive web tool where users can:</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Input text and calculate tokens in real-time</li>
+                                <li>Compare costs across different models</li>
+                                <li>Visualize token breakdown</li>
+                                <li>Provide optimization suggestions</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-blue">HTML</span>
+                            <span class="tag tag-green">JavaScript</span>
+                            <span class="tag tag-purple">Tiktoken</span>
+                        </div>
+                    </div>
+
+                    <!-- Cost analysis dashboard -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">📊 Cost Analysis Dashboard</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>Build an interactive dashboard using Streamlit:</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Real-time API usage monitoring</li>
+                                <li>Cost trend analysis</li>
+                                <li>Model performance comparison</li>
+                                <li>Budget alert system</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-green">Streamlit</span>
+                            <span class="tag tag-red">Plotly</span>
+                            <span class="tag tag-blue">Pandas</span>
+                        </div>
+                    </div>
+
+                    <!-- Prompt template library -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">📚 Prompt Template Library</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>Develop a Prompt management system:</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Categorized storage of optimized Prompts</li>
+                                <li>Version control and A/B testing</li>
+                                <li>Effect scoring and ranking</li>
+                                <li>One-click copy and sharing</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-purple">Python</span>
+                            <span class="tag tag-blue">SQLite</span>
+                            <span class="tag tag-green">FastAPI</span>
+                        </div>
+                    </div>
+
+                    <!-- Technical blog -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-bold mb-3">📝 Technical Blog Article</h3>
+                        <div class="bg-gray-100 p-3 rounded text-xs mb-3">
+                            <p>Write high-quality technical articles:</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>In-depth explanation of Token optimization techniques</li>
+                                <li>Real case studies</li>
+                                <li>Diagrams and code examples</li>
+                                <li>Publish to tech communities</li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="tag tag-yellow">Medium</span>
+                            <span class="tag tag-blue">Dev.to</span>
+                            <span class="tag tag-green">Hashnode</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <p class="font-bold mb-2">💡 Bonus Evaluation Criteria</p>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>Practicality (10 pts)</strong>: Is the project truly useful</li>
+                        <li>• <strong>Innovation (5 pts)</strong>: Does it have unique ideas</li>
+                        <li>• <strong>Completeness (3 pts)</strong>: Are functions complete and usable</li>
+                        <li>• <strong>Presentation (2 pts)</strong>: Is there clear documentation/demo</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Bottom navigation -->
+            <div class="flex justify-between items-center py-8 border-t">
+                <a href="slides_english.html" class="text-blue-500 hover:underline">
+                    ← Back to Course Content
+                </a>
+                <div class="text-right">
+                    <span class="text-gray-500">Next Lesson</span>
+                    <p class="font-semibold">Lesson 2: Prompt Engineering Practice</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Highlight current section
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.toc-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+
+                    const id = entry.target.getAttribute('id');
+                    const tocItem = document.querySelector(`a[href="#${id}"]`);
+                    if (tocItem) {
+                        tocItem.classList.add('active');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

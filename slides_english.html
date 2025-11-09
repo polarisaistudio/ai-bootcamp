@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Engineer Bootcamp - Complete Course Guide</title>
+
+    <!-- Import style libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <style>
+        /* Custom styles */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .toc-item {
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+
+        .code-block {
+            background: #2d3748;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .lesson-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        @media print {
+            .sidebar, .no-print {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 280px;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4299e1 0%, #667eea 100%);
+            transform-origin: left;
+            z-index: 50;
+        }
+
+        /* Tag styles */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Progress bar -->
+    <div class="progress-bar no-print" id="progressBar"></div>
+
+    <!-- Mobile menu button -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded no-print" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- Sidebar navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">🚀 AI Bootcamp</h2>
+
+            <!-- Search box -->
+            <input type="text" placeholder="Search..." class="w-full p-2 mb-4 bg-gray-700 text-white rounded" id="searchInput">
+
+            <!-- Course progress -->
+            <div class="mb-6">
+                <div class="text-gray-400 text-sm mb-2">Course Progress</div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full" style="width: 30%"></div>
+                </div>
+                <div class="text-gray-400 text-xs mt-1">3/10 Lessons Completed</div>
+            </div>
+
+            <!-- Table of contents -->
+            <div class="space-y-2">
+                <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Course Content</div>
+
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 Course Overview
+                </a>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 1: Opening & Engagement</div>
+                    <a href="#part1-opening" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎬 Opening & Engagement
+                    </a>
+                    <a href="#part1-pain" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        😫 Pain Point Scenarios
+                    </a>
+                    <a href="#part1-goals" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 Learning Objectives
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 2: Core Concepts</div>
+                    <a href="#part2-models" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🤖 Model Ecosystem Overview
+                    </a>
+                    <a href="#part2-tokens" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔤 Deep Dive into Tokens
+                    </a>
+                    <a href="#part2-params" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎛️ Parameter Tuning
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 3: Hands-On Practice</div>
+                    <a href="#part3-setup" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💻 Environment Setup
+                    </a>
+                    <a href="#part3-api" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔌 API Calls
+                    </a>
+                    <a href="#part3-compare" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📊 Model Comparison
+                    </a>
+                    <a href="#part3-scenarios" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 Scenario Applications
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 4: Project Practice</div>
+                    <a href="#part4-project" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🚀 Comprehensive Project
+                    </a>
+                    <a href="#part4-summary" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📚 Knowledge Summary
+                    </a>
+                    <a href="#part4-homework" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📝 Homework Assignment
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Resources</div>
+                    <a href="#resources" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📦 Learning Materials
+                    </a>
+                    <a href="#code" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💻 Code Repository
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer info -->
+        <div class="p-6 border-t border-gray-700">
+            <div class="text-gray-400 text-sm">
+                <div>📧 support@ai-bootcamp.com</div>
+                <div>💬 Discord: AI Bootcamp</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content area -->
+    <main class="main-content">
+        <!-- Top navigation -->
+        <header class="bg-white shadow-sm border-b no-print">
+            <div class="px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Lesson 1: Understanding the LLM Ecosystem</h1>
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleTheme()" class="p-2 rounded hover:bg-gray-100">
+                        🌙
+                    </button>
+                    <button onclick="window.print()" class="p-2 rounded hover:bg-gray-100">
+                        🖨️
+                    </button>
+                    <button onclick="shareContent()" class="p-2 rounded hover:bg-gray-100">
+                        📤
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content area -->
+        <div class="px-6 py-8">
+
+            <!-- Course overview -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 Course Overview</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⏱️</div>
+                            <div class="text-lg font-semibold">3 Hours</div>
+                            <div class="text-sm opacity-90">Complete Course Duration</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🎯</div>
+                            <div class="text-lg font-semibold">15 Labs</div>
+                            <div class="text-sm opacity-90">Hands-on Practice</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">📦</div>
+                            <div class="text-lg font-semibold">10 Projects</div>
+                            <div class="text-sm opacity-90">Code Templates</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning objectives -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🎯 Learning Objectives</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Master the features and differences of mainstream LLM models</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Understand Token mechanisms and cost calculation</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Learn to select the best model based on scenarios</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Be able to optimize prompts to reduce costs</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Opening & Engagement -->
+            <section id="part1-opening" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">1</span>
+                    Opening & Engagement
+                </h2>
+
+                <!-- Timeline -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <div class="flex items-center mb-4">
+                        <span class="tag tag-blue">0:00-15:00</span>
+                        <span class="tag tag-green">Theory</span>
+                        <span class="tag tag-purple">Demo</span>
+                    </div>
+
+                    <!-- Opening script card -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">📝 Script</h4>
+                        <div class="text-gray-700 italic">
+                            "Hello everyone, welcome to the first lesson of the AI Engineer Bootcamp!<br>
+                            I'm [your name], and over the next 4 weeks, I'll guide you from zero to becoming
+                            an engineer capable of independently developing AI applications.<br><br>
+                            Before we begin, I want to ask you a question:
+                            Have you ever encountered this kind of frustration?"
+                        </div>
+                    </div>
+
+                    <!-- Screen demonstration -->
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <h4 class="font-bold mb-2 text-green-400">🖥️ Screen Demo</h4>
+                        <pre class="code-block"><code class="language-python"># Screen display: Personal Introduction Slide
+- Photo + Bio
+- Project experience showcase
+- Contact information
+
+# Switch to: Problem Slide
+- Display images of 3 pain point scenarios</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Pain Point Scenarios -->
+            <section id="part1-pain" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">😫 Pain Point Scenario Demo</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <!-- Scenario story -->
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                        <p class="font-semibold">Real Case:</p>
+                        <p>"Last month, a friend of mine started a company. He excitedly told me: 'We're using GPT-4 for our customer service system!'</p>
+                        <p>One month later, he received the OpenAI bill: <span class="text-red-600 font-bold">$3,847.52</span></p>
+                    </div>
+
+                    <!-- Cost calculation demo -->
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <h4 class="font-bold mb-2 text-green-400">💰 Cost Calculation Demo</h4>
+                        <pre class="code-block"><code class="language-python"># Live demo: Open OpenAI Usage page
+1. Log into OpenAI account
+2. Navigate to Usage page
+3. Show bill: $3,847.52
+
+# Switch to calculator
+"Let's calculate:
+- 1000 users per day
+- 10 conversation rounds per user
+- About 500 tokens per round
+- GPT-4 pricing: $0.03/1K tokens
+
+Daily cost = 1000 * 10 * 0.5 * 0.03 = $150
+Monthly cost = $150 * 30 = $4,500 😱"</code></pre>
+                    </div>
+
+                    <!-- Interactive poll -->
+                    <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                        <h4 class="font-bold mb-2">💡 Interactive Element</h4>
+                        <p class="mb-2">Guess, if we switched to GPT-3.5, what would the cost be?</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button class="p-2 bg-white border rounded hover:bg-gray-100">A. $2,000</button>
+                            <button class="p-2 bg-white border rounded hover:bg-gray-100">B. $500</button>
+                            <button class="p-2 bg-white border rounded hover:bg-gray-100">C. $150</button>
+                            <button class="p-2 bg-green-500 text-white rounded">D. $45 ✓</button>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600">The correct answer is D: $45! A 100x difference!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Model Ecosystem Overview -->
+            <section id="part2-models" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">2</span>
+                    Core Concepts
+                </h2>
+
+                <h3 class="text-xl font-bold mb-4">🤖 Model Ecosystem Overview</h3>
+
+                <!-- Model comparison table -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4">Mainstream Model Comparison</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2 text-left">Model</th>
+                                    <th class="px-4 py-2 text-left">Speed</th>
+                                    <th class="px-4 py-2 text-left">Quality</th>
+                                    <th class="px-4 py-2 text-left">Cost</th>
+                                    <th class="px-4 py-2 text-left">Best Scenario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-4o</td>
+                                    <td class="px-4 py-2">⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
+                                    <td class="px-4 py-2">Complex Reasoning</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-4o-mini</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-yellow-600">$$</td>
+                                    <td class="px-4 py-2">Balanced Choice</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-3.5</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-green-600">$</td>
+                                    <td class="px-4 py-2">Simple Conversation</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Claude-Opus</td>
+                                    <td class="px-4 py-2">⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
+                                    <td class="px-4 py-2">Long Text</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Code example -->
+                <div class="bg-gray-900 text-white p-6 rounded-lg shadow">
+                    <h4 class="font-bold mb-4 text-green-400">💻 Live Comparison Test Code</h4>
+                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py
+import openai
+import time
+import anthropic
+from datetime import datetime
+
+# Configure clients
+openai_client = openai.OpenAI(api_key="sk-...")
+claude_client = anthropic.Anthropic(api_key="sk-ant-...")
+
+# Test prompt
+test_prompt = "Explain what recursion is, using a simple analogy"
+
+print("🔬 Starting model comparison experiment")
+print("=" * 50)
+
+# Test GPT-3.5
+print("\n1️⃣ Testing GPT-3.5-turbo...")
+start = time.time()
+
+response_gpt35 = openai_client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": test_prompt}],
+    temperature=0.7
+)
+
+time_gpt35 = time.time() - start
+print(f"⏱️ Response time: {time_gpt35:.2f}s")
+print(f"💰 Cost: ${0.001:.4f}")
+print(f"📝 Answer: {response_gpt35.choices[0].message.content[:100]}...")</code></pre>
+                </div>
+            </section>
+
+            <!-- Part 2: Deep Dive into Tokens -->
+            <section id="part2-tokens" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🔤 Deep Dive into Tokens</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <!-- Token concept explanation -->
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">What are Tokens?</h4>
+                        <p class="mb-2">Think of Tokens like LEGO blocks:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>English is standard blocks, one word per block</li>
+                            <li>Chinese is special blocks, one character may need 2-3 blocks</li>
+                            <li>This directly affects your cost!</li>
+                        </ul>
+                    </div>
+
+                    <!-- Token visualization tool -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4">🔍 Token Real-time Analyzer</h4>
+                        <div class="space-y-4">
+                            <textarea class="w-full p-3 border rounded-lg" rows="3" id="tokenInput">
+Hello World! This is a 2024 AI course.</textarea>
+                            <button onclick="analyzeTokens()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                Analyze Tokens
+                            </button>
+                            <div id="tokenOutput" class="p-4 bg-white border rounded-lg">
+                                <div class="space-y-2">
+                                    <div>Token breakdown:
+                                        <span class="inline-block px-2 py-1 m-1 bg-blue-100 rounded">Hello</span>
+                                        <span class="inline-block px-2 py-1 m-1 bg-blue-100 rounded">World</span>
+                                        <span class="inline-block px-2 py-1 m-1 bg-gray-100 rounded">!</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-4 mt-4">
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold">9</div>
+                                            <div class="text-sm text-gray-600">Total Tokens</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold text-green-600">$0.000009</div>
+                                            <div class="text-sm text-gray-600">Estimated Cost</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold">1.0</div>
+                                            <div class="text-sm text-gray-600">Compression Ratio</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Token economics code -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h4 class="font-bold mb-4 text-green-400">💰 Token Economics Demo Code</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># token_economics.py
+import tiktoken
+import matplotlib.pyplot as plt
+
+class TokenEconomicsDemo:
+    def __init__(self):
+        self.encoder = tiktoken.get_encoding("cl100k_base")
+
+    def compare_languages(self):
+        """Compare Token efficiency across different languages"""
+
+        test_cases = {
+            'English': "Artificial Intelligence is transforming the world",
+            'Chinese': "人工智能正在改变世界",
+            'Japanese': "人工知能は世界を変えています",
+            'Code': "def hello(): return 'world'",
+            'Mixed': "AI(人工智能) is 改变ing the world"
+        }
+
+        print("🌍 Multi-language Token Efficiency Comparison")
+        print("-" * 50)
+
+        results = []
+        for lang, text in test_cases.items():
+            tokens = self.encoder.encode(text)
+            char_count = len(text)
+            token_count = len(tokens)
+            efficiency = char_count / token_count
+
+            print(f"\n{lang}:")
+            print(f"  Text: {text}")
+            print(f"  Characters: {char_count}")
+            print(f"  Tokens: {token_count}")
+            print(f"  Efficiency ratio: {efficiency:.2f}")
+
+            results.append({
+                'Language': lang,
+                'Tokens': token_count,
+                'Efficiency': efficiency
+            })
+
+        return results
+
+# Cost calculation practice
+def calculate_cost(text, model='gpt-3.5-turbo', calls_per_day=1000):
+    """Real-time API cost calculation"""
+
+    encoder = tiktoken.get_encoding("cl100k_base")
+    tokens = len(encoder.encode(text))
+
+    # Pricing table (2024 latest)
+    pricing = {
+        'gpt-3.5-turbo': 0.001,
+        'gpt-4o-mini': 0.0006,
+        'gpt-4o': 0.01,
+        'claude-sonnet': 0.003
+    }
+
+    cost_per_call = (tokens / 1000) * pricing[model]
+    daily_cost = cost_per_call * calls_per_day
+    monthly_cost = daily_cost * 30
+
+    print(f"📝 Token count: {tokens}")
+    print(f"💵 Cost per call: ${cost_per_call:.6f}")
+    print(f"📅 Daily cost ({calls_per_day} calls): ${daily_cost:.2f}")
+    print(f"📆 Monthly cost: ${monthly_cost:.2f}")
+    print(f"🎯 Yearly cost: ${monthly_cost*12:.2f}")
+
+    return monthly_cost</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Temperature Parameter Experiment -->
+            <section id="part2-params" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🎛️ Temperature Parameter Experiment</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">Temperature Parameter Explanation</h4>
+                        <p class="mb-2">Temperature controls output randomness:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>Temperature = 0</strong>: Serious accountant, always accurate</li>
+                            <li><strong>Temperature = 1</strong>: Creative director, imaginative</li>
+                            <li><strong>Temperature = 2</strong>: Drunk poet, completely random</li>
+                        </ul>
+                    </div>
+
+                    <!-- Temperature comparison chart -->
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="border rounded-lg p-4 bg-blue-50">
+                            <h5 class="font-bold mb-2">Temperature: 0.0-0.3</h5>
+                            <p class="text-sm">✅ Suitable for:</p>
+                            <ul class="text-xs list-disc list-inside">
+                                <li>Math calculations</li>
+                                <li>Fact queries</li>
+                                <li>Code generation</li>
+                            </ul>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-yellow-50">
+                            <h5 class="font-bold mb-2">Temperature: 0.5-0.8</h5>
+                            <p class="text-sm">✅ Suitable for:</p>
+                            <ul class="text-xs list-disc list-inside">
+                                <li>Customer service</li>
+                                <li>Article writing</li>
+                                <li>General conversation</li>
+                            </ul>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-red-50">
+                            <h5 class="font-bold mb-2">Temperature: 0.9-2.0</h5>
+                            <p class="text-sm">✅ Suitable for:</p>
+                            <ul class="text-xs list-disc list-inside">
+                                <li>Creative writing</li>
+                                <li>Brainstorming</li>
+                                <li>Artistic creation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Experiment code -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h4 class="font-bold mb-4 text-green-400">🔬 Temperature Experiment Code</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># parameter_lab.py
+import openai
+import time
+from typing import List
+
+class ParameterLab:
+    """Parameter Laboratory"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.results = []
+
+    def experiment_temperature(self,
+                              prompt: str,
+                              temperatures: List[float] = [0, 0.5, 1.0, 1.5],
+                              n_samples: int = 3):
+        """Temperature experiment"""
+
+        print(f"🧪 Temperature Experiment")
+        print(f"Prompt: {prompt}")
+        print("=" * 60)
+
+        for temp in temperatures:
+            print(f"\n🌡️ Temperature = {temp}")
+            print("-" * 40)
+
+            samples = []
+            for i in range(n_samples):
+                response = self.client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=temp,
+                    max_tokens=30
+                )
+
+                text = response.choices[0].message.content
+                samples.append(text)
+                print(f"  Sample {i+1}: {text}")
+
+            # Calculate diversity
+            diversity = self._calculate_diversity(samples)
+            print(f"  📊 Diversity score: {diversity:.2f}")
+
+    def _calculate_diversity(self, texts: List[str]) -> float:
+        """Calculate text diversity"""
+        if len(texts) < 2:
+            return 0.0
+
+        all_words = []
+        for text in texts:
+            all_words.extend(text.split())
+
+        unique_words = set(all_words)
+        diversity = len(unique_words) / len(all_words) if all_words else 0
+
+        return diversity
+
+# Usage example
+if __name__ == "__main__":
+    lab = ParameterLab()
+
+    # Test creative writing
+    lab.experiment_temperature("Describe a sunset in one sentence")
+
+    # Test fact query
+    lab.experiment_temperature("The capital of China is", temperatures=[0, 0.5, 1.0])</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Hands-On Practice -->
+            <section id="part3-setup" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">3</span>
+                    Hands-On Practice
+                </h2>
+
+                <h3 class="text-xl font-bold mb-4">💻 Environment Setup</h3>
+
+                <!-- Environment setup steps -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <!-- Step 1 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">1</span>
+                            Python Environment Installation
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Windows users
+1. Visit https://python.org
+2. Download Python 3.11.x
+3. Run installer (check "Add Python to PATH")
+4. Verify installation:
+   python --version
+
+# Mac users
+brew install python@3.11
+
+# Create project folder
+mkdir ai-bootcamp
+cd ai-bootcamp
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">2</span>
+                            Install Required Packages
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Create requirements.txt
+cat > requirements.txt << EOF
+openai==1.12.0
+anthropic==0.18.0
+tiktoken==0.6.0
+streamlit==1.31.0
+pandas==2.2.0
+plotly==5.18.0
+python-dotenv==1.0.1
+jupyter==1.0.0
+ipywidgets==8.1.1
+EOF
+
+# Install all dependencies
+pip install -r requirements.txt
+
+# Verify installation
+python -c "import openai; print(f'OpenAI version: {openai.__version__}')"</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                            Configure API Keys
+                        </h4>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
+                            <p class="font-semibold">⚠️ Important: Never put API keys directly in your code!</p>
+                        </div>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># Create .env file
+cat > .env << EOF
+OPENAI_API_KEY=sk-...your key...
+ANTHROPIC_API_KEY=sk-ant-...your key...
+EOF
+
+# config.py
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+class Config:
+    """Centralized configuration management"""
+
+    # API Keys
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+
+    @classmethod
+    def validate(cls):
+        if not cls.OPENAI_API_KEY:
+            raise ValueError("❌ Please set OPENAI_API_KEY")
+        print("✅ OpenAI key configured")
+
+# Test configuration
+if __name__ == "__main__":
+    Config.validate()
+    print("🎉 Configuration successful!")</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: First API Call -->
+            <section id="part3-api" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🔌 First API Call</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+                        <p class="font-semibold">🎉 Let's write our first program!</p>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre class="overflow-x-auto"><code class="language-python"># first_api_call.py
+import openai
+from config import Config
+import json
+
+def my_first_chat():
+    """My first AI conversation"""
+
+    # 1. Set up client
+    client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
+
+    # 2. Prepare messages
+    messages = [
+        {"role": "system", "content": "You are a friendly AI assistant"},
+        {"role": "user", "content": "Hello! Please introduce yourself in one sentence."}
+    ]
+
+    print("🤖 Calling OpenAI API...")
+    print("-" * 50)
+
+    # 3. Call API
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            temperature=0.7,
+            max_tokens=50
+        )
+
+        # 4. Extract reply
+        ai_message = response.choices[0].message.content
+
+        # 5. Display results
+        print(f"AI Reply: {ai_message}")
+        print("-" * 50)
+
+        # 6. Show usage statistics
+        print(f"📊 Usage Statistics:")
+        print(f"  - Model: {response.model}")
+        print(f"  - Input Tokens: {response.usage.prompt_tokens}")
+        print(f"  - Output Tokens: {response.usage.completion_tokens}")
+        print(f"  - Total Tokens: {response.usage.total_tokens}")
+
+        # 7. Calculate cost
+        cost = (response.usage.total_tokens / 1000) * 0.001
+        print(f"  - Cost: ${cost:.6f}")
+
+    except Exception as e:
+        print(f"❌ Error: {e}")
+
+if __name__ == "__main__":
+    my_first_chat()</code></pre>
+                    </div>
+
+                    <!-- Expected output -->
+                    <div class="mt-4 bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">Expected Output:</h4>
+                        <pre class="text-sm">🤖 Calling OpenAI API...
+--------------------------------------------------
+AI Reply: I'm a friendly AI assistant, ready to help you answer questions and complete tasks!
+--------------------------------------------------
+📊 Usage Statistics:
+  - Model: gpt-3.5-turbo-0125
+  - Input Tokens: 23
+  - Output Tokens: 16
+  - Total Tokens: 39
+  - Cost: $0.000039</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Model Comparison Practice -->
+            <section id="part3-compare" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📊 Multi-Model Comparison Practice</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">🎯 Experiment Goal</h4>
+                        <p class="text-sm">Compare different models' performance on real tasks to help you make the best choice in actual projects.</p>
+                    </div>
+
+                    <!-- Test suite description -->
+                    <div class="grid md:grid-cols-4 gap-4 mb-6">
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-blue-50 to-blue-100">
+                            <div class="text-2xl mb-2">✍️</div>
+                            <h5 class="font-bold text-sm">Creative Writing</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.9</p>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-green-50 to-green-100">
+                            <div class="text-2xl mb-2">🧮</div>
+                            <h5 class="font-bold text-sm">Analysis & Reasoning</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.3</p>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-purple-50 to-purple-100">
+                            <div class="text-2xl mb-2">💻</div>
+                            <h5 class="font-bold text-sm">Code Generation</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.2</p>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-gradient-to-br from-yellow-50 to-yellow-100">
+                            <div class="text-2xl mb-2">🌐</div>
+                            <h5 class="font-bold text-sm">Translation Task</h5>
+                            <p class="text-xs text-gray-600">Temperature: 0.3</p>
+                        </div>
+                    </div>
+
+                    <!-- Complete test code -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h4 class="font-bold mb-4 text-green-400">🏁 Complete Benchmark Test Code</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># model_benchmark.py
+import openai
+import time
+import pandas as pd
+from datetime import datetime
+
+class ModelBenchmark:
+    """Model Benchmarking System"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.test_suites = {
+            'creative': {
+                'name': 'Creative Writing',
+                'prompts': [
+                    "Write a six-word micro story",
+                    "Create 3 creative names for a coffee shop",
+                    "Tell a story using emojis"
+                ],
+                'best_temp': 0.9
+            },
+            'analytical': {
+                'name': 'Analysis & Reasoning',
+                'prompts': [
+                    "Analyze the pattern in this sequence: 2, 4, 8, 16, ?",
+                    "If all roses are flowers, what do roses need?",
+                ],
+                'best_temp': 0.3
+            },
+            'coding': {
+                'name': 'Code Generation',
+                'prompts': [
+                    "Write a Python function to check for prime numbers",
+                    "Reverse a string in one line of code",
+                ],
+                'best_temp': 0.2
+            }
+        }
+        self.results = []
+
+    def benchmark_models(self, models=['gpt-3.5-turbo', 'gpt-4o-mini']):
+        """Benchmark multiple models"""
+
+        print("🏁 Starting Model Benchmark Test")
+        print("=" * 70)
+
+        for suite_name, suite in self.test_suites.items():
+            print(f"\n📋 Test Suite: {suite['name']}")
+            print("-" * 70)
+
+            for model in models:
+                print(f"\n  🤖 Testing Model: {model}")
+
+                total_time = 0
+                total_tokens = 0
+                total_cost = 0
+
+                for prompt in suite['prompts']:
+                    start_time = time.time()
+
+                    try:
+                        response = self.client.chat.completions.create(
+                            model=model,
+                            messages=[{"role": "user", "content": prompt}],
+                            temperature=suite['best_temp'],
+                            max_tokens=100
+                        )
+
+                        elapsed = time.time() - start_time
+                        tokens = response.usage.total_tokens
+                        cost = self._calculate_cost(model, tokens)
+
+                        total_time += elapsed
+                        total_tokens += tokens
+                        total_cost += cost
+
+                        print(f"    ✓ {prompt[:30]}...")
+                        print(f"      Time: {elapsed:.2f}s | Tokens: {tokens}")
+
+                    except Exception as e:
+                        print(f"    ✗ Error: {str(e)}")
+
+                # Summary statistics
+                avg_time = total_time / len(suite['prompts'])
+                avg_tokens = total_tokens / len(suite['prompts'])
+
+                print(f"\n    📊 Statistics:")
+                print(f"      Avg response: {avg_time:.2f}s")
+                print(f"      Avg tokens: {avg_tokens:.0f}")
+                print(f"      Total cost: ${total_cost:.4f}")
+
+                self.results.append({
+                    'suite': suite['name'],
+                    'model': model,
+                    'avg_time': avg_time,
+                    'avg_tokens': avg_tokens,
+                    'total_cost': total_cost
+                })
+
+    def _calculate_cost(self, model, tokens):
+        """Calculate cost"""
+        pricing = {
+            'gpt-3.5-turbo': 0.001,
+            'gpt-4o-mini': 0.0006,
+            'gpt-4o': 0.01
+        }
+        price_per_1k = pricing.get(model, 0.001)
+        return (tokens / 1000) * price_per_1k
+
+    def generate_report(self):
+        """Generate comparison report"""
+        df = pd.DataFrame(self.results)
+
+        print("\n" + "=" * 70)
+        print("📊 Model Comparison Report")
+        print("=" * 70)
+
+        for suite in df['suite'].unique():
+            suite_df = df[df['suite'] == suite]
+            print(f"\n### {suite}")
+            print("-" * 40)
+
+            for _, row in suite_df.iterrows():
+                print(f"  {row['model']:20} | "
+                      f"⏱️ {row['avg_time']:.2f}s | "
+                      f"🔤 {row['avg_tokens']:.0f} tokens | "
+                      f"💰 ${row['total_cost']:.4f}")
+
+        return df
+
+# Run benchmark
+if __name__ == "__main__":
+    benchmark = ModelBenchmark()
+    benchmark.benchmark_models(['gpt-3.5-turbo', 'gpt-4o-mini'])
+    report = benchmark.generate_report()
+
+    # Save results
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    report.to_csv(f'benchmark_{timestamp}.csv', index=False)</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Scenario Applications - Smart Customer Service -->
+            <section id="part3-scenarios" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🎯 Real-World Scenario Applications</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <span class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">1</span>
+                        Scenario 1: Smart Customer Service System
+                    </h4>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                        <p class="font-semibold">💡 Core Idea:</p>
+                        <p class="text-sm">Automatically select the most suitable model and parameters based on question type to achieve the best balance between cost and quality.</p>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h5 class="font-bold mb-4 text-green-400">🤖 Smart Customer Service System Code</h5>
+                        <pre class="overflow-x-auto"><code class="language-python"># smart_customer_service.py
+import openai
+import sqlite3
+from typing import Dict
+
+class SmartCustomerService:
+    """Smart Customer Service System - Automatic Model and Parameter Selection"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.faq = {
+            'returns': {
+                'keywords': ['return', 'refund', 'exchange', 'unsatisfied'],
+                'response': 'We offer 30-day no-questions-asked return service.',
+                'needs_ai': False
+            },
+            'shipping': {
+                'keywords': ['shipping', 'delivery', 'logistics', 'when'],
+                'response': 'Orders usually ship within 24 hours, arriving in 3-5 business days.',
+                'needs_ai': False
+            },
+            'technical': {
+                'keywords': ['how to use', 'tutorial', 'problem', 'error'],
+                'needs_ai': True
+            }
+        }
+
+    def detect_intent(self, message: str) -> str:
+        """Intent detection"""
+        for intent, config in self.faq.items():
+            for keyword in config['keywords']:
+                if keyword in message.lower():
+                    return intent
+        return 'general'
+
+    def select_model_and_params(self, intent: str, message_length: int) -> Dict:
+        """Select best model and parameters based on intent"""
+
+        if intent == 'general':
+            # General inquiry, use cheap fast model
+            return {
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.7,
+                'max_tokens': 150,
+                'system_prompt': 'You are a friendly professional customer service representative.'
+            }
+        elif intent == 'technical':
+            # Technical questions need accuracy
+            return {
+                'model': 'gpt-4o-mini',
+                'temperature': 0.3,
+                'max_tokens': 300,
+                'system_prompt': 'You are a technical support expert.'
+            }
+        elif message_length > 200:
+            # Long message, possibly complex issue
+            return {
+                'model': 'gpt-4o-mini',
+                'temperature': 0.5,
+                'max_tokens': 400,
+                'system_prompt': 'You are a senior customer service specialist.'
+            }
+        else:
+            return {
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.6,
+                'max_tokens': 100,
+                'system_prompt': 'You are a customer service assistant.'
+            }
+
+    def handle_message(self, user_id: str, message: str) -> Dict:
+        """Handle user message"""
+
+        print(f"\n📨 Received message: {message}")
+        print("-" * 50)
+
+        # 1. Intent detection
+        intent = self.detect_intent(message)
+        print(f"🎯 Detected intent: {intent}")
+
+        # 2. Check FAQ
+        if intent in self.faq and not self.faq[intent]['needs_ai']:
+            response = self.faq[intent]['response']
+            print(f"📋 Using preset answer")
+
+            return {
+                'response': response,
+                'model_used': 'FAQ',
+                'tokens_used': 0,
+                'cost': 0
+            }
+
+        # 3. Select model and parameters
+        config = self.select_model_and_params(intent, len(message))
+        print(f"🤖 Selected model: {config['model']}")
+
+        # 4. Call AI
+        try:
+            response_obj = self.client.chat.completions.create(
+                model=config['model'],
+                messages=[
+                    {"role": "system", "content": config['system_prompt']},
+                    {"role": "user", "content": message}
+                ],
+                temperature=config['temperature'],
+                max_tokens=config['max_tokens']
+            )
+
+            response = response_obj.choices[0].message.content
+            tokens = response_obj.usage.total_tokens
+            cost = (tokens / 1000) * 0.001
+
+            print(f"\n💬 Reply: {response[:50]}...")
+            print(f"💰 Cost: ${cost:.6f}")
+
+            return {
+                'response': response,
+                'model_used': config['model'],
+                'tokens_used': tokens,
+                'cost': cost
+            }
+
+        except Exception as e:
+            return {
+                'response': "Sorry, the system is temporarily unavailable.",
+                'model_used': 'error',
+                'tokens_used': 0,
+                'cost': 0
+            }
+
+# Test
+if __name__ == "__main__":
+    service = SmartCustomerService()
+
+    # Simulate different types of user inquiries
+    test_messages = [
+        ("user001", "When will my order arrive?"),
+        ("user002", "How do I use this product? Can you explain in detail?"),
+        ("user003", "I want to return this"),
+    ]
+
+    for user_id, message in test_messages:
+        result = service.handle_message(user_id, message)
+        print(f"✅ Processing complete\n")</code></pre>
+                    </div>
+
+                    <!-- Cost savings comparison -->
+                    <div class="mt-4 grid md:grid-cols-3 gap-4">
+                        <div class="border rounded-lg p-4 bg-green-50">
+                            <div class="text-2xl font-bold text-green-600">90%</div>
+                            <div class="text-sm text-gray-600">Cost Savings</div>
+                            <p class="text-xs mt-2">Through FAQ and smart routing</p>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-blue-50">
+                            <div class="text-2xl font-bold text-blue-600">0.5s</div>
+                            <div class="text-sm text-gray-600">Avg Response Time</div>
+                            <p class="text-xs mt-2">FAQ instant response</p>
+                        </div>
+                        <div class="border rounded-lg p-4 bg-purple-50">
+                            <div class="text-2xl font-bold text-purple-600">95%</div>
+                            <div class="text-sm text-gray-600">Resolution Rate</div>
+                            <p class="text-xs mt-2">Smart model selection</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 2: Content Creation Assistant -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <span class="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">2</span>
+                        Scenario 2: Content Creation Assistant
+                    </h4>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="font-semibold">💡 Core Idea:</p>
+                        <p class="text-sm">Use different templates and parameters based on content type to ensure creation quality and cost efficiency.</p>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h5 class="font-bold mb-4 text-green-400">✍️ Content Creation Assistant Code</h5>
+                        <pre class="overflow-x-auto"><code class="language-python"># content_creation_assistant.py
+from enum import Enum
+from typing import List, Dict
+
+class ContentType(Enum):
+    """Content type enumeration"""
+    BLOG_POST = "blog_post"
+    SOCIAL_MEDIA = "social_media"
+    PRODUCT_DESC = "product_description"
+
+class ContentCreationAssistant:
+    """Content Creation Assistant"""
+
+    def __init__(self):
+        self.client = openai.OpenAI()
+        self.templates = {
+            ContentType.BLOG_POST: {
+                'structure': ['Title', 'Introduction', 'Body', 'Conclusion'],
+                'tone': 'professional',
+                'length': 800,
+                'model': 'gpt-4o-mini',
+                'temperature': 0.7
+            },
+            ContentType.SOCIAL_MEDIA: {
+                'structure': ['Hook', 'Content', 'Hashtags'],
+                'tone': 'casual',
+                'length': 280,
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.9
+            },
+            ContentType.PRODUCT_DESC: {
+                'structure': ['Features', 'Benefits', 'Scenarios'],
+                'tone': 'persuasive',
+                'length': 200,
+                'model': 'gpt-3.5-turbo',
+                'temperature': 0.6
+            }
+        }
+
+    def create_content(self,
+                      content_type: ContentType,
+                      topic: str,
+                      keywords: List[str] = None) -> Dict:
+        """Create content"""
+
+        template = self.templates[content_type]
+
+        # Build prompt
+        prompt = self._build_prompt(
+            content_type,
+            topic,
+            keywords,
+            template['tone'],
+            template['structure'],
+            template['length']
+        )
+
+        print(f"\n✍️ Creating {content_type.value}")
+        print(f"📝 Topic: {topic}")
+        print(f"🤖 Model: {template['model']}")
+        print(f"🌡️ Temperature: {template['temperature']}")
+
+        # Generate content
+        response = self.client.chat.completions.create(
+            model=template['model'],
+            messages=[
+                {"role": "system", "content": "You are a professional content creator"},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=template['temperature'],
+            max_tokens=template['length'] * 2
+        )
+
+        content = response.choices[0].message.content
+        tokens = response.usage.total_tokens
+        cost = (tokens / 1000) * 0.001
+
+        # Quality score
+        quality = self._evaluate_quality(content, keywords)
+
+        print(f"\n📊 Generation complete:")
+        print(f"  Length: {len(content)} characters")
+        print(f"  Quality: {quality:.1f}/10")
+        print(f"  Cost: ${cost:.4f}")
+
+        return {
+            'content': content,
+            'quality_score': quality,
+            'cost': cost
+        }
+
+    def _build_prompt(self, content_type, topic, keywords,
+                     tone, structure, length) -> str:
+        """Build optimized prompt"""
+
+        parts = [
+            f"Create a {content_type.value} about '{topic}'.",
+            f"\nRequirements:",
+            f"1. Tone: {tone}",
+            f"2. Length: approximately {length} words",
+            f"3. Structure: {', '.join(structure)}"
+        ]
+
+        if keywords:
+            parts.append(f"4. Keywords: {', '.join(keywords)}")
+
+        parts.append("\nPlease output the content directly.")
+
+        return '\n'.join(parts)
+
+    def _evaluate_quality(self, content: str,
+                         keywords: List[str]) -> float:
+        """Evaluate content quality"""
+        score = 10.0
+
+        if len(content) < 50:
+            score -= 2
+
+        if keywords:
+            covered = sum(1 for kw in keywords
+                         if kw.lower() in content.lower())
+            score *= (covered / len(keywords))
+
+        return min(max(score, 0), 10)
+
+# Usage example
+if __name__ == "__main__":
+    assistant = ContentCreationAssistant()
+
+    # Create social media post
+    result = assistant.create_content(
+        content_type=ContentType.SOCIAL_MEDIA,
+        topic="Morning motivation",
+        keywords=["new day", "keep going"]
+    )
+
+    print(f"\n📱 Social Media Post:")
+    print(result['content'])</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 4: Comprehensive Project -->
+            <section id="part4-project" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">4</span>
+                    Project Practice
+                </h2>
+
+                <h3 class="text-xl font-bold mb-4">🚀 Comprehensive Project: AI Model Selector</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold mb-2">Project Features</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm">
+                                <li>✅ Automatic business scenario analysis</li>
+                                <li>✅ Recommend best model configuration</li>
+                                <li>✅ Real-time cost calculation</li>
+                                <li>✅ Performance comparison testing</li>
+                                <li>✅ Export configuration files</li>
+                                <li>✅ Visual report generation</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-2">Tech Stack</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tag tag-blue">Python</span>
+                                <span class="tag tag-green">Streamlit</span>
+                                <span class="tag tag-purple">OpenAI API</span>
+                                <span class="tag tag-red">Plotly</span>
+                                <span class="tag tag-blue">Pandas</span>
+                            </div>
+                            <h4 class="font-bold mt-4 mb-2">Use Cases</h4>
+                            <div class="text-sm space-y-1">
+                                <div>💬 Customer service systems</div>
+                                <div>✍️ Content creation platforms</div>
+                                <div>💻 Code assistant tools</div>
+                                <div>📊 Data analysis applications</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core features showcase -->
+                    <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-3">🎯 Smart Recommendation Algorithm</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <strong>Input Analysis:</strong>
+                                <ul class="text-xs mt-1 space-y-1">
+                                    <li>• Task type identification</li>
+                                    <li>• Token count estimation</li>
+                                    <li>• Complexity assessment</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>Smart Decision:</strong>
+                                <ul class="text-xs mt-1 space-y-1">
+                                    <li>• Cost budget balancing</li>
+                                    <li>• Performance requirement matching</li>
+                                    <li>• Optimal parameter adjustment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Get code -->
+                    <div class="flex space-x-4">
+                        <a href="#code" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            📦 View Complete Code
+                        </a>
+                        <a href="#resources" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                            📚 Download Learning Materials
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Knowledge Summary -->
+            <section id="part4-summary" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📚 Knowledge Summary</h3>
+
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg shadow-xl mb-6">
+                    <h4 class="text-2xl font-bold mb-4">🎓 Today's Learning Achievements</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-bold mb-2">✅ Core Knowledge Mastered</h5>
+                            <ul class="space-y-1 text-sm">
+                                <li>• LLM model ecosystem awareness</li>
+                                <li>• Token mechanism and billing</li>
+                                <li>• Context Window limitations</li>
+                                <li>• Temperature and other parameter effects</li>
+                                <li>• Cost optimization methods</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-bold mb-2">✅ Practical Skills Acquired</h5>
+                            <ul class="space-y-1 text-sm">
+                                <li>• API call implementation</li>
+                                <li>• Parameter optimization techniques</li>
+                                <li>• Model comparison testing</li>
+                                <li>• Scenario-based application design</li>
+                                <li>• Smart selection strategies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key takeaway cards -->
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="text-3xl mb-2">🎯</div>
+                        <h5 class="font-bold mb-2">Model Selection Principles</h5>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Simple tasks use GPT-3.5</li>
+                            <li>• Complex reasoning use GPT-4</li>
+                            <li>• Long text use Claude</li>
+                            <li>• Cost priority depends on scenario</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="text-3xl mb-2">💰</div>
+                        <h5 class="font-bold mb-2">Cost Optimization Strategies</h5>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Optimize prompt length</li>
+                            <li>• Use FAQ caching</li>
+                            <li>• Smart routing allocation</li>
+                            <li>• Control max_tokens</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="text-3xl mb-2">🌡️</div>
+                        <h5 class="font-bold mb-2">Parameter Tuning Guide</h5>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Fact queries: temp=0</li>
+                            <li>• General conversation: temp=0.7</li>
+                            <li>• Creative writing: temp=0.9</li>
+                            <li>• Adjust based on scenario</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Next lesson preview -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h4 class="font-bold mb-3 flex items-center">
+                        <span class="text-2xl mr-2">🔜</span>
+                        Next Lesson Preview: Lesson 2 - Prompt Engineering Practice
+                    </h4>
+                    <div class="grid md:grid-cols-3 gap-4 text-sm">
+                        <div>
+                            <h5 class="font-semibold mb-2">📖 Prompt Design Principles</h5>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Zero-shot vs Few-shot</li>
+                                <li>• Chain-of-Thought</li>
+                                <li>• Role-Task-Format framework</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold mb-2">🚀 Advanced Prompt Techniques</h5>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Template-based design</li>
+                                <li>• Dynamic prompt generation</li>
+                                <li>• Prompt injection defense</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold mb-2">💻 Practical Project</h5>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Prompt optimizer</li>
+                                <li>• A/B testing framework</li>
+                                <li>• Prompt library management</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 bg-blue-50 p-3 rounded">
+                        <p class="text-sm"><strong>📝 Pre-class Preparation:</strong></p>
+                        <ul class="text-xs text-gray-600 mt-1 space-y-1">
+                            <li>• Complete this lesson's homework</li>
+                            <li>• Read recommended articles</li>
+                            <li>• Prepare 3 prompts you want to optimize</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Homework Assignment -->
+            <section id="part4-homework" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📝 Homework Assignment</h3>
+
+                <div class="space-y-6">
+                    <!-- Required assignments -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h4 class="font-bold mb-4 flex items-center">
+                            <span class="bg-green-500 text-white px-2 py-1 rounded text-sm mr-2">Required</span>
+                            Basic Practice (60 points)
+                        </h4>
+
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h5 class="font-semibold">Assignment 1: Model Comparison Report (30 points)</h5>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    Choose a specific business scenario, test with at least 3 different models,
+                                    record response quality, time, token usage, and cost.
+                                </p>
+                                <div class="bg-gray-50 p-3 rounded mt-2 text-xs">
+                                    <strong>Requirements:</strong>
+                                    <ul class="mt-1 space-y-1">
+                                        <li>• Test each model with at least 5 different prompts</li>
+                                        <li>• Record complete performance metrics</li>
+                                        <li>• Generate comparison report (Markdown format)</li>
+                                        <li>• Provide analysis conclusions and recommendations</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-blue-400 pl-4">
+                                <h5 class="font-semibold">Assignment 2: Token Optimization Practice (30 points)</h5>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    Provide a 200+ token original prompt, optimize it to less than 100 tokens,
+                                    ensure semantics remain unchanged, compare before and after effects.
+                                </p>
+                                <div class="bg-gray-50 p-3 rounded mt-2">
+                                    <pre class="text-xs"><code class="language-python"># Example format
+original_prompt = """
+[Your original prompt, 200+ tokens]
+"""
+
+optimized_prompt = """
+[Optimized prompt, <100 tokens]
+"""
+
+# Test and compare effects
+def test_prompts():
+    # Your test code
+    pass</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Optional assignments -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h4 class="font-bold mb-4 flex items-center">
+                            <span class="bg-yellow-500 text-white px-2 py-1 rounded text-sm mr-2">Optional</span>
+                            Advanced Challenge (40 points)
+                        </h4>
+
+                        <div class="border-l-4 border-yellow-400 pl-4">
+                            <h5 class="font-semibold">Assignment 3: Smart Model Selector (40 points)</h5>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Implement a function that automatically recommends the best model and parameter
+                                configuration based on input scenario, budget, latency requirements, and other parameters.
+                            </p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre class="text-xs"><code class="language-python">def smart_model_selector(
+    prompt: str,
+    max_budget: float,
+    max_latency: float,
+    quality_requirement: int  # 1-10
+) -> dict:
+    """
+    Returns:
+    {
+        'model': 'gpt-3.5-turbo',
+        'temperature': 0.7,
+        'max_tokens': 150,
+        'reasoning': 'Selection reasoning'
+    }
+    """
+    # Your implementation
+    pass
+
+# Test cases
+test_cases = [
+    {
+        'prompt': 'Write a poem',
+        'max_budget': 0.001,
+        'max_latency': 2.0,
+        'quality_requirement': 7
+    },
+    # Add more test cases
+]</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bonus projects -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h4 class="font-bold mb-4 flex items-center">
+                            <span class="bg-purple-500 text-white px-2 py-1 rounded text-sm mr-2">Bonus</span>
+                            Creative Projects (Up to 20 points)
+                        </h4>
+
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold mb-2">💻 Tool Development</h5>
+                                <ul class="text-xs text-gray-600 space-y-1">
+                                    <li>• Token calculator webpage</li>
+                                    <li>• Cost analysis dashboard</li>
+                                    <li>• Prompt template library</li>
+                                </ul>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold mb-2">📝 Content Creation</h5>
+                                <ul class="text-xs text-gray-600 space-y-1">
+                                    <li>• Technical blog article</li>
+                                    <li>• Study notes compilation</li>
+                                    <li>• Tutorial video production</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submission instructions -->
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border-2 border-blue-200">
+                        <h4 class="font-bold mb-3">📅 Submission Instructions</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h5 class="font-semibold mb-2">⏰ Time Requirements</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li>• <strong>Deadline:</strong> Next Monday 23:59</li>
+                                    <li>• <strong>Late submission:</strong> 20% deduction</li>
+                                    <li>• <strong>Early submission:</strong> 5% bonus</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">📦 Submission Method</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li>• <strong>Method:</strong> GitHub PR</li>
+                                    <li>• <strong>Naming:</strong> week1_[your name]</li>
+                                    <li>• <strong>Format:</strong> Include README.md</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-white p-3 rounded">
+                            <h5 class="font-semibold mb-2 text-sm">📊 Grading Criteria</h5>
+                            <div class="grid grid-cols-4 gap-2 text-xs">
+                                <div class="text-center">
+                                    <div class="font-bold text-blue-600">40%</div>
+                                    <div class="text-gray-600">Code Quality</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-bold text-green-600">30%</div>
+                                    <div class="text-gray-600">Completeness</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-bold text-purple-600">20%</div>
+                                    <div class="text-gray-600">Analysis Depth</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-bold text-orange-600">10%</div>
+                                    <div class="text-gray-600">Innovation</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resource downloads -->
+            <section id="resources" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6">📦 Learning Materials Download</h2>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Video materials -->
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">🎥</div>
+                        <h4 class="font-bold mb-2">Video Tutorial</h4>
+                        <p class="text-sm text-gray-600 mb-4">Complete 3-hour recorded video</p>
+                        <a href="#" class="text-blue-500 hover:underline">Download Now →</a>
+                    </div>
+
+                    <!-- Code repository -->
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">💻</div>
+                        <h4 class="font-bold mb-2">Code Repository</h4>
+                        <p class="text-sm text-gray-600 mb-4">All example code and projects</p>
+                        <a href="#" class="text-blue-500 hover:underline">GitHub →</a>
+                    </div>
+
+                    <!-- PPT materials -->
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                        <div class="text-3xl mb-4">📊</div>
+                        <h4 class="font-bold mb-2">Course Slides</h4>
+                        <p class="text-sm text-gray-600 mb-4">30-page detailed slides</p>
+                        <a href="#" class="text-blue-500 hover:underline">Download Now →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom navigation -->
+            <div class="flex justify-between items-center py-8 border-t">
+                <div>
+                    <span class="text-gray-500">Previous Lesson</span>
+                    <p class="font-semibold">-</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-gray-500">Next Lesson</span>
+                    <p class="font-semibold">Lesson 2: Prompt Engineering Practice</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+
+    <script>
+        // Sidebar toggle
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+        }
+
+        // Share function
+        function shareContent() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI Engineer Bootcamp - Lesson 1',
+                    text: 'Learn LLM ecosystem, master AI application development',
+                    url: window.location.href
+                });
+            }
+        }
+
+        // Token analysis simulation
+        function analyzeTokens() {
+            const input = document.getElementById('tokenInput').value;
+            const output = document.getElementById('tokenOutput');
+
+            // Simulate token analysis
+            const tokens = input.length / 4; // Simple estimation
+            const cost = tokens * 0.000001;
+
+            output.innerHTML = `
+                <div class="space-y-2">
+                    <div>Text length: ${input.length} characters</div>
+                    <div>Estimated tokens: ${Math.round(tokens)}</div>
+                    <div>Estimated cost: $${cost.toFixed(6)}</div>
+                </div>
+            `;
+        }
+
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.transform = `scaleX(${scrolled / 100})`;
+        });
+
+        // Highlight current section
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove all active classes
+                    document.querySelectorAll('.toc-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+
+                    // Add active class to current section
+                    const id = entry.target.getAttribute('id');
+                    const tocItem = document.querySelector(`a[href="#${id}"]`);
+                    if (tocItem) {
+                        tocItem.classList.add('active');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe all sections
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Search function
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.toc-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

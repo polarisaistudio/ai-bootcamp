@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Python环境与第一个应用 - AI工程师训练营</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .toc-item {
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- 移动端菜单按钮 -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded no-print" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- 侧边栏导航 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">🚀 AI训练营</h2>
+
+            <!-- 课程进度 -->
+            <div class="mb-6">
+                <div class="text-gray-400 text-sm mb-2">课程进度</div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full" style="width: 20%"></div>
+                </div>
+                <div class="text-gray-400 text-xs mt-1">Lesson 2/8</div>
+            </div>
+
+            <!-- 目录 -->
+            <div class="space-y-2">
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 课程概览
+                </a>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 1: 开发环境</div>
+                    <a href="#part1-python" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🐍 Python环境搭建
+                    </a>
+                    <a href="#part1-vscode" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💻 VSCode配置
+                    </a>
+                    <a href="#part1-jupyter" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📓 Jupyter使用
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 2: API入门</div>
+                    <a href="#part2-api-key" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔑 API密钥配置
+                    </a>
+                    <a href="#part2-first-call" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 第一个API调用
+                    </a>
+                    <a href="#part2-error" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        ⚠️ 错误处理
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 3: 实战项目</div>
+                    <a href="#part3-chat" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💬 对话函数
+                    </a>
+                    <a href="#part3-cli" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🖥️ CLI工具开发
+                    </a>
+                    <a href="#part3-advanced" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🚀 高级功能
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <a href="#homework" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📝 课后作业
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 顶部导航 -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Lesson 2: Python环境与第一个应用</h1>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.print()" class="p-2 rounded hover:bg-gray-100">🖨️</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 内容区 -->
+        <div class="px-6 py-8">
+
+            <!-- 课程概览 -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 课程概览</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⏱️</div>
+                            <div class="text-lg font-semibold">3小时</div>
+                            <div class="text-sm opacity-90">完整课程时长</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">💻</div>
+                            <div class="text-lg font-semibold">5个实验</div>
+                            <div class="text-sm opacity-90">动手练习</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🎯</div>
+                            <div class="text-lg font-semibold">1个项目</div>
+                            <div class="text-sm opacity-90">CLI聊天工具</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学习目标 -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🎯 学习目标</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>搭建完整的Python开发环境</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>掌握VSCode和Jupyter的使用</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>完成第一个OpenAI API调用</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>学会处理API错误和异常</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Python环境搭建 -->
+            <section id="part1-python" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">1</span>
+                    开发环境搭建
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">🐍 Python安装</h3>
+
+                    <!-- Windows安装 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">1</span>
+                            Windows用户
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># 步骤1: 访问Python官网
+# https://www.python.org/downloads/
+
+# 步骤2: 下载Python 3.11+安装包
+
+# 步骤3: 运行安装程序
+# ⚠️ 重要：勾选 "Add Python to PATH"
+
+# 步骤4: 验证安装
+python --version
+# 应该显示: Python 3.11.x
+
+pip --version
+# 应该显示: pip 23.x.x</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- macOS安装 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">2</span>
+                            macOS用户
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># 方法1: 使用Homebrew（推荐）
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python@3.11
+
+# 方法2: 官网下载安装包
+# https://www.python.org/downloads/macos/
+
+# 验证安装
+python3 --version
+pip3 --version</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 虚拟环境 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                            创建虚拟环境
+                        </h4>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
+                            <p class="font-semibold">💡 为什么需要虚拟环境？</p>
+                            <ul class="text-sm mt-2 space-y-1">
+                                <li>• 隔离项目依赖，避免版本冲突</li>
+                                <li>• 每个项目可以使用不同的包版本</li>
+                                <li>• 方便团队协作和部署</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># 创建项目目录
+mkdir ai-bootcamp-lesson2
+cd ai-bootcamp-lesson2
+
+# 创建虚拟环境
+python -m venv venv
+
+# 激活虚拟环境
+# Windows:
+venv\Scripts\activate
+
+# macOS/Linux:
+source venv/bin/activate
+
+# 激活后，命令行前会显示 (venv)
+
+# 升级pip
+pip install --upgrade pip</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 安装依赖 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">4</span>
+                            安装必要的包
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># 创建requirements.txt
+cat > requirements.txt << EOF
+openai==1.12.0
+python-dotenv==1.0.1
+rich==13.7.0
+requests==2.31.0
+jupyter==1.0.0
+ipykernel==6.29.0
+EOF
+
+# 安装所有依赖
+pip install -r requirements.txt
+
+# 验证安装
+pip list</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: VSCode配置 -->
+            <section id="part1-vscode" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">💻 VSCode安装与配置</h3>
+
+                    <!-- 安装VSCode -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. 下载安装VSCode</h4>
+                        <p class="text-sm text-gray-600 mb-2">访问: <a href="https://code.visualstudio.com/" class="text-blue-500">https://code.visualstudio.com/</a></p>
+                    </div>
+
+                    <!-- 安装扩展 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. 必装扩展</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">🐍 Python</h5>
+                                <p class="text-xs text-gray-600">Microsoft官方Python支持</p>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">📓 Jupyter</h5>
+                                <p class="text-xs text-gray-600">Jupyter Notebook支持</p>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">🎨 Pylance</h5>
+                                <p class="text-xs text-gray-600">智能代码补全</p>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">🔧 Python Indent</h5>
+                                <p class="text-xs text-gray-600">自动缩进修正</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VSCode配置 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. 配置Python解释器</h4>
+                        <div class="bg-gray-100 p-4 rounded">
+                            <ol class="text-sm space-y-2">
+                                <li>1. 按 <kbd>Ctrl+Shift+P</kbd> (Mac: <kbd>Cmd+Shift+P</kbd>)</li>
+                                <li>2. 输入 "Python: Select Interpreter"</li>
+                                <li>3. 选择虚拟环境中的Python（路径包含venv）</li>
+                                <li>4. 确认底部状态栏显示正确的Python版本</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- 推荐设置 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">4. 推荐的settings.json配置</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-json">{
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "editor.rulers": [88],
+    "python.analysis.typeCheckingMode": "basic",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python",
+        "editor.tabSize": 4
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Jupyter使用 -->
+            <section id="part1-jupyter" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">📓 Jupyter Notebook入门</h3>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">什么是Jupyter Notebook？</h4>
+                        <p class="text-sm">交互式编程环境，可以混合代码、文本、图表，非常适合：</p>
+                        <ul class="text-sm mt-2 space-y-1">
+                            <li>• 数据探索和可视化</li>
+                            <li>• 快速原型开发</li>
+                            <li>• 教学演示</li>
+                            <li>• API测试</li>
+                        </ul>
+                    </div>
+
+                    <!-- 启动Jupyter -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. 启动Jupyter Notebook</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># 确保在激活的虚拟环境中
+# 启动Jupyter
+jupyter notebook
+
+# 或者在VSCode中直接创建.ipynb文件</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 基本操作 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. 基本操作</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-2">快捷键</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li><kbd>Shift+Enter</kbd>: 运行单元格</li>
+                                    <li><kbd>Ctrl+Enter</kbd>: 运行不跳转</li>
+                                    <li><kbd>A</kbd>: 上方插入单元格</li>
+                                    <li><kbd>B</kbd>: 下方插入单元格</li>
+                                    <li><kbd>DD</kbd>: 删除单元格</li>
+                                </ul>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-2">Magic命令</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li><code>%time</code>: 计时执行</li>
+                                    <li><code>%load</code>: 加载代码</li>
+                                    <li><code>%who</code>: 列出变量</li>
+                                    <li><code>%%writefile</code>: 保存到文件</li>
+                                    <li><code>!pip install</code>: 执行shell</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 示例Notebook -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. 第一个Notebook示例</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># Cell 1: 导入库
+import openai
+from dotenv import load_dotenv
+import os
+
+# Cell 2: 加载配置
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
+print("✅ API密钥已加载")
+
+# Cell 3: 测试连接
+client = openai.OpenAI(api_key=api_key)
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": "Hello!"}],
+    max_tokens=50
+)
+
+# Cell 4: 显示结果
+print(response.choices[0].message.content)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: API密钥配置 -->
+            <section id="part2-api-key" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">2</span>
+                    API入门
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">🔑 获取和配置API密钥</h3>
+
+                    <!-- 获取API Key -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. 获取OpenAI API密钥</h4>
+                        <div class="bg-gray-100 p-4 rounded">
+                            <ol class="text-sm space-y-2">
+                                <li>1. 访问 <a href="https://platform.openai.com" class="text-blue-500">https://platform.openai.com</a></li>
+                                <li>2. 注册/登录账户</li>
+                                <li>3. 进入 API keys 页面</li>
+                                <li>4. 点击 "Create new secret key"</li>
+                                <li>5. 复制密钥（⚠️ 只显示一次！）</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- 配置环境变量 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. 配置环境变量</h4>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
+                            <p class="font-semibold">⚠️ 安全最佳实践</p>
+                            <ul class="text-sm mt-2 space-y-1">
+                                <li>• 永远不要把API密钥写在代码里</li>
+                                <li>• 不要提交.env文件到Git</li>
+                                <li>• 定期轮换API密钥</li>
+                                <li>• 设置使用限额</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># 创建.env文件
+cat > .env << EOF
+OPENAI_API_KEY=sk-your-api-key-here
+OPENAI_ORG_ID=org-your-org-id-here
+EOF
+
+# 添加到.gitignore
+echo ".env" >> .gitignore
+echo "venv/" >> .gitignore
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Python加载环境变量 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. Python中加载环境变量</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># config.py
+import os
+from dotenv import load_dotenv
+
+# 加载.env文件
+load_dotenv()
+
+class Config:
+    """集中管理配置"""
+
+    # API配置
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    OPENAI_ORG_ID = os.getenv('OPENAI_ORG_ID')
+
+    # 模型配置
+    DEFAULT_MODEL = "gpt-3.5-turbo"
+    MAX_TOKENS = 1000
+    TEMPERATURE = 0.7
+
+    @classmethod
+    def validate(cls):
+        """验证配置是否完整"""
+        if not cls.OPENAI_API_KEY:
+            raise ValueError("❌ OPENAI_API_KEY未设置")
+        if not cls.OPENAI_API_KEY.startswith('sk-'):
+            raise ValueError("❌ API密钥格式错误")
+        print("✅ 配置验证通过")
+
+    @classmethod
+    def display(cls):
+        """显示配置（隐藏敏感信息）"""
+        print("\n📋 当前配置:")
+        print(f"  模型: {cls.DEFAULT_MODEL}")
+        print(f"  最大Token: {cls.MAX_TOKENS}")
+        print(f"  Temperature: {cls.TEMPERATURE}")
+        print(f"  API密钥: {'*' * 20}{cls.OPENAI_API_KEY[-8:]}")
+
+# 测试
+if __name__ == "__main__":
+    Config.validate()
+    Config.display()</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: 第一个API调用 -->
+            <section id="part2-first-call" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">🎯 第一个API调用</h3>
+
+                    <!-- 简单示例 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. 最简单的调用</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># simple_chat.py
+import openai
+from config import Config
+
+# 验证配置
+Config.validate()
+
+# 创建客户端
+client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
+
+# 发送请求
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "user", "content": "你好！请用一句话介绍你自己。"}
+    ]
+)
+
+# 打印响应
+print(response.choices[0].message.content)</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 详细示例 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. 完整的调用示例</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># detailed_chat.py
+import openai
+from config import Config
+from rich.console import Console
+from rich.panel import Panel
+
+console = Console()
+
+def chat_with_gpt(
+    prompt: str,
+    model: str = "gpt-3.5-turbo",
+    temperature: float = 0.7,
+    max_tokens: int = 500
+) -> dict:
+    """
+    与GPT对话的函数
+
+    参数:
+        prompt: 用户输入
+        model: 使用的模型
+        temperature: 温度参数(0-2)
+        max_tokens: 最大token数
+
+    返回:
+        包含响应和元数据的字典
+    """
+
+    client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
+
+    console.print(f"[cyan]🤖 调用模型: {model}[/cyan]")
+    console.print(f"[cyan]📊 参数: temp={temperature}, max_tokens={max_tokens}[/cyan]")
+
+    # 调用API
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": "你是一个友好、专业的AI助手。"},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
+
+    # 提取信息
+    message = response.choices[0].message.content
+    usage = response.usage
+
+    # 计算成本（GPT-3.5-turbo: $0.001/1K tokens）
+    cost = (usage.total_tokens / 1000) * 0.001
+
+    # 显示结果
+    console.print(Panel(message, title="[green]AI回复[/green]", border_style="green"))
+
+    console.print(f"\n[yellow]📈 使用统计:[/yellow]")
+    console.print(f"  输入Token: {usage.prompt_tokens}")
+    console.print(f"  输出Token: {usage.completion_tokens}")
+    console.print(f"  总Token: {usage.total_tokens}")
+    console.print(f"  估算成本: ${cost:.6f}")
+
+    return {
+        'message': message,
+        'usage': {
+            'prompt_tokens': usage.prompt_tokens,
+            'completion_tokens': usage.completion_tokens,
+            'total_tokens': usage.total_tokens
+        },
+        'cost': cost,
+        'model': model
+    }
+
+# 测试
+if __name__ == "__main__":
+    Config.validate()
+
+    result = chat_with_gpt(
+        "请解释什么是机器学习，用简单的语言",
+        temperature=0.7
+    )
+
+    print(f"\n✅ 调用成功！")</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 运行结果 -->
+                    <div class="bg-gray-100 p-4 rounded">
+                        <h4 class="font-bold mb-2">预期输出：</h4>
+                        <pre class="text-sm">🤖 调用模型: gpt-3.5-turbo
+📊 参数: temp=0.7, max_tokens=500
+
+╭─ AI回复 ─────────────────────────────────╮
+│ 机器学习就是让计算机通过数据和经验自己学 │
+│ 习，而不是被明确编程。就像小孩通过经验 │
+│ 学会识别猫狗一样，机器通过大量示例数据 │
+│ 学会识别模式和做出预测。               │
+╰──────────────────────────────────────────╯
+
+📈 使用统计:
+  输入Token: 28
+  输出Token: 52
+  总Token: 80
+  估算成本: $0.000080</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: 错误处理 -->
+            <section id="part2-error" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">⚠️ 错误处理与异常</h3>
+
+                    <!-- 常见错误 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. 常见错误类型</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="border rounded p-3 bg-red-50">
+                                <h5 class="font-bold text-sm text-red-700">AuthenticationError</h5>
+                                <p class="text-xs mt-1">API密钥无效或未设置</p>
+                            </div>
+                            <div class="border rounded p-3 bg-yellow-50">
+                                <h5 class="font-bold text-sm text-yellow-700">RateLimitError</h5>
+                                <p class="text-xs mt-1">超过速率限制</p>
+                            </div>
+                            <div class="border rounded p-3 bg-orange-50">
+                                <h5 class="font-bold text-sm text-orange-700">APIError</h5>
+                                <p class="text-xs mt-1">OpenAI服务器错误</p>
+                            </div>
+                            <div class="border rounded p-3 bg-purple-50">
+                                <h5 class="font-bold text-sm text-purple-700">Timeout</h5>
+                                <p class="text-xs mt-1">请求超时</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 完整错误处理 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. 完整的错误处理代码</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># robust_chat.py
+import openai
+from openai import OpenAI
+import time
+from typing import Optional
+
+def chat_with_retry(
+    prompt: str,
+    max_retries: int = 3,
+    retry_delay: int = 2
+) -> Optional[dict]:
+    """
+    带重试机制的对话函数
+    """
+
+    client = OpenAI(api_key=Config.OPENAI_API_KEY)
+
+    for attempt in range(max_retries):
+        try:
+            print(f"📤 尝试 {attempt + 1}/{max_retries}...")
+
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": prompt}],
+                timeout=30  # 30秒超时
+            )
+
+            print("✅ 请求成功！")
+            return {
+                'message': response.choices[0].message.content,
+                'usage': response.usage,
+                'success': True
+            }
+
+        except openai.AuthenticationError as e:
+            print(f"❌ 认证错误: {e}")
+            print("💡 请检查API密钥是否正确")
+            return {'success': False, 'error': 'authentication_error'}
+
+        except openai.RateLimitError as e:
+            print(f"⏳ 速率限制: {e}")
+            if attempt < max_retries - 1:
+                wait_time = retry_delay * (2 ** attempt)  # 指数退避
+                print(f"💤 等待 {wait_time} 秒后重试...")
+                time.sleep(wait_time)
+            else:
+                print("❌ 达到最大重试次数")
+                return {'success': False, 'error': 'rate_limit_exceeded'}
+
+        except openai.APIError as e:
+            print(f"🔧 API错误: {e}")
+            if attempt < max_retries - 1:
+                print(f"💤 等待 {retry_delay} 秒后重试...")
+                time.sleep(retry_delay)
+            else:
+                return {'success': False, 'error': 'api_error'}
+
+        except openai.APITimeoutError as e:
+            print(f"⏰ 请求超时: {e}")
+            if attempt < max_retries - 1:
+                print("💤 重试中...")
+                time.sleep(retry_delay)
+            else:
+                return {'success': False, 'error': 'timeout'}
+
+        except Exception as e:
+            print(f"❓ 未知错误: {e}")
+            return {'success': False, 'error': 'unknown_error'}
+
+    return {'success': False, 'error': 'max_retries_exceeded'}
+
+# 测试
+if __name__ == "__main__":
+    Config.validate()
+
+    result = chat_with_retry(
+        "你好！",
+        max_retries=3,
+        retry_delay=2
+    )
+
+    if result['success']:
+        print(f"\n回复: {result['message']}")
+    else:
+        print(f"\n失败原因: {result['error']}")</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 错误处理最佳实践 -->
+                    <div class="bg-blue-50 p-4 rounded">
+                        <h4 class="font-bold mb-2">💡 错误处理最佳实践</h4>
+                        <ul class="text-sm space-y-2">
+                            <li>✅ 使用try-except捕获特定异常</li>
+                            <li>✅ 实现重试机制（特别是临时错误）</li>
+                            <li>✅ 使用指数退避策略</li>
+                            <li>✅ 设置合理的超时时间</li>
+                            <li>✅ 记录详细的错误日志</li>
+                            <li>✅ 向用户提供友好的错误提示</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: 对话函数 -->
+            <section id="part3-chat" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">3</span>
+                    实战项目开发
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">💬 构建对话函数</h3>
+
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre class="overflow-x-auto"><code class="language-python"># chat_manager.py
+from openai import OpenAI
+from typing import List, Dict
+from config import Config
+
+class ChatManager:
+    """对话管理器"""
+
+    def __init__(self, model: str = "gpt-3.5-turbo"):
+        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        self.model = model
+        self.conversation_history: List[Dict] = []
+
+    def add_system_message(self, content: str):
+        """添加系统消息"""
+        self.conversation_history.append({
+            "role": "system",
+            "content": content
+        })
+
+    def add_user_message(self, content: str):
+        """添加用户消息"""
+        self.conversation_history.append({
+            "role": "user",
+            "content": content
+        })
+
+    def add_assistant_message(self, content: str):
+        """添加助手消息"""
+        self.conversation_history.append({
+            "role": "assistant",
+            "content": content
+        })
+
+    def chat(self, user_input: str, **kwargs) -> str:
+        """
+        发送消息并获取回复
+
+        参数:
+            user_input: 用户输入
+            **kwargs: 额外的API参数
+        """
+        # 添加用户消息到历史
+        self.add_user_message(user_input)
+
+        try:
+            # 调用API
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=self.conversation_history,
+                temperature=kwargs.get('temperature', 0.7),
+                max_tokens=kwargs.get('max_tokens', 500)
+            )
+
+            # 获取回复
+            assistant_message = response.choices[0].message.content
+
+            # 添加到历史
+            self.add_assistant_message(assistant_message)
+
+            return assistant_message
+
+        except Exception as e:
+            print(f"❌ 错误: {e}")
+            return "抱歉，出现了错误。"
+
+    def get_history(self) -> List[Dict]:
+        """获取对话历史"""
+        return self.conversation_history
+
+    def clear_history(self):
+        """清空对话历史"""
+        self.conversation_history = []
+
+    def save_history(self, filename: str):
+        """保存对话历史"""
+        import json
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(self.conversation_history, f,
+                     ensure_ascii=False, indent=2)
+
+    def load_history(self, filename: str):
+        """加载对话历史"""
+        import json
+        with open(filename, 'r', encoding='utf-8') as f:
+            self.conversation_history = json.load(f)
+
+# 使用示例
+if __name__ == "__main__":
+    Config.validate()
+
+    # 创建对话管理器
+    chat = ChatManager()
+
+    # 设置系统提示
+    chat.add_system_message("你是一个友好的AI助手，擅长解答问题。")
+
+    # 对话
+    response1 = chat.chat("你好！")
+    print(f"助手: {response1}\n")
+
+    response2 = chat.chat("你能帮我什么？")
+    print(f"助手: {response2}\n")
+
+    # 保存历史
+    chat.save_history("conversation.json")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: CLI工具开发 -->
+            <section id="part3-cli" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🖥️ 命令行聊天工具</h3>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">🎯 项目目标</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>✅ 支持多轮对话</li>
+                            <li>✅ 保持上下文记忆</li>
+                            <li>✅ 美化输出界面</li>
+                            <li>✅ 支持命令操作</li>
+                            <li>✅ 保存对话历史</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-4">
+                        <pre class="overflow-x-auto"><code class="language-python"># cli_chat.py
+from chat_manager import ChatManager
+from config import Config
+from rich.console import Console
+from rich.panel import Panel
+from rich.markdown import Markdown
+from rich.prompt import Prompt
+import sys
+
+console = Console()
+
+def print_welcome():
+    """打印欢迎信息"""
+    welcome_text = """
+# 🤖 AI聊天助手
+
+欢迎使用AI命令行聊天工具！
+
+**可用命令:**
+- `/help` - 显示帮助
+- `/clear` - 清空对话历史
+- `/save` - 保存对话
+- `/history` - 查看历史
+- `/quit` - 退出程序
+
+直接输入消息开始聊天吧！
+    """
+    console.print(Panel(Markdown(welcome_text),
+                       border_style="blue",
+                       title="欢迎"))
+
+def main():
+    """主函数"""
+    Config.validate()
+
+    # 打印欢迎信息
+    print_welcome()
+
+    # 创建对话管理器
+    chat = ChatManager()
+    chat.add_system_message("你是一个友好、有帮助的AI助手。")
+
+    # 主循环
+    while True:
+        try:
+            # 获取用户输入
+            user_input = Prompt.ask("\n[bold cyan]你[/bold cyan]")
+
+            # 处理命令
+            if user_input.startswith('/'):
+                handle_command(user_input, chat)
+                continue
+
+            # 如果为空，继续
+            if not user_input.strip():
+                continue
+
+            # 显示思考状态
+            with console.status("[bold green]AI正在思考中...",
+                              spinner="dots"):
+                response = chat.chat(user_input)
+
+            # 显示回复
+            console.print(Panel(
+                Markdown(response),
+                title="[bold green]🤖 AI助手[/bold green]",
+                border_style="green"
+            ))
+
+        except KeyboardInterrupt:
+            console.print("\n\n[yellow]检测到 Ctrl+C，正在退出...[/yellow]")
+            save_before_exit(chat)
+            break
+
+        except Exception as e:
+            console.print(f"[red]❌ 错误: {e}[/red]")
+
+def handle_command(command: str, chat: ChatManager):
+    """处理命令"""
+    command = command.lower().strip()
+
+    if command == '/help':
+        print_welcome()
+
+    elif command == '/clear':
+        chat.clear_history()
+        console.print("[green]✅ 对话历史已清空[/green]")
+
+    elif command == '/save':
+        filename = Prompt.ask("保存文件名", default="conversation.json")
+        chat.save_history(filename)
+        console.print(f"[green]✅ 已保存到 {filename}[/green]")
+
+    elif command == '/history':
+        history = chat.get_history()
+        if not history:
+            console.print("[yellow]没有对话历史[/yellow]")
+        else:
+            for i, msg in enumerate(history, 1):
+                role = msg['role']
+                content = msg['content']
+                color = "cyan" if role == "user" else "green"
+                console.print(f"[{color}]{i}. {role}: {content}[/{color}]")
+
+    elif command == '/quit':
+        save_before_exit(chat)
+        sys.exit(0)
+
+    else:
+        console.print(f"[red]未知命令: {command}[/red]")
+        console.print("[yellow]输入 /help 查看帮助[/yellow]")
+
+def save_before_exit(chat: ChatManager):
+    """退出前保存"""
+    if chat.get_history():
+        save = Prompt.ask("是否保存对话历史？",
+                         choices=["y", "n"],
+                         default="y")
+        if save == "y":
+            filename = Prompt.ask("文件名",
+                                 default="conversation.json")
+            chat.save_history(filename)
+            console.print(f"[green]✅ 已保存[/green]")
+
+    console.print("[blue]👋 再见！[/blue]")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                    </div>
+
+                    <!-- 运行截图 -->
+                    <div class="bg-gray-100 p-4 rounded">
+                        <h4 class="font-bold mb-2">运行效果：</h4>
+                        <pre class="text-sm">╭─ 欢迎 ────────────────────────────────────╮
+│                                            │
+│ 🤖 AI聊天助手                             │
+│                                            │
+│ 欢迎使用AI命令行聊天工具！                │
+│                                            │
+│ 可用命令:                                 │
+│ • /help - 显示帮助                        │
+│ • /clear - 清空对话历史                   │
+│ • /save - 保存对话                        │
+│ • /quit - 退出程序                        │
+╰────────────────────────────────────────────╯
+
+你> 你好！
+
+╭─ 🤖 AI助手 ──────────────────────────────╮
+│ 你好！很高兴见到你。我是AI助手，          │
+│ 有什么我可以帮助你的吗？                  │
+╰────────────────────────────────────────────╯
+
+你> /save
+保存文件名 [conversation.json]:
+✅ 已保存到 conversation.json</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: 高级功能 -->
+            <section id="part3-advanced" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🚀 高级功能扩展</h3>
+
+                    <!-- 功能1：流式输出 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. 流式输出（Streaming）</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># streaming_chat.py
+def chat_stream(prompt: str):
+    """流式输出对话"""
+    client = OpenAI(api_key=Config.OPENAI_API_KEY)
+
+    print("🤖 AI助手: ", end="", flush=True)
+
+    stream = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        stream=True  # 启用流式输出
+    )
+
+    full_response = ""
+    for chunk in stream:
+        if chunk.choices[0].delta.content is not None:
+            content = chunk.choices[0].delta.content
+            print(content, end="", flush=True)
+            full_response += content
+
+    print()  # 换行
+    return full_response
+
+# 使用
+if __name__ == "__main__":
+    Config.validate()
+    chat_stream("请讲一个简短的故事")</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 功能2：多模型支持 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. 多模型支持</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># multi_model_chat.py
+class MultiModelChat:
+    """支持多个模型的聊天类"""
+
+    MODELS = {
+        '1': {'name': 'gpt-3.5-turbo', 'desc': '快速、经济'},
+        '2': {'name': 'gpt-4o-mini', 'desc': '平衡性能'},
+        '3': {'name': 'gpt-4o', 'desc': '最强性能'},
+    }
+
+    def __init__(self):
+        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        self.current_model = 'gpt-3.5-turbo'
+
+    def select_model(self):
+        """选择模型"""
+        console.print("\n[bold]可用模型:[/bold]")
+        for key, info in self.MODELS.items():
+            console.print(f"{key}. {info['name']} - {info['desc']}")
+
+        choice = Prompt.ask("选择模型",
+                           choices=list(self.MODELS.keys()),
+                           default='1')
+        self.current_model = self.MODELS[choice]['name']
+        console.print(f"[green]✅ 已切换到 {self.current_model}[/green]")
+
+    def chat(self, prompt: str) -> str:
+        response = self.client.chat.completions.create(
+            model=self.current_model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message.content</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 功能3：对话导出 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. 导出为不同格式</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># export_utils.py
+import json
+from datetime import datetime
+
+def export_to_markdown(history: list, filename: str):
+    """导出为Markdown格式"""
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(f"# AI对话记录\n\n")
+        f.write(f"**导出时间**: {datetime.now()}\n\n")
+        f.write("---\n\n")
+
+        for msg in history:
+            role = msg['role']
+            content = msg['content']
+
+            if role == "user":
+                f.write(f"### 👤 用户\n{content}\n\n")
+            elif role == "assistant":
+                f.write(f"### 🤖 AI助手\n{content}\n\n")
+
+    print(f"✅ 已导出到 {filename}")
+
+def export_to_html(history: list, filename: str):
+    """导出为HTML格式"""
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>AI对话记录</title>
+        <style>
+            body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+            .user { background: #e3f2fd; padding: 15px; margin: 10px 0; border-radius: 8px; }
+            .assistant { background: #f1f8e9; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        </style>
+    </head>
+    <body>
+        <h1>AI对话记录</h1>
+        <p>导出时间: {}</p>
+    """.format(datetime.now())
+
+    for msg in history:
+        role = msg['role']
+        content = msg['content']
+        css_class = 'user' if role == 'user' else 'assistant'
+        icon = '👤' if role == 'user' else '🤖'
+        html += f'<div class="{css_class}"><strong>{icon} {role}</strong><br>{content}</div>\n'
+
+    html += "</body></html>"
+
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    print(f"✅ 已导出到 {filename}")</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 课后作业 -->
+            <section id="homework" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6">📝 课后作业</h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">实现一个多轮对话CLI工具</h3>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-3">🎯 作业要求</h4>
+
+                        <div class="space-y-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">基础要求（60分）</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>✅ 支持多轮对话，保持上下文</li>
+                                    <li>✅ 实现基本的错误处理</li>
+                                    <li>✅ 支持保存和加载对话历史</li>
+                                    <li>✅ 美化的命令行界面</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold mb-2">进阶要求（30分）</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>✅ 实现流式输出</li>
+                                    <li>✅ 支持多模型切换</li>
+                                    <li>✅ 统计Token使用和成本</li>
+                                    <li>✅ 导出对话记录（Markdown/HTML）</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold mb-2">加分项（10分）</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>⭐ 实现语音输入功能</li>
+                                    <li>⭐ 添加代码高亮显示</li>
+                                    <li>⭐ 实现对话搜索功能</li>
+                                    <li>⭐ 支持自定义System Prompt</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 提交说明 -->
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                        <h4 class="font-bold mb-2">📅 提交说明</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• <strong>截止时间：</strong>本周日 23:59</li>
+                            <li>• <strong>提交方式：</strong>GitHub仓库链接 + README</li>
+                            <li>• <strong>必须包含：</strong>完整代码 + requirements.txt + 使用说明 + 运行截图</li>
+                            <li>• <strong>代码规范：</strong>遵循PEP 8，包含必要注释</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 底部导航 -->
+            <div class="flex justify-between items-center py-8 border-t">
+                <a href="slides.html" class="text-blue-500 hover:underline">
+                    ← Lesson 1: 认识LLM生态
+                </a>
+                <div class="text-right">
+                    <span class="text-gray-500">下一课</span>
+                    <p class="font-semibold">Lesson 3: Prompt设计模式</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

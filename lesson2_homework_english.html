@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2 Homework: Python Environment & First Application - AI Bootcamp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <style>
+        .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; overflow-y: auto; }
+        .main-content { margin-left: 280px; }
+        @media (max-width: 768px) {
+            .sidebar { position: relative; width: 100%; }
+            .main-content { margin-left: 0; }
+        }
+        .code-block { position: relative; }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="sidebar bg-gray-900 text-white p-6">
+        <h2 class="text-2xl font-bold mb-6">Lesson 2 Homework</h2>
+        <nav class="space-y-2">
+            <a href="#overview" class="block py-2 px-4 rounded hover:bg-gray-800">📋 Overview</a>
+            <a href="#assignment1" class="block py-2 px-4 rounded hover:bg-gray-800">📝 Assignment 1: Setup</a>
+            <a href="#assignment2" class="block py-2 px-4 rounded hover:bg-gray-800">💬 Assignment 2: CLI Chat Tool</a>
+            <a href="#assignment3" class="block py-2 px-4 rounded hover:bg-gray-800">🚀 Assignment 3: Advanced Features</a>
+            <a href="#submission" class="block py-2 px-4 rounded hover:bg-gray-800">📤 Submission</a>
+        </nav>
+    </div>
+
+    <div class="main-content p-8">
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Lesson 2 Homework: Python Environment & First Application</h1>
+            <p class="text-xl text-gray-600">Master Python development environment and OpenAI API application development through practice</p>
+        </header>
+
+        <!-- Overview -->
+        <section id="overview" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📋 Homework Overview</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Learning Objectives</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                    <li>Master Python development environment configuration and management</li>
+                    <li>Learn to use VSCode for Python development</li>
+                    <li>Understand OpenAI API calling mechanisms</li>
+                    <li>Implement complete CLI applications</li>
+                    <li>Master error handling and user experience optimization</li>
+                </ul>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <h4 class="font-semibold text-blue-900 mb-2">📊 Score Distribution</h4>
+                    <ul class="space-y-1 text-blue-800">
+                        <li>• Assignment 1 (Environment Setup): 30 points</li>
+                        <li>• Assignment 2 (CLI Chat Tool): 40 points</li>
+                        <li>• Assignment 3 (Advanced Features): 30 points</li>
+                        <li>• Total: 100 points</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                    <h4 class="font-semibold text-yellow-900 mb-2">⏱️ Estimated Time</h4>
+                    <p class="text-yellow-800">Completing all assignments will take approximately 3-5 hours</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 1: Environment Setup -->
+        <section id="assignment1" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📝 Assignment 1: Python Development Environment Setup (30 points)</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">Requirements</h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 1.1: Python Environment Installation (10 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Install Python 3.9+ (3.11 recommended)</li>
+                            <li>Create virtual environment <code class="bg-gray-100 px-2 py-1 rounded">ai-bootcamp-env</code></li>
+                            <li>Install required packages: openai, python-dotenv, rich</li>
+                            <li>Provide screenshots showing successful installation (including <code class="bg-gray-100 px-2 py-1 rounded">python --version</code> and <code class="bg-gray-100 px-2 py-1 rounded">pip list</code>)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 1.2: VSCode Configuration (10 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Install VSCode and necessary extensions (Python, Pylance, Jupyter)</li>
+                            <li>Configure <code class="bg-gray-100 px-2 py-1 rounded">settings.json</code> (auto-format, linting, etc.)</li>
+                            <li>Set virtual environment as default interpreter</li>
+                            <li>Provide screenshots showing successful configuration</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 1.3: API Key Configuration (10 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Create <code class="bg-gray-100 px-2 py-1 rounded">.env</code> file and configure API key</li>
+                            <li>Create <code class="bg-gray-100 px-2 py-1 rounded">.gitignore</code> to ensure key security</li>
+                            <li>Write <code class="bg-gray-100 px-2 py-1 rounded">config.py</code> to manage configuration</li>
+                            <li>Write test script to verify API connection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 Reference Solution</h3>
+
+                <h4 class="font-semibold mb-2">1. Environment Installation Script</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-bash"># Windows
+python -m venv ai-bootcamp-env
+ai-bootcamp-env\Scripts\activate
+pip install openai python-dotenv rich
+
+# macOS/Linux
+python3 -m venv ai-bootcamp-env
+source ai-bootcamp-env/bin/activate
+pip install openai python-dotenv rich</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">2. VSCode settings.json</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-json">{
+    "python.defaultInterpreterPath": "./ai-bootcamp-env/bin/python",
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    }
+}</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">3. .env File</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-bash"># .env
+OPENAI_API_KEY=sk-your-api-key-here
+OPENAI_ORG_ID=org-your-org-id-here</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">4. config.py</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Configuration management module"""
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+class Config:
+    """Centralized application configuration management"""
+
+    # API configuration
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    OPENAI_ORG_ID = os.getenv('OPENAI_ORG_ID')
+
+    # Model configuration
+    DEFAULT_MODEL = "gpt-3.5-turbo"
+    MAX_TOKENS = 1000
+    TEMPERATURE = 0.7
+
+    # Error handling configuration
+    MAX_RETRIES = 3
+    RETRY_DELAY = 1  # seconds
+
+    @classmethod
+    def validate(cls):
+        """Validate configuration completeness"""
+        if not cls.OPENAI_API_KEY:
+            raise ValueError("❌ Error: OPENAI_API_KEY not set")
+
+        if not cls.OPENAI_API_KEY.startswith('sk-'):
+            raise ValueError("❌ Error: Invalid API key format")
+
+        print("✅ Configuration validated successfully")
+        return True
+
+# Test configuration
+if __name__ == "__main__":
+    Config.validate()
+    print(f"Default model: {Config.DEFAULT_MODEL}")
+    print(f"Max tokens: {Config.MAX_TOKENS}")</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">5. Test Script test_connection.py</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Test OpenAI API connection"""
+from openai import OpenAI
+from config import Config
+
+def test_connection():
+    """Test API connection"""
+    try:
+        # Validate configuration
+        Config.validate()
+
+        # Create client
+        client = OpenAI(api_key=Config.OPENAI_API_KEY)
+
+        # Send test request
+        print("📡 Testing API connection...")
+        response = client.chat.completions.create(
+            model=Config.DEFAULT_MODEL,
+            messages=[{"role": "user", "content": "Say 'Hello'"}],
+            max_tokens=10
+        )
+
+        print(f"✅ Connection successful!")
+        print(f"Response: {response.choices[0].message.content}")
+        print(f"Model used: {response.model}")
+        print(f"Tokens consumed: {response.usage.total_tokens}")
+
+        return True
+
+    except Exception as e:
+        print(f"❌ Connection failed: {e}")
+        return False
+
+if __name__ == "__main__":
+    test_connection()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 2: CLI Chat Tool -->
+        <section id="assignment2" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">💬 Assignment 2: CLI Chat Tool (40 points)</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">Requirements</h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 2.1: Basic Chat Functionality (15 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Implement <code class="bg-gray-100 px-2 py-1 rounded">ChatManager</code> class to manage conversations</li>
+                            <li>Support multi-turn conversations (save conversation history)</li>
+                            <li>Implement basic user input and AI responses</li>
+                            <li>Display token usage statistics</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 2.2: Error Handling (10 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Handle API errors (network errors, rate limits, etc.)</li>
+                            <li>Implement retry mechanism (exponential backoff)</li>
+                            <li>Friendly error messages</li>
+                            <li>Exception logging</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 2.3: User Interface Optimization (15 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Use Rich library to beautify output</li>
+                            <li>Add command prompts and help information</li>
+                            <li>Implement special commands (/help, /clear, /quit, etc.)</li>
+                            <li>Display conversation statistics (rounds, token count, etc.)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 Reference Solution</h3>
+
+                <h4 class="font-semibold mb-2">1. ChatManager Class</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Chat manager"""
+import time
+from typing import List, Dict, Optional
+from openai import OpenAI, APIError, RateLimitError, APIConnectionError
+from config import Config
+
+class ChatManager:
+    """Manage OpenAI chat conversations"""
+
+    def __init__(self, model: str = None):
+        """Initialize chat manager"""
+        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        self.model = model or Config.DEFAULT_MODEL
+        self.conversation_history: List[Dict] = []
+        self.total_tokens = 0
+
+    def add_message(self, role: str, content: str):
+        """Add message to conversation history"""
+        self.conversation_history.append({
+            "role": role,
+            "content": content
+        })
+
+    def chat(self, user_input: str, **kwargs) -> Optional[str]:
+        """Send chat request and return response"""
+        # Add user message
+        self.add_message("user", user_input)
+
+        # Attempt to send request (with retry)
+        for attempt in range(Config.MAX_RETRIES):
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=self.conversation_history,
+                    temperature=kwargs.get('temperature', Config.TEMPERATURE),
+                    max_tokens=kwargs.get('max_tokens', Config.MAX_TOKENS)
+                )
+
+                # Extract response
+                assistant_message = response.choices[0].message.content
+                self.add_message("assistant", assistant_message)
+
+                # Update token statistics
+                self.total_tokens += response.usage.total_tokens
+
+                return assistant_message
+
+            except RateLimitError:
+                if attempt < Config.MAX_RETRIES - 1:
+                    wait_time = Config.RETRY_DELAY * (2 ** attempt)
+                    print(f"⚠️  Rate limit reached, retrying in {wait_time}s...")
+                    time.sleep(wait_time)
+                else:
+                    print("❌ Rate limit reached, please try again later")
+                    return None
+
+            except APIConnectionError:
+                if attempt < Config.MAX_RETRIES - 1:
+                    wait_time = Config.RETRY_DELAY * (2 ** attempt)
+                    print(f"⚠️  Network error, retrying in {wait_time}s...")
+                    time.sleep(wait_time)
+                else:
+                    print("❌ Network connection failed, please check your network")
+                    return None
+
+            except APIError as e:
+                print(f"❌ API error: {e}")
+                return None
+
+            except Exception as e:
+                print(f"❌ Unknown error: {e}")
+                return None
+
+        return None
+
+    def clear_history(self):
+        """Clear conversation history"""
+        self.conversation_history = []
+        self.total_tokens = 0
+
+    def get_stats(self) -> Dict:
+        """Get conversation statistics"""
+        return {
+            "rounds": len(self.conversation_history) // 2,
+            "messages": len(self.conversation_history),
+            "total_tokens": self.total_tokens,
+            "model": self.model
+        }</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">2. CLI Main Program chat_cli.py</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""CLI chat tool main program"""
+from rich.console import Console
+from rich.panel import Panel
+from rich.markdown import Markdown
+from rich.prompt import Prompt
+from chat_manager import ChatManager
+from config import Config
+
+console = Console()
+
+def show_welcome():
+    """Display welcome message"""
+    welcome_text = """
+# 🤖 AI Chat Assistant
+
+Welcome to the OpenAI-powered intelligent chat tool!
+
+## Available Commands:
+- `/help` - Show help information
+- `/clear` - Clear conversation history
+- `/stats` - Display conversation statistics
+- `/quit` - Exit program
+
+Start chatting! Type your question...
+    """
+    console.print(Panel(Markdown(welcome_text), border_style="blue"))
+
+def show_help():
+    """Display help information"""
+    help_text = """
+## 📖 User Guide
+
+### Basic Usage
+Simply type your question, and AI will answer. Supports multi-turn conversations where AI remembers context.
+
+### Special Commands
+- `/help` - Display this help information
+- `/clear` - Clear conversation history, start new conversation
+- `/stats` - View conversation statistics (rounds, tokens, etc.)
+- `/quit` or `/exit` - Exit program
+
+### Tips
+- Clearer questions get more accurate answers
+- You can ask AI to respond in specific formats
+- Conversation history affects token consumption
+    """
+    console.print(Panel(Markdown(help_text), border_style="green"))
+
+def show_stats(manager: ChatManager):
+    """Display conversation statistics"""
+    stats = manager.get_stats()
+    stats_text = f"""
+## 📊 Conversation Statistics
+
+- Conversation rounds: {stats['rounds']}
+- Total messages: {stats['messages']}
+- Token consumption: {stats['total_tokens']}
+- Model used: {stats['model']}
+    """
+    console.print(Panel(Markdown(stats_text), border_style="yellow"))
+
+def main():
+    """Main program"""
+    # Validate configuration
+    try:
+        Config.validate()
+    except ValueError as e:
+        console.print(f"[red]{e}[/red]")
+        return
+
+    # Display welcome message
+    show_welcome()
+
+    # Create chat manager
+    manager = ChatManager()
+
+    # Main loop
+    while True:
+        try:
+            # Get user input
+            user_input = Prompt.ask("\n[bold cyan]You[/bold cyan]")
+
+            # Handle empty input
+            if not user_input.strip():
+                continue
+
+            # Handle commands
+            if user_input.startswith('/'):
+                command = user_input.lower().strip()
+
+                if command == '/quit' or command == '/exit':
+                    console.print("[yellow]Goodbye! 👋[/yellow]")
+                    break
+
+                elif command == '/help':
+                    show_help()
+                    continue
+
+                elif command == '/clear':
+                    manager.clear_history()
+                    console.print("[green]✅ Conversation history cleared[/green]")
+                    continue
+
+                elif command == '/stats':
+                    show_stats(manager)
+                    continue
+
+                else:
+                    console.print(f"[red]Unknown command: {command}[/red]")
+                    console.print("[yellow]Type /help to see available commands[/yellow]")
+                    continue
+
+            # Send chat request
+            with console.status("[bold green]AI thinking..."):
+                response = manager.chat(user_input)
+
+            # Display response
+            if response:
+                console.print(Panel(
+                    Markdown(response),
+                    title="[bold green]🤖 AI Assistant[/bold green]",
+                    border_style="green"
+                ))
+            else:
+                console.print("[red]Sorry, unable to get response, please try again[/red]")
+
+        except KeyboardInterrupt:
+            console.print("\n[yellow]Interrupt detected, exiting...👋[/yellow]")
+            break
+
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 3: Advanced Features -->
+        <section id="assignment3" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">🚀 Assignment 3: Advanced Features (30 points)</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">Requirements</h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 3.1: Streaming Response (10 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Implement streaming output (display word by word)</li>
+                            <li>Add typewriter effect</li>
+                            <li>Display real-time generation progress</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 3.2: Conversation Export (10 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Export conversation history as Markdown file</li>
+                            <li>Include timestamps and statistics</li>
+                            <li>Support custom export path</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Task 3.3: Multi-Model Support (10 points)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Support switching between different models (GPT-3.5, GPT-4, etc.)</li>
+                            <li>Display model features and pricing</li>
+                            <li>Switch models at runtime</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 Reference Solution</h3>
+
+                <h4 class="font-semibold mb-2">1. Streaming Response Feature</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Streaming chat functionality"""
+import sys
+import time
+from openai import OpenAI
+from config import Config
+
+class StreamChatManager:
+    """Chat manager with streaming output support"""
+
+    def __init__(self, model: str = None):
+        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        self.model = model or Config.DEFAULT_MODEL
+        self.conversation_history = []
+
+    def chat_stream(self, user_input: str, **kwargs):
+        """Streaming chat"""
+        self.conversation_history.append({
+            "role": "user",
+            "content": user_input
+        })
+
+        try:
+            stream = self.client.chat.completions.create(
+                model=self.model,
+                messages=self.conversation_history,
+                temperature=kwargs.get('temperature', Config.TEMPERATURE),
+                max_tokens=kwargs.get('max_tokens', Config.MAX_TOKENS),
+                stream=True
+            )
+
+            full_response = ""
+            print("\n🤖 AI Assistant: ", end="", flush=True)
+
+            for chunk in stream:
+                if chunk.choices[0].delta.content:
+                    content = chunk.choices[0].delta.content
+                    print(content, end="", flush=True)
+                    full_response += content
+                    time.sleep(0.01)  # Typewriter effect
+
+            print("\n")  # New line
+
+            # Save complete response
+            self.conversation_history.append({
+                "role": "assistant",
+                "content": full_response
+            })
+
+            return full_response
+
+        except Exception as e:
+            print(f"\n❌ Error: {e}")
+            return None</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">2. Conversation Export Feature</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Conversation export functionality"""
+import os
+from datetime import datetime
+from typing import List, Dict
+
+class ConversationExporter:
+    """Conversation export tool"""
+
+    @staticmethod
+    def export_to_markdown(
+        conversation: List[Dict],
+        filepath: str = None,
+        stats: Dict = None
+    ) -> str:
+        """Export conversation to Markdown format"""
+
+        # Generate filename
+        if not filepath:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filepath = f"conversation_{timestamp}.md"
+
+        # Build Markdown content
+        lines = []
+        lines.append("# AI Conversation Record\n")
+        lines.append(f"**Export time:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+
+        # Add statistics
+        if stats:
+            lines.append("## 📊 Conversation Statistics\n")
+            lines.append(f"- Conversation rounds: {stats.get('rounds', 0)}")
+            lines.append(f"- Total messages: {stats.get('messages', 0)}")
+            lines.append(f"- Token consumption: {stats.get('total_tokens', 0)}")
+            lines.append(f"- Model used: {stats.get('model', 'N/A')}\n")
+
+        lines.append("## 💬 Conversation Content\n")
+
+        # Add conversation
+        for i, msg in enumerate(conversation, 1):
+            role = msg['role']
+            content = msg['content']
+
+            if role == 'user':
+                lines.append(f"### 👤 User (#{i//2 + 1})\n")
+            else:
+                lines.append(f"### 🤖 AI Assistant (#{i//2})\n")
+
+            lines.append(f"{content}\n")
+
+        # Write to file
+        content = "\n".join(lines)
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(content)
+
+        return filepath
+
+# Usage example
+def export_conversation(manager):
+    """Export conversation"""
+    exporter = ConversationExporter()
+    filepath = exporter.export_to_markdown(
+        conversation=manager.conversation_history,
+        stats=manager.get_stats()
+    )
+    print(f"✅ Conversation exported to: {filepath}")</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">3. Multi-Model Support</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Multi-model management"""
+from typing import Dict, List
+from rich.console import Console
+from rich.table import Table
+
+class ModelManager:
+    """Model manager"""
+
+    MODELS = {
+        "gpt-3.5-turbo": {
+            "name": "GPT-3.5 Turbo",
+            "description": "Fast, economical choice",
+            "input_price": "$0.0005/1K tokens",
+            "output_price": "$0.0015/1K tokens",
+            "max_tokens": 4096
+        },
+        "gpt-4": {
+            "name": "GPT-4",
+            "description": "Most powerful model",
+            "input_price": "$0.03/1K tokens",
+            "output_price": "$0.06/1K tokens",
+            "max_tokens": 8192
+        },
+        "gpt-4-turbo-preview": {
+            "name": "GPT-4 Turbo",
+            "description": "Optimized version of GPT-4",
+            "input_price": "$0.01/1K tokens",
+            "output_price": "$0.03/1K tokens",
+            "max_tokens": 128000
+        }
+    }
+
+    @classmethod
+    def list_models(cls):
+        """List all available models"""
+        console = Console()
+        table = Table(title="🤖 Available Models")
+
+        table.add_column("Model ID", style="cyan")
+        table.add_column("Name", style="green")
+        table.add_column("Description", style="yellow")
+        table.add_column("Input Price", style="magenta")
+        table.add_column("Output Price", style="magenta")
+
+        for model_id, info in cls.MODELS.items():
+            table.add_row(
+                model_id,
+                info["name"],
+                info["description"],
+                info["input_price"],
+                info["output_price"]
+            )
+
+        console.print(table)
+
+    @classmethod
+    def get_model_info(cls, model_id: str) -> Dict:
+        """Get model information"""
+        return cls.MODELS.get(model_id, None)
+
+    @classmethod
+    def validate_model(cls, model_id: str) -> bool:
+        """Validate if model is available"""
+        return model_id in cls.MODELS
+
+# Add model switching command in CLI
+def handle_model_command(manager, args):
+    """Handle model-related commands"""
+    if not args or args == 'list':
+        ModelManager.list_models()
+    else:
+        model_id = args.strip()
+        if ModelManager.validate_model(model_id):
+            manager.model = model_id
+            info = ModelManager.get_model_info(model_id)
+            console.print(f"[green]✅ Switched to model: {info['name']}[/green]")
+        else:
+            console.print(f"[red]❌ Unknown model: {model_id}[/red]")
+            console.print("[yellow]Use /model list to see available models[/yellow]")</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">4. Complete Enhanced CLI</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Enhanced CLI - Integrating all advanced features"""
+from rich.console import Console
+from rich.panel import Panel
+from rich.markdown import Markdown
+from rich.prompt import Prompt, Confirm
+from stream_chat import StreamChatManager
+from exporter import ConversationExporter
+from model_manager import ModelManager
+
+console = Console()
+
+def show_advanced_help():
+    """Display advanced features help"""
+    help_text = """
+## 📖 Advanced Features Guide
+
+### Basic Commands
+- `/help` - Show help
+- `/quit` - Exit program
+
+### Conversation Management
+- `/clear` - Clear conversation history
+- `/stats` - Display statistics
+- `/export` - Export conversation record
+
+### Model Management
+- `/model list` - List all models
+- `/model <model-id>` - Switch model
+
+### Advanced Settings
+- `/stream on/off` - Enable/disable streaming output
+- `/temperature <value>` - Set temperature parameter (0-2)
+    """
+    console.print(Panel(Markdown(help_text), border_style="blue"))
+
+def main():
+    """Enhanced main program"""
+    # Initialize
+    ModelManager.list_models()
+    manager = StreamChatManager()
+    exporter = ConversationExporter()
+    stream_enabled = True
+
+    console.print("[bold green]🚀 Welcome to Enhanced AI Chat Tool![/bold green]")
+    console.print("[yellow]Type /help to see all features[/yellow]\n")
+
+    while True:
+        try:
+            user_input = Prompt.ask("\n[bold cyan]You[/bold cyan]")
+
+            if not user_input.strip():
+                continue
+
+            # Handle commands
+            if user_input.startswith('/'):
+                parts = user_input.split(maxsplit=1)
+                command = parts[0].lower()
+                args = parts[1] if len(parts) > 1 else ""
+
+                if command in ['/quit', '/exit']:
+                    if Confirm.ask("Are you sure you want to quit?"):
+                        console.print("[yellow]Goodbye! 👋[/yellow]")
+                        break
+                    continue
+
+                elif command == '/help':
+                    show_advanced_help()
+                    continue
+
+                elif command == '/export':
+                    filepath = exporter.export_to_markdown(
+                        manager.conversation_history,
+                        stats=manager.get_stats()
+                    )
+                    console.print(f"[green]✅ Exported to: {filepath}[/green]")
+                    continue
+
+                elif command == '/model':
+                    handle_model_command(manager, args)
+                    continue
+
+                elif command == '/stream':
+                    if args.lower() == 'on':
+                        stream_enabled = True
+                        console.print("[green]✅ Streaming output enabled[/green]")
+                    elif args.lower() == 'off':
+                        stream_enabled = False
+                        console.print("[yellow]Streaming output disabled[/yellow]")
+                    continue
+
+            # Send request
+            if stream_enabled:
+                manager.chat_stream(user_input)
+            else:
+                with console.status("[bold green]AI thinking..."):
+                    response = manager.chat(user_input)
+                if response:
+                    console.print(Panel(
+                        Markdown(response),
+                        title="[bold green]🤖 AI Assistant[/bold green]",
+                        border_style="green"
+                    ))
+
+        except KeyboardInterrupt:
+            console.print("\n[yellow]Exiting...👋[/yellow]")
+            break
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submission Requirements -->
+        <section id="submission" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📤 Submission Requirements</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Submission Content</h3>
+
+                <div class="space-y-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h4 class="font-semibold text-blue-900 mb-2">1. Code Files</h4>
+                        <ul class="list-disc list-inside space-y-1 text-blue-800">
+                            <li>config.py - Configuration management</li>
+                            <li>chat_manager.py - Chat manager</li>
+                            <li>chat_cli.py - CLI main program</li>
+                            <li>stream_chat.py - Streaming chat (Assignment 3)</li>
+                            <li>exporter.py - Export functionality (Assignment 3)</li>
+                            <li>model_manager.py - Model management (Assignment 3)</li>
+                            <li>requirements.txt - Dependencies list</li>
+                            <li>.env.example - Environment variables example</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-900 mb-2">2. Screenshots</h4>
+                        <ul class="list-disc list-inside space-y-1 text-green-800">
+                            <li>Python version and installed packages list</li>
+                            <li>VSCode configuration interface</li>
+                            <li>CLI tool running screenshot (multi-turn conversation)</li>
+                            <li>Error handling demonstration</li>
+                            <li>Streaming output effect (if Assignment 3 completed)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-purple-900 mb-2">3. Documentation</h4>
+                        <ul class="list-disc list-inside space-y-1 text-purple-800">
+                            <li>README.md - Project description and usage guide</li>
+                            <li>Running instructions and precautions</li>
+                            <li>Problems encountered and solutions</li>
+                            <li>Improvement suggestions and learning insights</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Grading Criteria</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 px-4 py-2">Item</th>
+                                <th class="border border-gray-300 px-4 py-2">Points</th>
+                                <th class="border border-gray-300 px-4 py-2">Grading Criteria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Environment Setup</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">30 points</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - Python environment correctly installed (10 pts)<br>
+                                    - VSCode properly configured (10 pts)<br>
+                                    - API key securely managed (10 pts)
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">CLI Chat Tool</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">40 points</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - Basic functionality complete (15 pts)<br>
+                                    - Robust error handling (10 pts)<br>
+                                    - User-friendly interface (15 pts)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Advanced Features</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">30 points</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - Streaming response (10 pts)<br>
+                                    - Conversation export (10 pts)<br>
+                                    - Multi-model support (10 pts)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-6">
+                    <h4 class="font-semibold text-yellow-900 mb-2">⚠️ Important Notes</h4>
+                    <ul class="list-disc list-inside space-y-1 text-yellow-800">
+                        <li>Ensure code is well-formatted with appropriate comments</li>
+                        <li>Do not submit .env file (contains API key)</li>
+                        <li>Test all features before submission</li>
+                        <li>README must include detailed running instructions</li>
+                        <li>Screenshots must be clear and prove functionality works</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                    <h4 class="font-semibold text-green-900 mb-2">🎁 Bonus Points</h4>
+                    <ul class="list-disc list-inside space-y-1 text-green-800">
+                        <li>Excellent code structure with good modular design (+5 pts)</li>
+                        <li>Added unit tests (+5 pts)</li>
+                        <li>Implemented other innovative features (+5 pts)</li>
+                        <li>Excellent documentation and code comments (+5 pts)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'rgba(34, 197, 94, 0.2)';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+            });
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

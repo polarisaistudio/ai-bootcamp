@@ -473,10 +473,122 @@ Monthly cost = $2,250  💰Save 70%!"</code></pre>
                     </div>
                 </div>
 
-                <!-- Code example -->
+                <!-- Free Model Options -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <span class="text-green-600 mr-2">💰</span>
+                        Free Model Options (Perfect for Learning)
+                    </h4>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                        <p class="font-semibold text-green-900 mb-2">🎓 Great News for Students!</p>
+                        <p class="text-green-800 text-sm">OpenAI and Claude APIs require payment. For learners, we recommend these <strong>completely free</strong> alternatives:</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2 text-left">Solution</th>
+                                    <th class="px-4 py-2 text-left">Type</th>
+                                    <th class="px-4 py-2 text-left">Recommended Models</th>
+                                    <th class="px-4 py-2 text-left">Cost</th>
+                                    <th class="px-4 py-2 text-left">Advantages</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b bg-green-50">
+                                    <td class="px-4 py-2 font-semibold">⭐ Ollama</td>
+                                    <td class="px-4 py-2">Local</td>
+                                    <td class="px-4 py-2">Llama 3.2, Qwen 2.5</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>Free</strong></td>
+                                    <td class="px-4 py-2">Fully offline, Privacy</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Hugging Face</td>
+                                    <td class="px-4 py-2">Cloud API</td>
+                                    <td class="px-4 py-2">Mistral, Falcon</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>Free Tier</strong></td>
+                                    <td class="px-4 py-2">No local resources</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">LM Studio</td>
+                                    <td class="px-4 py-2">Desktop App</td>
+                                    <td class="px-4 py-2">Various OSS models</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>Free</strong></td>
+                                    <td class="px-4 py-2">GUI, Easy to use</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Google Colab</td>
+                                    <td class="px-4 py-2">Cloud Notebook</td>
+                                    <td class="px-4 py-2">Any OSS model</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>Free GPU</strong></td>
+                                    <td class="px-4 py-2">GPU acceleration</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                        <p class="text-sm"><strong>📌 Recommended:</strong> Beginners should start with <strong>Ollama</strong> - easy to install, completely free, excellent performance. Detailed instructions below.</p>
+                    </div>
+                </div>
+
+                <!-- Free Model Code Example (Ollama) -->
+                <div class="bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4 text-green-400">💻 Free Model Usage Example (Recommended!)</h4>
+                    <pre class="overflow-x-auto"><code class="language-python"># free_model_demo.py - Using Ollama (Completely Free)
+import ollama
+import time
+
+# Test prompt
+test_prompt = "Explain what recursion is, using a simple analogy"
+
+print("🔬 Free Local Model Experiment")
+print("=" * 50)
+
+# Test Llama 3.2 (Free)
+print("\n1️⃣ Testing Llama 3.2 (Free Local Model)...")
+start = time.time()
+
+response = ollama.chat(
+    model='llama3.2',
+    messages=[
+        {'role': 'user', 'content': test_prompt}
+    ]
+)
+
+time_taken = time.time() - start
+print(f"⏱️ Response time: {time_taken:.2f}s")
+print(f"💰 Cost: Free!")
+print(f"📝 Answer: {response['message']['content'][:100]}...")
+
+# Test Qwen 2.5 (Free, better for Chinese)
+print("\n2️⃣ Testing Qwen 2.5 (Free, Chinese optimized)...")
+start = time.time()
+
+response = ollama.chat(
+    model='qwen2.5',
+    messages=[
+        {'role': 'user', 'content': test_prompt}
+    ]
+)
+
+time_taken = time.time() - start
+print(f"⏱️ Response time: {time_taken:.2f}s")
+print(f"💰 Cost: Free!")
+print(f"📝 Answer: {response['message']['content'][:100]}...")
+
+print("\n✅ All tests complete, Total cost: $0.00")</code></pre>
+                    <div class="mt-2 p-2 bg-green-900 rounded text-xs">
+                        <p class="text-green-300">💡 Install Ollama: Visit https://ollama.com to download, then run <code>ollama pull llama3.2</code></p>
+                    </div>
+                </div>
+
+                <!-- Paid Model Code Example (Optional) -->
                 <div class="bg-gray-900 text-white p-6 rounded-lg shadow">
-                    <h4 class="font-bold mb-4 text-green-400">💻 Live Comparison Test Code</h4>
-                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py - 2025 Edition
+                    <h4 class="font-bold mb-4 text-orange-400">💻 Paid Model Usage Example (Requires API Key)</h4>
+                    <pre class="overflow-x-auto"><code class="language-python"># paid_model_demo.py - Using Paid APIs (Requires Budget)
 import openai
 import time
 import anthropic

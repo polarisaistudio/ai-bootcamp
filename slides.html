@@ -472,55 +472,172 @@
                         <p class="text-sm"><strong>💡 2025更新：</strong> GPT-5是OpenAI最新旗舰模型，具备更强的多模态能力和推理能力。GPT-4.5-turbo提供了性能与成本的更好平衡。</p>
                     </div>
                 </div>
-                
-                <!-- 代码示例 -->
-                <div class="bg-gray-900 text-white p-6 rounded-lg shadow">
-                    <h4 class="font-bold mb-4 text-green-400">💻 实时对比测试代码</h4>
-                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py - 2025版本
-import openai
-import time
-import anthropic
-from datetime import datetime
 
-# 配置客户端
-openai_client = openai.OpenAI(api_key="sk-...")
-claude_client = anthropic.Anthropic(api_key="sk-ant-...")
+                <!-- 免费模型选项 -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4 flex items-center">
+                        <span class="text-green-600 mr-2">💰</span>
+                        免费模型选项（适合学习和实验）
+                    </h4>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                        <p class="font-semibold text-green-900 mb-2">🎓 学生福音！</p>
+                        <p class="text-green-800 text-sm">OpenAI和Claude API需要付费。对于学习者，我们推荐以下<strong>完全免费</strong>的替代方案：</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2 text-left">方案</th>
+                                    <th class="px-4 py-2 text-left">类型</th>
+                                    <th class="px-4 py-2 text-left">推荐模型</th>
+                                    <th class="px-4 py-2 text-left">成本</th>
+                                    <th class="px-4 py-2 text-left">优势</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b bg-green-50">
+                                    <td class="px-4 py-2 font-semibold">⭐ Ollama</td>
+                                    <td class="px-4 py-2">本地运行</td>
+                                    <td class="px-4 py-2">Llama 3.2, Qwen 2.5</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>免费</strong></td>
+                                    <td class="px-4 py-2">完全离线、隐私保护</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Hugging Face</td>
+                                    <td class="px-4 py-2">云端API</td>
+                                    <td class="px-4 py-2">Mistral, Falcon</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>免费额度</strong></td>
+                                    <td class="px-4 py-2">无需本地资源</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">LM Studio</td>
+                                    <td class="px-4 py-2">桌面应用</td>
+                                    <td class="px-4 py-2">多种开源模型</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>免费</strong></td>
+                                    <td class="px-4 py-2">图形界面、易用</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Google Colab</td>
+                                    <td class="px-4 py-2">云端笔记本</td>
+                                    <td class="px-4 py-2">任何开源模型</td>
+                                    <td class="px-4 py-2 text-green-600"><strong>免费GPU</strong></td>
+                                    <td class="px-4 py-2">提供GPU加速</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                        <p class="text-sm"><strong>📌 推荐：</strong> 初学者首选<strong>Ollama</strong>，安装简单，完全免费，性能优秀。下面会详细介绍如何使用。</p>
+                    </div>
+                </div>
+
+                <!-- 免费模型代码示例 (Ollama) -->
+                <div class="bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-4 text-green-400">💻 免费模型使用示例 (推荐！)</h4>
+                    <pre class="overflow-x-auto"><code class="language-python"># free_model_demo.py - 使用Ollama (完全免费)
+import ollama
+import time
 
 # 测试prompt
 test_prompt = "解释什么是递归，用一个简单的比喻"
 
-print("🔬 开始模型对比实验（2025年模型）")
+print("🔬 使用免费本地模型实验")
 print("=" * 50)
 
-# 测试GPT-5
-print("\n1️⃣ 测试 GPT-5...")
+# 测试Llama 3.2 (免费)
+print("\n1️⃣ 测试 Llama 3.2 (免费本地模型)...")
 start = time.time()
 
-response_gpt5 = openai_client.chat.completions.create(
-    model="gpt-5",
+response = ollama.chat(
+    model='llama3.2',
+    messages=[
+        {'role': 'user', 'content': test_prompt}
+    ]
+)
+
+time_taken = time.time() - start
+print(f"⏱️ 响应时间: {time_taken:.2f}秒")
+print(f"💰 成本: 免费！")
+print(f"📝 回答: {response['message']['content'][:100]}...")
+
+# 测试Qwen 2.5 (免费，中文更优)
+print("\n2️⃣ 测试 Qwen 2.5 (免费，中文优化)...")
+start = time.time()
+
+response = ollama.chat(
+    model='qwen2.5',
+    messages=[
+        {'role': 'user', 'content': test_prompt}
+    ]
+)
+
+time_taken = time.time() - start
+print(f"⏱️ 响应时间: {time_taken:.2f}秒")
+print(f"💰 成本: 免费！")
+print(f"📝 回答: {response['message']['content'][:100]}...")
+
+print("\n✅ 所有测试完成，总成本: $0.00")</code></pre>
+                    <div class="mt-2 p-2 bg-green-900 rounded text-xs">
+                        <p class="text-green-300">💡 安装Ollama: 访问 https://ollama.com 下载安装，然后运行 <code>ollama pull llama3.2</code></p>
+                    </div>
+                </div>
+
+                <!-- 付费模型代码示例 (可选) -->
+                <div class="bg-gray-900 text-white p-6 rounded-lg shadow">
+                    <h4 class="font-bold mb-4 text-orange-400">💻 付费模型使用示例 (需要API密钥)</h4>
+                    <pre class="overflow-x-auto"><code class="language-python"># paid_model_demo.py - 使用付费API (需要预算)
+import openai
+import time
+
+# ⚠️ 需要付费API密钥
+client = openai.OpenAI(api_key="sk-...")
+
+test_prompt = "解释什么是递归，用一个简单的比喻"
+
+print("🔬 使用付费模型实验")
+print("=" * 50)
+
+# 测试GPT-4o-mini (相对便宜)
+print("\n1️⃣ 测试 GPT-4o-mini (付费但便宜)...")
+start = time.time()
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
     messages=[{"role": "user", "content": test_prompt}],
     temperature=0.7
 )
 
-time_gpt5 = time.time() - start
-print(f"⏱️ 响应时间: {time_gpt5:.2f}秒")
-print(f"💰 成本: ${0.05:.4f}")
-print(f"📝 回答: {response_gpt5.choices[0].message.content[:100]}...")
+time_taken = time.time() - start
+tokens = response.usage.total_tokens
+cost = (tokens / 1000) * 0.0004
 
-# 测试GPT-4.5-turbo
-print("\n2️⃣ 测试 GPT-4.5-turbo...")
+print(f"⏱️ 响应时间: {time_taken:.2f}秒")
+print(f"💰 成本: ${cost:.6f}")
+print(f"📝 回答: {response.choices[0].message.content[:100]}...")
+
+# 测试GPT-4.5-turbo (更强但更贵)
+print("\n2️⃣ 测试 GPT-4.5-turbo (付费，性能强)...")
 start = time.time()
 
-response_gpt45 = openai_client.chat.completions.create(
+response = client.chat.completions.create(
     model="gpt-4.5-turbo",
     messages=[{"role": "user", "content": test_prompt}],
     temperature=0.7
 )
 
-time_gpt45 = time.time() - start
-print(f"⏱️ 响应时间: {time_gpt45:.2f}秒")
-print(f"💰 成本: ${0.015:.4f}")
-print(f"📝 回答: {response_gpt45.choices[0].message.content[:100]}...")</code></pre>
+time_taken = time.time() - start
+tokens = response.usage.total_tokens
+cost = (tokens / 1000) * 0.015
+
+print(f"⏱️ 响应时间: {time_taken:.2f}秒")
+print(f"💰 成本: ${cost:.6f}")
+print(f"📝 回答: {response.choices[0].message.content[:100]}...")</code></pre>
+                    <div class="mt-2 p-2 bg-orange-900 rounded text-xs">
+                        <p class="text-orange-300">⚠️ 注意：付费API会产生费用。建议先用Ollama免费模型学习，熟练后再考虑付费API。</p>
+                    </div>
                 </div>
             </section>
             
@@ -826,33 +943,93 @@ source venv/bin/activate</code></pre>
                         <div class="bg-gray-900 text-white p-4 rounded-lg">
                             <pre class="overflow-x-auto"><code class="language-bash"># 创建requirements.txt
 cat > requirements.txt << EOF
-openai==1.12.0
-anthropic==0.18.0
+# 🟢 免费模型库（推荐！）
+ollama==0.3.0
+
+# 🟡 付费API库（可选，需要API密钥）
+# openai==1.12.0
+# anthropic==0.18.0
+
+# 📊 数据分析和可视化
 tiktoken==0.6.0
-streamlit==1.31.0
 pandas==2.2.0
 plotly==5.18.0
+
+# 🛠️ 工具库
 python-dotenv==1.0.1
-jupyter==1.0.0
-ipywidgets==8.1.1
+requests==2.31.0
+
+# 📓 交互式开发（可选）
+# jupyter==1.0.0
+# ipywidgets==8.1.1
 EOF
 
 # 安装所有依赖
 pip install -r requirements.txt
 
 # 验证安装
-python -c "import openai; print(f'OpenAI版本: {openai.__version__}')"</code></pre>
+python -c "import ollama; print('✅ Ollama已安装，可以使用免费模型了！')"
+
+# 如果要使用付费API，取消requirements.txt中的注释并重新安装
+# pip install openai anthropic</code></pre>
                         </div>
                     </div>
-                    
-                    <!-- Step 3 -->
+
+                    <!-- Step 3: Ollama安装 -->
                     <div class="mb-6">
                         <h4 class="font-bold mb-2 flex items-center">
-                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
-                            配置API密钥
+                            <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                            安装Ollama（免费模型，推荐！）
+                        </h4>
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-2">
+                            <p class="font-semibold">✅ 推荐：完全免费，无需API密钥，本地运行</p>
+                        </div>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Step 1: 安装Ollama
+# 访问 https://ollama.com 下载安装程序
+# 或者使用命令行安装：
+
+# macOS/Linux:
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Windows:
+# 从 https://ollama.com/download/windows 下载安装程序
+
+# Step 2: 验证安装
+ollama --version
+
+# Step 3: 下载模型（选择一个）
+# Llama 3.2 (英文优秀)
+ollama pull llama3.2
+
+# Qwen 2.5 (中文优秀，推荐)
+ollama pull qwen2.5
+
+# Step 4: 测试模型
+ollama run qwen2.5 "你好，解释一下什么是人工智能"
+
+# Step 5: 启动Ollama服务（后台运行）
+# macOS/Linux:
+ollama serve &
+
+# Windows: Ollama会自动作为服务运行
+
+# 测试Python连接
+python -c "import ollama; print(ollama.list())"</code></pre>
+                        </div>
+                        <div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-500">
+                            <p class="text-sm"><strong>💡 提示：</strong> Qwen 2.5 对中文支持更好，Llama 3.2 英文更强。可以都安装，根据需要切换。</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">4</span>
+                            配置API密钥（可选，仅付费API需要）
                         </h4>
                         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
-                            <p class="font-semibold">⚠️ 重要：永远不要把API密钥直接写在代码里！</p>
+                            <p class="font-semibold">⚠️ 注意：如果只用Ollama免费模型，可以跳过这一步！</p>
                         </div>
                         <div class="bg-gray-900 text-white p-4 rounded-lg">
                             <pre class="overflow-x-auto"><code class="language-python"># 创建.env文件

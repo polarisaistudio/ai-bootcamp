@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Python Environment and First Application - AI Engineer Bootcamp</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .toc-item {
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Mobile menu button -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded no-print" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- Sidebar navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">🚀 AI Bootcamp</h2>
+
+            <!-- Course progress -->
+            <div class="mb-6">
+                <div class="text-gray-400 text-sm mb-2">Course Progress</div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full" style="width: 20%"></div>
+                </div>
+                <div class="text-gray-400 text-xs mt-1">Lesson 2/8</div>
+            </div>
+
+            <!-- Table of contents -->
+            <div class="space-y-2">
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 Course Overview
+                </a>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 1: Development Environment</div>
+                    <a href="#part1-python" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🐍 Python Setup
+                    </a>
+                    <a href="#part1-vscode" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💻 VSCode Configuration
+                    </a>
+                    <a href="#part1-jupyter" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📓 Jupyter Usage
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 2: API Basics</div>
+                    <a href="#part2-api-key" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔑 API Key Setup
+                    </a>
+                    <a href="#part2-first-call" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 First API Call
+                    </a>
+                    <a href="#part2-error" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        ⚠️ Error Handling
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 3: Practical Project</div>
+                    <a href="#part3-chat" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💬 Chat Function
+                    </a>
+                    <a href="#part3-cli" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🖥️ CLI Tool Development
+                    </a>
+                    <a href="#part3-advanced" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🚀 Advanced Features
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <a href="#homework" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📝 Homework
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <!-- Top navigation -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Lesson 2: Python Environment and First Application</h1>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.print()" class="p-2 rounded hover:bg-gray-100">🖨️</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content area -->
+        <div class="px-6 py-8">
+
+            <!-- Course overview -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 Course Overview</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⏱️</div>
+                            <div class="text-lg font-semibold">3 Hours</div>
+                            <div class="text-sm opacity-90">Complete Duration</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">💻</div>
+                            <div class="text-lg font-semibold">5 Labs</div>
+                            <div class="text-sm opacity-90">Hands-on Practice</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🎯</div>
+                            <div class="text-lg font-semibold">1 Project</div>
+                            <div class="text-sm opacity-90">CLI Chat Tool</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning objectives -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🎯 Learning Objectives</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Set up complete Python development environment</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Master VSCode and Jupyter usage</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Complete first OpenAI API call</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Learn to handle API errors and exceptions</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Python Setup -->
+            <section id="part1-python" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">1</span>
+                    Development Environment Setup
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">🐍 Python Installation</h3>
+
+                    <!-- Windows installation -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">1</span>
+                            Windows Users
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Step 1: Visit Python official website
+# https://www.python.org/downloads/
+
+# Step 2: Download Python 3.11+ installer
+
+# Step 3: Run installer
+# ⚠️ Important: Check "Add Python to PATH"
+
+# Step 4: Verify installation
+python --version
+# Should display: Python 3.11.x
+
+pip --version
+# Should display: pip 23.x.x</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- macOS installation -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">2</span>
+                            macOS Users
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Method 1: Using Homebrew (Recommended)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python@3.11
+
+# Method 2: Download from official website
+# https://www.python.org/downloads/macos/
+
+# Verify installation
+python3 --version
+pip3 --version</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Virtual environment -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                            Create Virtual Environment
+                        </h4>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
+                            <p class="font-semibold">💡 Why Virtual Environments?</p>
+                            <ul class="text-sm mt-2 space-y-1">
+                                <li>• Isolate project dependencies, avoid version conflicts</li>
+                                <li>• Each project can use different package versions</li>
+                                <li>• Easy team collaboration and deployment</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Create project directory
+mkdir ai-bootcamp-lesson2
+cd ai-bootcamp-lesson2
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+
+# macOS/Linux:
+source venv/bin/activate
+
+# After activation, (venv) appears in prompt
+
+# Upgrade pip
+pip install --upgrade pip</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Install dependencies -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">4</span>
+                            Install Required Packages
+                        </h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Create requirements.txt
+cat > requirements.txt << EOF
+openai==1.12.0
+python-dotenv==1.0.1
+rich==13.7.0
+requests==2.31.0
+jupyter==1.0.0
+ipykernel==6.29.0
+EOF
+
+# Install all dependencies
+pip install -r requirements.txt
+
+# Verify installation
+pip list</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: VSCode Configuration -->
+            <section id="part1-vscode" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">💻 VSCode Installation and Configuration</h3>
+
+                    <!-- Install VSCode -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. Download and Install VSCode</h4>
+                        <p class="text-sm text-gray-600 mb-2">Visit: <a href="https://code.visualstudio.com/" class="text-blue-500">https://code.visualstudio.com/</a></p>
+                    </div>
+
+                    <!-- Install extensions -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. Essential Extensions</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">🐍 Python</h5>
+                                <p class="text-xs text-gray-600">Official Python support by Microsoft</p>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">📓 Jupyter</h5>
+                                <p class="text-xs text-gray-600">Jupyter Notebook support</p>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">🎨 Pylance</h5>
+                                <p class="text-xs text-gray-600">Intelligent code completion</p>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-1">🔧 Python Indent</h5>
+                                <p class="text-xs text-gray-600">Auto-indent correction</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VSCode configuration -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. Configure Python Interpreter</h4>
+                        <div class="bg-gray-100 p-4 rounded">
+                            <ol class="text-sm space-y-2">
+                                <li>1. Press <kbd>Ctrl+Shift+P</kbd> (Mac: <kbd>Cmd+Shift+P</kbd>)</li>
+                                <li>2. Type "Python: Select Interpreter"</li>
+                                <li>3. Select Python from virtual environment (path contains venv)</li>
+                                <li>4. Confirm correct Python version in bottom status bar</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Recommended settings -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">4. Recommended settings.json Configuration</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-json">{
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "editor.rulers": [88],
+    "python.analysis.typeCheckingMode": "basic",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python",
+        "editor.tabSize": 4
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Jupyter Usage -->
+            <section id="part1-jupyter" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">📓 Jupyter Notebook Getting Started</h3>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">What is Jupyter Notebook?</h4>
+                        <p class="text-sm">Interactive programming environment that can mix code, text, and charts. Perfect for:</p>
+                        <ul class="text-sm mt-2 space-y-1">
+                            <li>• Data exploration and visualization</li>
+                            <li>• Rapid prototyping</li>
+                            <li>• Teaching demonstrations</li>
+                            <li>• API testing</li>
+                        </ul>
+                    </div>
+
+                    <!-- Start Jupyter -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. Launch Jupyter Notebook</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Make sure you're in activated virtual environment
+# Launch Jupyter
+jupyter notebook
+
+# Or create .ipynb files directly in VSCode</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Basic operations -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. Basic Operations</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-2">Keyboard Shortcuts</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li><kbd>Shift+Enter</kbd>: Run cell</li>
+                                    <li><kbd>Ctrl+Enter</kbd>: Run without moving</li>
+                                    <li><kbd>A</kbd>: Insert cell above</li>
+                                    <li><kbd>B</kbd>: Insert cell below</li>
+                                    <li><kbd>DD</kbd>: Delete cell</li>
+                                </ul>
+                            </div>
+                            <div class="border rounded p-3">
+                                <h5 class="font-bold text-sm mb-2">Magic Commands</h5>
+                                <ul class="text-xs space-y-1">
+                                    <li><code>%time</code>: Time execution</li>
+                                    <li><code>%load</code>: Load code</li>
+                                    <li><code>%who</code>: List variables</li>
+                                    <li><code>%%writefile</code>: Save to file</li>
+                                    <li><code>!pip install</code>: Execute shell</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example Notebook -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. First Notebook Example</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># Cell 1: Import libraries
+import openai
+from dotenv import load_dotenv
+import os
+
+# Cell 2: Load configuration
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
+print("✅ API key loaded")
+
+# Cell 3: Test connection
+client = openai.OpenAI(api_key=api_key)
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": "Hello!"}],
+    max_tokens=50
+)
+
+# Cell 4: Display result
+print(response.choices[0].message.content)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: API Key Configuration -->
+            <section id="part2-api-key" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">2</span>
+                    API Basics
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">🔑 Getting and Configuring API Keys</h3>
+
+                    <!-- Get API Key -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. Get OpenAI API Key</h4>
+                        <div class="bg-gray-100 p-4 rounded">
+                            <ol class="text-sm space-y-2">
+                                <li>1. Visit <a href="https://platform.openai.com" class="text-blue-500">https://platform.openai.com</a></li>
+                                <li>2. Register/Login to account</li>
+                                <li>3. Go to API keys page</li>
+                                <li>4. Click "Create new secret key"</li>
+                                <li>5. Copy the key (⚠️ Shows only once!)</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Configure environment variables -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. Configure Environment Variables</h4>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
+                            <p class="font-semibold">⚠️ Security Best Practices</p>
+                            <ul class="text-sm mt-2 space-y-1">
+                                <li>• Never hardcode API keys in code</li>
+                                <li>• Don't commit .env files to Git</li>
+                                <li>• Rotate API keys regularly</li>
+                                <li>• Set usage limits</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Create .env file
+cat > .env << EOF
+OPENAI_API_KEY=sk-your-api-key-here
+OPENAI_ORG_ID=org-your-org-id-here
+EOF
+
+# Add to .gitignore
+echo ".env" >> .gitignore
+echo "venv/" >> .gitignore
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Load in Python -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. Load Environment Variables in Python</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># config.py
+import os
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
+class Config:
+    """Centralized configuration management"""
+
+    # API configuration
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    OPENAI_ORG_ID = os.getenv('OPENAI_ORG_ID')
+
+    # Model configuration
+    DEFAULT_MODEL = "gpt-3.5-turbo"
+    MAX_TOKENS = 1000
+    TEMPERATURE = 0.7
+
+    @classmethod
+    def validate(cls):
+        """Validate configuration completeness"""
+        if not cls.OPENAI_API_KEY:
+            raise ValueError("❌ OPENAI_API_KEY not set")
+        if not cls.OPENAI_API_KEY.startswith('sk-'):
+            raise ValueError("❌ Invalid API key format")
+        print("✅ Configuration validated")
+
+    @classmethod
+    def display(cls):
+        """Display configuration (hide sensitive info)"""
+        print("\n📋 Current Configuration:")
+        print(f"  Model: {cls.DEFAULT_MODEL}")
+        print(f"  Max Tokens: {cls.MAX_TOKENS}")
+        print(f"  Temperature: {cls.TEMPERATURE}")
+        print(f"  API Key: {'*' * 20}{cls.OPENAI_API_KEY[-8:]}")
+
+# Test
+if __name__ == "__main__":
+    Config.validate()
+    Config.display()</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: First API Call -->
+            <section id="part2-first-call" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">🎯 First API Call</h3>
+
+                    <!-- Simple example -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. Simplest Call</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># simple_chat.py
+import openai
+from config import Config
+
+# Validate configuration
+Config.validate()
+
+# Create client
+client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
+
+# Send request
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "user", "content": "Hello! Please introduce yourself in one sentence."}
+    ]
+)
+
+# Print response
+print(response.choices[0].message.content)</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Detailed example -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. Complete Call Example</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># detailed_chat.py
+import openai
+from config import Config
+from rich.console import Console
+from rich.panel import Panel
+
+console = Console()
+
+def chat_with_gpt(
+    prompt: str,
+    model: str = "gpt-3.5-turbo",
+    temperature: float = 0.7,
+    max_tokens: int = 500
+) -> dict:
+    """
+    Chat with GPT function
+
+    Args:
+        prompt: User input
+        model: Model to use
+        temperature: Temperature parameter (0-2)
+        max_tokens: Maximum tokens
+
+    Returns:
+        Dictionary containing response and metadata
+    """
+
+    client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
+
+    console.print(f"[cyan]🤖 Calling model: {model}[/cyan]")
+    console.print(f"[cyan]📊 Parameters: temp={temperature}, max_tokens={max_tokens}[/cyan]")
+
+    # Call API
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": "You are a friendly, professional AI assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
+
+    # Extract information
+    message = response.choices[0].message.content
+    usage = response.usage
+
+    # Calculate cost (GPT-3.5-turbo: $0.001/1K tokens)
+    cost = (usage.total_tokens / 1000) * 0.001
+
+    # Display results
+    console.print(Panel(message, title="[green]AI Response[/green]", border_style="green"))
+
+    console.print(f"\n[yellow]📈 Usage Statistics:[/yellow]")
+    console.print(f"  Input Tokens: {usage.prompt_tokens}")
+    console.print(f"  Output Tokens: {usage.completion_tokens}")
+    console.print(f"  Total Tokens: {usage.total_tokens}")
+    console.print(f"  Estimated Cost: ${cost:.6f}")
+
+    return {
+        'message': message,
+        'usage': {
+            'prompt_tokens': usage.prompt_tokens,
+            'completion_tokens': usage.completion_tokens,
+            'total_tokens': usage.total_tokens
+        },
+        'cost': cost,
+        'model': model
+    }
+
+# Test
+if __name__ == "__main__":
+    Config.validate()
+
+    result = chat_with_gpt(
+        "Please explain what machine learning is in simple terms",
+        temperature=0.7
+    )
+
+    print(f"\n✅ Call successful!")</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Expected output -->
+                    <div class="bg-gray-100 p-4 rounded">
+                        <h4 class="font-bold mb-2">Expected Output:</h4>
+                        <pre class="text-sm">🤖 Calling model: gpt-3.5-turbo
+📊 Parameters: temp=0.7, max_tokens=500
+
+╭─ AI Response ─────────────────────────────────╮
+│ Machine learning is how computers learn from  │
+│ data and experience instead of being          │
+│ explicitly programmed. Like how kids learn to │
+│ recognize cats and dogs through examples,     │
+│ machines learn to identify patterns and make  │
+│ predictions from large amounts of sample data.│
+╰───────────────────────────────────────────────╯
+
+📈 Usage Statistics:
+  Input Tokens: 23
+  Output Tokens: 48
+  Total Tokens: 71
+  Estimated Cost: $0.000071</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Error Handling -->
+            <section id="part2-error" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">⚠️ Error Handling and Exceptions</h3>
+
+                    <!-- Common errors -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. Common Error Types</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="border rounded p-3 bg-red-50">
+                                <h5 class="font-bold text-sm text-red-700">AuthenticationError</h5>
+                                <p class="text-xs mt-1">Invalid or missing API key</p>
+                            </div>
+                            <div class="border rounded p-3 bg-yellow-50">
+                                <h5 class="font-bold text-sm text-yellow-700">RateLimitError</h5>
+                                <p class="text-xs mt-1">Exceeded rate limit</p>
+                            </div>
+                            <div class="border rounded p-3 bg-orange-50">
+                                <h5 class="font-bold text-sm text-orange-700">APIError</h5>
+                                <p class="text-xs mt-1">OpenAI server error</p>
+                            </div>
+                            <div class="border rounded p-3 bg-purple-50">
+                                <h5 class="font-bold text-sm text-purple-700">Timeout</h5>
+                                <p class="text-xs mt-1">Request timeout</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Complete error handling -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. Complete Error Handling Code</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># robust_chat.py
+import openai
+from openai import OpenAI
+import time
+from typing import Optional
+
+def chat_with_retry(
+    prompt: str,
+    max_retries: int = 3,
+    retry_delay: int = 2
+) -> Optional[dict]:
+    """
+    Chat function with retry mechanism
+    """
+
+    client = OpenAI(api_key=Config.OPENAI_API_KEY)
+
+    for attempt in range(max_retries):
+        try:
+            print(f"📤 Attempt {attempt + 1}/{max_retries}...")
+
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": prompt}],
+                timeout=30  # 30 second timeout
+            )
+
+            print("✅ Request successful!")
+            return {
+                'message': response.choices[0].message.content,
+                'usage': response.usage,
+                'success': True
+            }
+
+        except openai.AuthenticationError as e:
+            print(f"❌ Authentication error: {e}")
+            print("💡 Please check if API key is correct")
+            return {'success': False, 'error': 'authentication_error'}
+
+        except openai.RateLimitError as e:
+            print(f"⏳ Rate limit: {e}")
+            if attempt < max_retries - 1:
+                wait_time = retry_delay * (2 ** attempt)  # Exponential backoff
+                print(f"💤 Waiting {wait_time} seconds before retry...")
+                time.sleep(wait_time)
+            else:
+                print("❌ Max retries reached")
+                return {'success': False, 'error': 'rate_limit_exceeded'}
+
+        except openai.APIError as e:
+            print(f"🔧 API error: {e}")
+            if attempt < max_retries - 1:
+                print(f"💤 Waiting {retry_delay} seconds before retry...")
+                time.sleep(retry_delay)
+            else:
+                return {'success': False, 'error': 'api_error'}
+
+        except openai.APITimeoutError as e:
+            print(f"⏰ Request timeout: {e}")
+            if attempt < max_retries - 1:
+                print("💤 Retrying...")
+                time.sleep(retry_delay)
+            else:
+                return {'success': False, 'error': 'timeout'}
+
+        except Exception as e:
+            print(f"❓ Unknown error: {e}")
+            return {'success': False, 'error': 'unknown_error'}
+
+    return {'success': False, 'error': 'max_retries_exceeded'}
+
+# Test
+if __name__ == "__main__":
+    Config.validate()
+
+    result = chat_with_retry(
+        "Hello!",
+        max_retries=3,
+        retry_delay=2
+    )
+
+    if result['success']:
+        print(f"\nResponse: {result['message']}")
+    else:
+        print(f"\nFailed: {result['error']}")</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Best practices -->
+                    <div class="bg-blue-50 p-4 rounded">
+                        <h4 class="font-bold mb-2">💡 Error Handling Best Practices</h4>
+                        <ul class="text-sm space-y-2">
+                            <li>✅ Use try-except to catch specific exceptions</li>
+                            <li>✅ Implement retry mechanism (especially for temporary errors)</li>
+                            <li>✅ Use exponential backoff strategy</li>
+                            <li>✅ Set reasonable timeout values</li>
+                            <li>✅ Log detailed error messages</li>
+                            <li>✅ Provide user-friendly error messages</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Chat Function -->
+            <section id="part3-chat" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">3</span>
+                    Practical Project Development
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-xl font-bold mb-4">💬 Building Chat Function</h3>
+
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre class="overflow-x-auto"><code class="language-python"># chat_manager.py
+from openai import OpenAI
+from typing import List, Dict
+from config import Config
+
+class ChatManager:
+    """Chat Manager"""
+
+    def __init__(self, model: str = "gpt-3.5-turbo"):
+        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        self.model = model
+        self.conversation_history: List[Dict] = []
+
+    def add_system_message(self, content: str):
+        """Add system message"""
+        self.conversation_history.append({
+            "role": "system",
+            "content": content
+        })
+
+    def add_user_message(self, content: str):
+        """Add user message"""
+        self.conversation_history.append({
+            "role": "user",
+            "content": content
+        })
+
+    def add_assistant_message(self, content: str):
+        """Add assistant message"""
+        self.conversation_history.append({
+            "role": "assistant",
+            "content": content
+        })
+
+    def chat(self, user_input: str, **kwargs) -> str:
+        """
+        Send message and get response
+
+        Args:
+            user_input: User input
+            **kwargs: Additional API parameters
+        """
+        # Add user message to history
+        self.add_user_message(user_input)
+
+        try:
+            # Call API
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=self.conversation_history,
+                temperature=kwargs.get('temperature', 0.7),
+                max_tokens=kwargs.get('max_tokens', 500)
+            )
+
+            # Get response
+            assistant_message = response.choices[0].message.content
+
+            # Add to history
+            self.add_assistant_message(assistant_message)
+
+            return assistant_message
+
+        except Exception as e:
+            print(f"❌ Error: {e}")
+            return "Sorry, an error occurred."
+
+    def get_history(self) -> List[Dict]:
+        """Get conversation history"""
+        return self.conversation_history
+
+    def clear_history(self):
+        """Clear conversation history"""
+        self.conversation_history = []
+
+    def save_history(self, filename: str):
+        """Save conversation history"""
+        import json
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(self.conversation_history, f,
+                     ensure_ascii=False, indent=2)
+
+    def load_history(self, filename: str):
+        """Load conversation history"""
+        import json
+        with open(filename, 'r', encoding='utf-8') as f:
+            self.conversation_history = json.load(f)
+
+# Usage example
+if __name__ == "__main__":
+    Config.validate()
+
+    # Create chat manager
+    chat = ChatManager()
+
+    # Set system prompt
+    chat.add_system_message("You are a friendly AI assistant, good at answering questions.")
+
+    # Chat
+    response1 = chat.chat("Hello!")
+    print(f"Assistant: {response1}\n")
+
+    response2 = chat.chat("How can you help me?")
+    print(f"Assistant: {response2}\n")
+
+    # Save history
+    chat.save_history("conversation.json")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: CLI Tool Development -->
+            <section id="part3-cli" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🖥️ Command Line Chat Tool</h3>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold mb-2">🎯 Project Goals</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>✅ Support multi-turn conversations</li>
+                            <li>✅ Maintain context memory</li>
+                            <li>✅ Beautiful output interface</li>
+                            <li>✅ Support command operations</li>
+                            <li>✅ Save conversation history</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-4">
+                        <pre class="overflow-x-auto"><code class="language-python"># cli_chat.py
+from chat_manager import ChatManager
+from config import Config
+from rich.console import Console
+from rich.panel import Panel
+from rich.markdown import Markdown
+from rich.prompt import Prompt
+import sys
+
+console = Console()
+
+def print_welcome():
+    """Print welcome message"""
+    welcome_text = """
+# 🤖 AI Chat Assistant
+
+Welcome to the AI command-line chat tool!
+
+**Available Commands:**
+- `/help` - Show help
+- `/clear` - Clear conversation history
+- `/save` - Save conversation
+- `/history` - View history
+- `/quit` - Exit program
+
+Start chatting by typing a message!
+    """
+    console.print(Panel(Markdown(welcome_text),
+                       border_style="blue",
+                       title="Welcome"))
+
+def main():
+    """Main function"""
+    Config.validate()
+
+    # Print welcome message
+    print_welcome()
+
+    # Create chat manager
+    chat = ChatManager()
+    chat.add_system_message("You are a friendly, helpful AI assistant.")
+
+    # Main loop
+    while True:
+        try:
+            # Get user input
+            user_input = Prompt.ask("\n[bold cyan]You[/bold cyan]")
+
+            # Handle commands
+            if user_input.startswith('/'):
+                handle_command(user_input, chat)
+                continue
+
+            # If empty, continue
+            if not user_input.strip():
+                continue
+
+            # Show thinking status
+            with console.status("[bold green]AI is thinking...",
+                              spinner="dots"):
+                response = chat.chat(user_input)
+
+            # Display response
+            console.print(Panel(
+                Markdown(response),
+                title="[bold green]🤖 AI Assistant[/bold green]",
+                border_style="green"
+            ))
+
+        except KeyboardInterrupt:
+            console.print("\n\n[yellow]Ctrl+C detected, exiting...[/yellow]")
+            save_before_exit(chat)
+            break
+
+        except Exception as e:
+            console.print(f"[red]❌ Error: {e}[/red]")
+
+def handle_command(command: str, chat: ChatManager):
+    """Handle commands"""
+    command = command.lower().strip()
+
+    if command == '/help':
+        print_welcome()
+
+    elif command == '/clear':
+        chat.clear_history()
+        console.print("[green]✅ Conversation history cleared[/green]")
+
+    elif command == '/save':
+        filename = Prompt.ask("Save filename", default="conversation.json")
+        chat.save_history(filename)
+        console.print(f"[green]✅ Saved to {filename}[/green]")
+
+    elif command == '/history':
+        history = chat.get_history()
+        if not history:
+            console.print("[yellow]No conversation history[/yellow]")
+        else:
+            for i, msg in enumerate(history, 1):
+                role = msg['role']
+                content = msg['content']
+                color = "cyan" if role == "user" else "green"
+                console.print(f"[{color}]{i}. {role}: {content}[/{color}]")
+
+    elif command == '/quit':
+        save_before_exit(chat)
+        sys.exit(0)
+
+    else:
+        console.print(f"[red]Unknown command: {command}[/red]")
+        console.print("[yellow]Type /help for help[/yellow]")
+
+def save_before_exit(chat: ChatManager):
+    """Save before exit"""
+    if chat.get_history():
+        save = Prompt.ask("Save conversation history?",
+                         choices=["y", "n"],
+                         default="y")
+        if save == "y":
+            filename = Prompt.ask("Filename",
+                                 default="conversation.json")
+            chat.save_history(filename)
+            console.print(f"[green]✅ Saved[/green]")
+
+    console.print("[blue]👋 Goodbye![/blue]")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                    </div>
+
+                    <!-- Running screenshot -->
+                    <div class="bg-gray-100 p-4 rounded">
+                        <h4 class="font-bold mb-2">Running Effect:</h4>
+                        <pre class="text-sm">╭─ Welcome ─────────────────────────────────────╮
+│                                                │
+│ 🤖 AI Chat Assistant                          │
+│                                                │
+│ Welcome to the AI command-line chat tool!     │
+│                                                │
+│ Available Commands:                            │
+│ • /help - Show help                           │
+│ • /clear - Clear conversation history         │
+│ • /save - Save conversation                   │
+│ • /quit - Exit program                        │
+╰───────────────────────────────────────────────╯
+
+You> Hello!
+
+╭─ 🤖 AI Assistant ────────────────────────────╮
+│ Hello! Nice to meet you. I'm an AI           │
+│ assistant. What can I help you with?         │
+╰──────────────────────────────────────────────╯
+
+You> /save
+Save filename [conversation.json]:
+✅ Saved to conversation.json</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Advanced Features -->
+            <section id="part3-advanced" class="mb-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🚀 Advanced Feature Extensions</h3>
+
+                    <!-- Feature 1: Streaming -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. Streaming Output</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># streaming_chat.py
+def chat_stream(prompt: str):
+    """Stream output chat"""
+    client = OpenAI(api_key=Config.OPENAI_API_KEY)
+
+    print("🤖 AI Assistant: ", end="", flush=True)
+
+    stream = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        stream=True  # Enable streaming
+    )
+
+    full_response = ""
+    for chunk in stream:
+        if chunk.choices[0].delta.content is not None:
+            content = chunk.choices[0].delta.content
+            print(content, end="", flush=True)
+            full_response += content
+
+    print()  # New line
+    return full_response
+
+# Usage
+if __name__ == "__main__":
+    Config.validate()
+    chat_stream("Please tell a short story")</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2: Multi-model support -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. Multi-Model Support</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># multi_model_chat.py
+class MultiModelChat:
+    """Chat class supporting multiple models"""
+
+    MODELS = {
+        '1': {'name': 'gpt-3.5-turbo', 'desc': 'Fast, economical'},
+        '2': {'name': 'gpt-4o-mini', 'desc': 'Balanced performance'},
+        '3': {'name': 'gpt-4o', 'desc': 'Best performance'},
+    }
+
+    def __init__(self):
+        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        self.current_model = 'gpt-3.5-turbo'
+
+    def select_model(self):
+        """Select model"""
+        console.print("\n[bold]Available Models:[/bold]")
+        for key, info in self.MODELS.items():
+            console.print(f"{key}. {info['name']} - {info['desc']}")
+
+        choice = Prompt.ask("Select model",
+                           choices=list(self.MODELS.keys()),
+                           default='1')
+        self.current_model = self.MODELS[choice]['name']
+        console.print(f"[green]✅ Switched to {self.current_model}[/green]")
+
+    def chat(self, prompt: str) -> str:
+        response = self.client.chat.completions.create(
+            model=self.current_model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message.content</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3: Export conversation -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">3. Export to Different Formats</h4>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-python"># export_utils.py
+import json
+from datetime import datetime
+
+def export_to_markdown(history: list, filename: str):
+    """Export as Markdown format"""
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(f"# AI Conversation Log\n\n")
+        f.write(f"**Export Time**: {datetime.now()}\n\n")
+        f.write("---\n\n")
+
+        for msg in history:
+            role = msg['role']
+            content = msg['content']
+
+            if role == "user":
+                f.write(f"### 👤 User\n{content}\n\n")
+            elif role == "assistant":
+                f.write(f"### 🤖 AI Assistant\n{content}\n\n")
+
+    print(f"✅ Exported to {filename}")
+
+def export_to_html(history: list, filename: str):
+    """Export as HTML format"""
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>AI Conversation Log</title>
+        <style>
+            body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+            .user { background: #e3f2fd; padding: 15px; margin: 10px 0; border-radius: 8px; }
+            .assistant { background: #f1f8e9; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        </style>
+    </head>
+    <body>
+        <h1>AI Conversation Log</h1>
+        <p>Export Time: {}</p>
+    """.format(datetime.now())
+
+    for msg in history:
+        role = msg['role']
+        content = msg['content']
+        css_class = 'user' if role == 'user' else 'assistant'
+        icon = '👤' if role == 'user' else '🤖'
+        html += f'<div class="{css_class}"><strong>{icon} {role}</strong><br>{content}</div>\n'
+
+    html += "</body></html>"
+
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    print(f"✅ Exported to {filename}")</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Homework -->
+            <section id="homework" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6">📝 Homework</h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">Implement a Multi-turn Conversation CLI Tool</h3>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-3">🎯 Assignment Requirements</h4>
+
+                        <div class="space-y-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">Basic Requirements (60 pts)</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>✅ Support multi-turn conversation with context</li>
+                                    <li>✅ Implement basic error handling</li>
+                                    <li>✅ Support saving and loading conversation history</li>
+                                    <li>✅ Beautiful command-line interface</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold mb-2">Advanced Requirements (30 pts)</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>✅ Implement streaming output</li>
+                                    <li>✅ Support multiple model switching</li>
+                                    <li>✅ Track token usage and costs</li>
+                                    <li>✅ Export conversations (Markdown/HTML)</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold mb-2">Bonus (10 pts)</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>⭐ Implement voice input</li>
+                                    <li>⭐ Add code syntax highlighting</li>
+                                    <li>⭐ Implement conversation search</li>
+                                    <li>⭐ Support custom System Prompt</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submission instructions -->
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                        <h4 class="font-bold mb-2">📅 Submission Instructions</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• <strong>Deadline:</strong> Sunday 11:59 PM this week</li>
+                            <li>• <strong>Submission:</strong> GitHub repository link + README</li>
+                            <li>• <strong>Must include:</strong> Complete code + requirements.txt + usage guide + screenshots</li>
+                            <li>• <strong>Code standards:</strong> Follow PEP 8, include necessary comments</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom navigation -->
+            <div class="flex justify-between items-center py-8 border-t">
+                <a href="lesson1_slides_english.html" class="text-blue-500 hover:underline">
+                    ← Lesson 1: Understanding LLM Ecosystem
+                </a>
+                <div class="text-right">
+                    <span class="text-gray-500">Next Lesson</span>
+                    <p class="font-semibold">Lesson 3: Prompt Design Patterns</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

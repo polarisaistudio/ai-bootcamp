@@ -537,6 +537,12 @@
                 <!-- 免费模型代码示例 (Ollama) -->
                 <div class="bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
                     <h4 class="font-bold mb-4 text-green-400">💻 免费模型使用示例 (推荐！)</h4>
+                    <div class="mb-3 p-3 bg-red-900 border border-red-700 rounded">
+                        <p class="text-red-200 text-sm"><strong>⚠️ 运行前必读：</strong></p>
+                        <p class="text-red-100 text-xs mt-1">1. 先安装Ollama应用: <code class="bg-red-800 px-1">https://ollama.com</code></p>
+                        <p class="text-red-100 text-xs">2. 然后安装Python包: <code class="bg-red-800 px-1">pip install ollama</code></p>
+                        <p class="text-red-100 text-xs">3. 下载模型: <code class="bg-red-800 px-1">ollama pull qwen2.5</code></p>
+                    </div>
                     <pre class="overflow-x-auto"><code class="language-python"># free_model_demo.py - 使用Ollama (完全免费)
 import ollama
 import time
@@ -985,7 +991,7 @@ python -c "import ollama; print('✅ Ollama已安装，可以使用免费模型�
                             <p class="font-semibold">✅ 推荐：完全免费，无需API密钥，本地运行</p>
                         </div>
                         <div class="bg-gray-900 text-white p-4 rounded-lg">
-                            <pre class="overflow-x-auto"><code class="language-bash"># Step 1: 安装Ollama
+                            <pre class="overflow-x-auto"><code class="language-bash"># Step 1: 安装Ollama应用程序
 # 访问 https://ollama.com 下载安装程序
 # 或者使用命令行安装：
 
@@ -995,27 +1001,24 @@ curl -fsSL https://ollama.com/install.sh | sh
 # Windows:
 # 从 https://ollama.com/download/windows 下载安装程序
 
-# Step 2: 验证安装
+# Step 2: 安装Python ollama包（重要！）
+pip install ollama
+
+# Step 3: 验证Ollama安装
 ollama --version
 
-# Step 3: 下载模型（选择一个）
+# Step 4: 下载模型（选择一个或都安装）
 # Llama 3.2 (英文优秀)
 ollama pull llama3.2
 
 # Qwen 2.5 (中文优秀，推荐)
 ollama pull qwen2.5
 
-# Step 4: 测试模型
+# Step 5: 测试模型（命令行）
 ollama run qwen2.5 "你好，解释一下什么是人工智能"
 
-# Step 5: 启动Ollama服务（后台运行）
-# macOS/Linux:
-ollama serve &
-
-# Windows: Ollama会自动作为服务运行
-
-# 测试Python连接
-python -c "import ollama; print(ollama.list())"</code></pre>
+# Step 6: 测试Python连接
+python -c "import ollama; print('✅ Ollama Python包安装成功!'); print(ollama.list())"</code></pre>
                         </div>
                         <div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-500">
                             <p class="text-sm"><strong>💡 提示：</strong> Qwen 2.5 对中文支持更好，Llama 3.2 英文更强。可以都安装，根据需要切换。</p>

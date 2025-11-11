@@ -537,6 +537,12 @@ Monthly cost = $2,250  💰Save 70%!"</code></pre>
                 <!-- Free Model Code Example (Ollama) -->
                 <div class="bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
                     <h4 class="font-bold mb-4 text-green-400">💻 Free Model Usage Example (Recommended!)</h4>
+                    <div class="mb-3 p-3 bg-red-900 border border-red-700 rounded">
+                        <p class="text-red-200 text-sm"><strong>⚠️ Before Running:</strong></p>
+                        <p class="text-red-100 text-xs mt-1">1. Install Ollama app: <code class="bg-red-800 px-1">https://ollama.com</code></p>
+                        <p class="text-red-100 text-xs">2. Install Python package: <code class="bg-red-800 px-1">pip install ollama</code></p>
+                        <p class="text-red-100 text-xs">3. Download model: <code class="bg-red-800 px-1">ollama pull qwen2.5</code></p>
+                    </div>
                     <pre class="overflow-x-auto"><code class="language-python"># free_model_demo.py - Using Ollama (Completely Free)
 import ollama
 import time
@@ -937,33 +943,90 @@ source venv/bin/activate</code></pre>
                         <div class="bg-gray-900 text-white p-4 rounded-lg">
                             <pre class="overflow-x-auto"><code class="language-bash"># Create requirements.txt
 cat > requirements.txt << EOF
-openai==1.12.0
-anthropic==0.18.0
+# 🟢 Free model library (Recommended!)
+ollama==0.3.0
+
+# 🟡 Paid API libraries (Optional, requires API keys)
+# openai==1.12.0
+# anthropic==0.18.0
+
+# 📊 Data analysis and visualization
 tiktoken==0.6.0
-streamlit==1.31.0
 pandas==2.2.0
 plotly==5.18.0
+
+# 🛠️ Utility libraries
 python-dotenv==1.0.1
-jupyter==1.0.0
-ipywidgets==8.1.1
+requests==2.31.0
+
+# 📓 Interactive development (Optional)
+# jupyter==1.0.0
+# ipywidgets==8.1.1
 EOF
 
 # Install all dependencies
 pip install -r requirements.txt
 
 # Verify installation
-python -c "import openai; print(f'OpenAI version: {openai.__version__}')"</code></pre>
+python -c "import ollama; print('✅ Ollama installed, ready to use free models!')"
+
+# If you want to use paid APIs, uncomment them in requirements.txt and reinstall
+# pip install openai anthropic</code></pre>
                         </div>
                     </div>
 
-                    <!-- Step 3 -->
+                    <!-- Step 3: Ollama Installation -->
                     <div class="mb-6">
                         <h4 class="font-bold mb-2 flex items-center">
-                            <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
-                            Configure API Keys
+                            <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>
+                            Install Ollama (Free Models, Recommended!)
+                        </h4>
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-2">
+                            <p class="font-semibold">✅ Recommended: Completely free, no API keys needed, runs locally</p>
+                        </div>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg">
+                            <pre class="overflow-x-auto"><code class="language-bash"># Step 1: Install Ollama application
+# Visit https://ollama.com to download installer
+# Or use command line:
+
+# macOS/Linux:
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Windows:
+# Download installer from https://ollama.com/download/windows
+
+# Step 2: Install Python ollama package (Important!)
+pip install ollama
+
+# Step 3: Verify Ollama installation
+ollama --version
+
+# Step 4: Download models (choose one or both)
+# Llama 3.2 (excellent for English)
+ollama pull llama3.2
+
+# Qwen 2.5 (excellent for Chinese, recommended)
+ollama pull qwen2.5
+
+# Step 5: Test model (command line)
+ollama run qwen2.5 "Hello, explain what artificial intelligence is"
+
+# Step 6: Test Python connection
+python -c "import ollama; print('✅ Ollama Python package installed!'); print(ollama.list())"</code></pre>
+                        </div>
+                        <div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-500">
+                            <p class="text-sm"><strong>💡 Tip:</strong> Qwen 2.5 has better Chinese support, Llama 3.2 is stronger in English. You can install both and switch as needed.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">4</span>
+                            Configure API Keys (Optional, only for paid APIs)
                         </h4>
                         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-2">
-                            <p class="font-semibold">⚠️ Important: Never put API keys directly in your code!</p>
+                            <p class="font-semibold">⚠️ Note: If you're only using Ollama free models, you can skip this step!</p>
                         </div>
                         <div class="bg-gray-900 text-white p-4 rounded-lg">
                             <pre class="overflow-x-auto"><code class="language-python"># Create .env file

@@ -350,9 +350,9 @@
                 <div class="bg-white p-6 rounded-lg shadow">
                     <!-- 场景故事 -->
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-                        <p class="font-semibold">真实案例：</p>
-                        <p>"上个月，我的一个朋友开了一家创业公司，他兴奋地告诉我：'我们用GPT-4做客服系统！'</p>
-                        <p>一个月后，他收到了OpenAI的账单：<span class="text-red-600 font-bold">$3,847.52</span></p>
+                        <p class="font-semibold">真实案例（2025年）：</p>
+                        <p>"上个月，我的一个朋友开了一家创业公司，他兴奋地告诉我：'我们用GPT-5做客服系统！'</p>
+                        <p>一个月后，他收到了OpenAI的账单：<span class="text-red-600 font-bold">$12,847.52</span></p>
                     </div>
                     
                     <!-- 成本计算演示 -->
@@ -368,16 +368,19 @@
 - 每天1000个用户
 - 每用户10轮对话
 - 每轮约500 tokens
-- GPT-4定价：$0.03/1K tokens
+- GPT-5定价：$0.05/1K tokens（输入）
 
-每天成本 = 1000 * 10 * 0.5 * 0.03 = $150
-每月成本 = $150 * 30 = $4,500 😱"</code></pre>
+每天成本 = 1000 * 10 * 0.5 * 0.05 = $250
+每月成本 = $250 * 30 = $7,500 😱
+
+如果换成GPT-4.5-turbo ($0.015/1K):
+每月成本 = $2,250  💰节省70%！"</code></pre>
                     </div>
                     
                     <!-- 互动投票 -->
                     <div class="bg-blue-50 p-4 rounded-lg mt-4">
                         <h4 class="font-bold mb-2">💡 互动元素</h4>
-                        <p class="mb-2">你们猜，如果换成GPT-3.5，成本会是多少？</p>
+                        <p class="mb-2">你们猜，如果换成GPT-4o-mini，成本会是多少？</p>
                         <div class="grid grid-cols-2 gap-2">
                             <button class="p-2 bg-white border rounded hover:bg-gray-100">A. $2,000</button>
                             <button class="p-2 bg-white border rounded hover:bg-gray-100">B. $500</button>
@@ -400,7 +403,7 @@
                 
                 <!-- 模型对比表格 -->
                 <div class="bg-white p-6 rounded-lg shadow mb-6">
-                    <h4 class="font-bold mb-4">主流模型对比</h4>
+                    <h4 class="font-bold mb-4">主流模型对比（2025年最新）</h4>
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto">
                             <thead>
@@ -413,43 +416,67 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr class="border-b bg-yellow-50">
+                                    <td class="px-4 py-2 font-semibold">🌟 GPT-5</td>
+                                    <td class="px-4 py-2">⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-red-600">$$$$$$</td>
+                                    <td class="px-4 py-2">多模态、复杂推理</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-4.5-turbo</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-orange-600">$$$$</td>
+                                    <td class="px-4 py-2">高级推理任务</td>
+                                </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold">GPT-4o</td>
-                                    <td class="px-4 py-2">⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐</td>
                                     <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
-                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
-                                    <td class="px-4 py-2">复杂推理</td>
+                                    <td class="px-4 py-2 text-orange-600">$$$</td>
+                                    <td class="px-4 py-2">复杂推理、图像</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold">GPT-4o-mini</td>
-                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
                                     <td class="px-4 py-2">⭐⭐⭐⭐</td>
                                     <td class="px-4 py-2 text-yellow-600">$$</td>
                                     <td class="px-4 py-2">平衡选择</td>
                                 </tr>
                                 <tr class="border-b">
-                                    <td class="px-4 py-2 font-semibold">GPT-3.5</td>
+                                    <td class="px-4 py-2 font-semibold">Claude Sonnet 4.5</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-orange-600">$$$</td>
+                                    <td class="px-4 py-2">编程、长文本</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Gemini 2.0 Pro</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-yellow-600">$$</td>
+                                    <td class="px-4 py-2">多模态、搜索</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-3.5-turbo</td>
                                     <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
                                     <td class="px-4 py-2">⭐⭐⭐</td>
                                     <td class="px-4 py-2 text-green-600">$</td>
                                     <td class="px-4 py-2">简单对话</td>
                                 </tr>
-                                <tr class="border-b">
-                                    <td class="px-4 py-2 font-semibold">Claude-Opus</td>
-                                    <td class="px-4 py-2">⭐⭐</td>
-                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
-                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
-                                    <td class="px-4 py-2">长文本</td>
-                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <p class="text-sm"><strong>💡 2025更新：</strong> GPT-5是OpenAI最新旗舰模型，具备更强的多模态能力和推理能力。GPT-4.5-turbo提供了性能与成本的更好平衡。</p>
                     </div>
                 </div>
                 
                 <!-- 代码示例 -->
                 <div class="bg-gray-900 text-white p-6 rounded-lg shadow">
                     <h4 class="font-bold mb-4 text-green-400">💻 实时对比测试代码</h4>
-                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py
+                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py - 2025版本
 import openai
 import time
 import anthropic
@@ -462,23 +489,38 @@ claude_client = anthropic.Anthropic(api_key="sk-ant-...")
 # 测试prompt
 test_prompt = "解释什么是递归，用一个简单的比喻"
 
-print("🔬 开始模型对比实验")
+print("🔬 开始模型对比实验（2025年模型）")
 print("=" * 50)
 
-# 测试GPT-3.5
-print("\n1️⃣ 测试 GPT-3.5-turbo...")
+# 测试GPT-5
+print("\n1️⃣ 测试 GPT-5...")
 start = time.time()
 
-response_gpt35 = openai_client.chat.completions.create(
-    model="gpt-3.5-turbo",
+response_gpt5 = openai_client.chat.completions.create(
+    model="gpt-5",
     messages=[{"role": "user", "content": test_prompt}],
     temperature=0.7
 )
 
-time_gpt35 = time.time() - start
-print(f"⏱️ 响应时间: {time_gpt35:.2f}秒")
-print(f"💰 成本: ${0.001:.4f}")
-print(f"📝 回答: {response_gpt35.choices[0].message.content[:100]}...")</code></pre>
+time_gpt5 = time.time() - start
+print(f"⏱️ 响应时间: {time_gpt5:.2f}秒")
+print(f"💰 成本: ${0.05:.4f}")
+print(f"📝 回答: {response_gpt5.choices[0].message.content[:100]}...")
+
+# 测试GPT-4.5-turbo
+print("\n2️⃣ 测试 GPT-4.5-turbo...")
+start = time.time()
+
+response_gpt45 = openai_client.chat.completions.create(
+    model="gpt-4.5-turbo",
+    messages=[{"role": "user", "content": test_prompt}],
+    temperature=0.7
+)
+
+time_gpt45 = time.time() - start
+print(f"⏱️ 响应时间: {time_gpt45:.2f}秒")
+print(f"💰 成本: ${0.015:.4f}")
+print(f"📝 回答: {response_gpt45.choices[0].message.content[:100]}...")</code></pre>
                 </div>
             </section>
             
@@ -503,7 +545,7 @@ print(f"📝 回答: {response_gpt35.choices[0].message.content[:100]}...")</cod
                         <h4 class="font-bold mb-4">🔍 Token实时分析器</h4>
                         <div class="space-y-4">
                             <textarea class="w-full p-3 border rounded-lg" rows="3" id="tokenInput">
-Hello世界! 这是2024年的AI课程。</textarea>
+Hello世界! 这是2025年的AI课程。</textarea>
                             <button onclick="analyzeTokens()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                                 分析Token
                             </button>
@@ -587,12 +629,15 @@ def calculate_cost(text, model='gpt-3.5-turbo', calls_per_day=1000):
     encoder = tiktoken.get_encoding("cl100k_base")
     tokens = len(encoder.encode(text))
 
-    # 价格表（2024年最新）
+    # 价格表（2025年最新）
     pricing = {
-        'gpt-3.5-turbo': 0.001,
-        'gpt-4o-mini': 0.0006,
-        'gpt-4o': 0.01,
-        'claude-sonnet': 0.003
+        'gpt-5': 0.05,  # $0.05/1K tokens输入
+        'gpt-4.5-turbo': 0.015,
+        'gpt-4o': 0.0075,
+        'gpt-4o-mini': 0.0004,
+        'gpt-3.5-turbo': 0.0005,
+        'claude-sonnet-4.5': 0.003,
+        'gemini-2.0-pro': 0.002
     }
 
     cost_per_call = (tokens / 1000) * pricing[model]

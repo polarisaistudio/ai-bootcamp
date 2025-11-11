@@ -350,9 +350,9 @@
                 <div class="bg-white p-6 rounded-lg shadow">
                     <!-- Scenario story -->
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-                        <p class="font-semibold">Real Case:</p>
-                        <p>"Last month, a friend of mine started a company. He excitedly told me: 'We're using GPT-4 for our customer service system!'</p>
-                        <p>One month later, he received the OpenAI bill: <span class="text-red-600 font-bold">$3,847.52</span></p>
+                        <p class="font-semibold">Real Case (2025):</p>
+                        <p>"Last month, a friend of mine started a company. He excitedly told me: 'We're using GPT-5 for our customer service system!'</p>
+                        <p>One month later, he received the OpenAI bill: <span class="text-red-600 font-bold">$12,847.52</span></p>
                     </div>
 
                     <!-- Cost calculation demo -->
@@ -368,16 +368,19 @@
 - 1000 users per day
 - 10 conversation rounds per user
 - About 500 tokens per round
-- GPT-4 pricing: $0.03/1K tokens
+- GPT-5 pricing: $0.05/1K tokens (input)
 
-Daily cost = 1000 * 10 * 0.5 * 0.03 = $150
-Monthly cost = $150 * 30 = $4,500 😱"</code></pre>
+Daily cost = 1000 * 10 * 0.5 * 0.05 = $250
+Monthly cost = $250 * 30 = $7,500 😱
+
+If we switch to GPT-4.5-turbo ($0.015/1K):
+Monthly cost = $2,250  💰Save 70%!"</code></pre>
                     </div>
 
                     <!-- Interactive poll -->
                     <div class="bg-blue-50 p-4 rounded-lg mt-4">
                         <h4 class="font-bold mb-2">💡 Interactive Element</h4>
-                        <p class="mb-2">Guess, if we switched to GPT-3.5, what would the cost be?</p>
+                        <p class="mb-2">Guess, if we switched to GPT-4o-mini, what would the cost be?</p>
                         <div class="grid grid-cols-2 gap-2">
                             <button class="p-2 bg-white border rounded hover:bg-gray-100">A. $2,000</button>
                             <button class="p-2 bg-white border rounded hover:bg-gray-100">B. $500</button>
@@ -400,7 +403,7 @@ Monthly cost = $150 * 30 = $4,500 😱"</code></pre>
 
                 <!-- Model comparison table -->
                 <div class="bg-white p-6 rounded-lg shadow mb-6">
-                    <h4 class="font-bold mb-4">Mainstream Model Comparison</h4>
+                    <h4 class="font-bold mb-4">Mainstream Model Comparison (2025 Latest)</h4>
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto">
                             <thead>
@@ -413,43 +416,67 @@ Monthly cost = $150 * 30 = $4,500 😱"</code></pre>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr class="border-b bg-yellow-50">
+                                    <td class="px-4 py-2 font-semibold">🌟 GPT-5</td>
+                                    <td class="px-4 py-2">⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-red-600">$$$$$$</td>
+                                    <td class="px-4 py-2">Multimodal, Complex Reasoning</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-4.5-turbo</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-orange-600">$$$$</td>
+                                    <td class="px-4 py-2">Advanced Reasoning Tasks</td>
+                                </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold">GPT-4o</td>
-                                    <td class="px-4 py-2">⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐</td>
                                     <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
-                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
-                                    <td class="px-4 py-2">Complex Reasoning</td>
+                                    <td class="px-4 py-2 text-orange-600">$$$</td>
+                                    <td class="px-4 py-2">Complex Reasoning, Vision</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold">GPT-4o-mini</td>
-                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
                                     <td class="px-4 py-2">⭐⭐⭐⭐</td>
                                     <td class="px-4 py-2 text-yellow-600">$$</td>
                                     <td class="px-4 py-2">Balanced Choice</td>
                                 </tr>
                                 <tr class="border-b">
-                                    <td class="px-4 py-2 font-semibold">GPT-3.5</td>
+                                    <td class="px-4 py-2 font-semibold">Claude Sonnet 4.5</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-orange-600">$$$</td>
+                                    <td class="px-4 py-2">Coding, Long Context</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">Gemini 2.0 Pro</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
+                                    <td class="px-4 py-2 text-yellow-600">$$</td>
+                                    <td class="px-4 py-2">Multimodal, Search</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold">GPT-3.5-turbo</td>
                                     <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
                                     <td class="px-4 py-2">⭐⭐⭐</td>
                                     <td class="px-4 py-2 text-green-600">$</td>
                                     <td class="px-4 py-2">Simple Conversation</td>
                                 </tr>
-                                <tr class="border-b">
-                                    <td class="px-4 py-2 font-semibold">Claude-Opus</td>
-                                    <td class="px-4 py-2">⭐⭐</td>
-                                    <td class="px-4 py-2">⭐⭐⭐⭐⭐</td>
-                                    <td class="px-4 py-2 text-red-600">$$$$$</td>
-                                    <td class="px-4 py-2">Long Text</td>
-                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <p class="text-sm"><strong>💡 2025 Update:</strong> GPT-5 is OpenAI's latest flagship model with stronger multimodal and reasoning capabilities. GPT-4.5-turbo offers better balance of performance and cost.</p>
                     </div>
                 </div>
 
                 <!-- Code example -->
                 <div class="bg-gray-900 text-white p-6 rounded-lg shadow">
                     <h4 class="font-bold mb-4 text-green-400">💻 Live Comparison Test Code</h4>
-                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py
+                    <pre class="overflow-x-auto"><code class="language-python"># comparison_demo.py - 2025 Edition
 import openai
 import time
 import anthropic
@@ -462,21 +489,36 @@ claude_client = anthropic.Anthropic(api_key="sk-ant-...")
 # Test prompt
 test_prompt = "Explain what recursion is, using a simple analogy"
 
-print("🔬 Starting model comparison experiment")
+print("🔬 Starting model comparison experiment (2025 Models)")
 print("=" * 50)
 
-# Test GPT-3.5
-print("\n1️⃣ Testing GPT-3.5-turbo...")
+# Test GPT-5
+print("\n1️⃣ Testing GPT-5...")
 start = time.time()
 
-response_gpt35 = openai_client.chat.completions.create(
-    model="gpt-3.5-turbo",
+response_gpt5 = openai_client.chat.completions.create(
+    model="gpt-5",
     messages=[{"role": "user", "content": test_prompt}],
     temperature=0.7
 )
 
-time_gpt35 = time.time() - start
-print(f"⏱️ Response time: {time_gpt35:.2f}s")
+time_gpt5 = time.time() - start
+print(f"⏱️ Response time: {time_gpt5:.2f}s")
+print(f"💰 Cost: ${0.05:.4f}")
+print(f"📝 Answer: {response_gpt5.choices[0].message.content[:100]}...")
+
+# Test GPT-4.5-turbo
+print("\n2️⃣ Testing GPT-4.5-turbo...")
+start = time.time()
+
+response_gpt45 = openai_client.chat.completions.create(
+    model="gpt-4.5-turbo",
+    messages=[{"role": "user", "content": test_prompt}],
+    temperature=0.7
+)
+
+time_gpt45 = time.time() - start
+print(f"⏱️ Response time: {time_gpt45:.2f}s")
 print(f"💰 Cost: ${0.001:.4f}")
 print(f"📝 Answer: {response_gpt35.choices[0].message.content[:100]}...")</code></pre>
                 </div>
@@ -503,7 +545,7 @@ print(f"📝 Answer: {response_gpt35.choices[0].message.content[:100]}...")</cod
                         <h4 class="font-bold mb-4">🔍 Token Real-time Analyzer</h4>
                         <div class="space-y-4">
                             <textarea class="w-full p-3 border rounded-lg" rows="3" id="tokenInput">
-Hello World! This is a 2024 AI course.</textarea>
+Hello World! This is a 2025 AI course.</textarea>
                             <button onclick="analyzeTokens()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                                 Analyze Tokens
                             </button>
@@ -586,12 +628,15 @@ def calculate_cost(text, model='gpt-3.5-turbo', calls_per_day=1000):
     encoder = tiktoken.get_encoding("cl100k_base")
     tokens = len(encoder.encode(text))
 
-    # Pricing table (2024 latest)
+    # Pricing table (2025 latest)
     pricing = {
-        'gpt-3.5-turbo': 0.001,
-        'gpt-4o-mini': 0.0006,
-        'gpt-4o': 0.01,
-        'claude-sonnet': 0.003
+        'gpt-5': 0.05,  # $0.05/1K tokens input
+        'gpt-4.5-turbo': 0.015,
+        'gpt-4o': 0.0075,
+        'gpt-4o-mini': 0.0004,
+        'gpt-3.5-turbo': 0.0005,
+        'claude-sonnet-4.5': 0.003,
+        'gemini-2.0-pro': 0.002
     }
 
     cost_per_call = (tokens / 1000) * pricing[model]

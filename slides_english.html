@@ -821,18 +821,32 @@ def calculate_cost(text, model='gpt-3.5-turbo', calls_per_day=1000):
 
                     <!-- Experiment code -->
                     <div class="bg-gray-900 text-white p-6 rounded-lg">
-                        <h4 class="font-bold mb-4 text-green-400">🔬 Temperature Experiment Code</h4>
-                        <pre class="overflow-x-auto"><code class="language-python"># parameter_lab.py
-import openai
+                        <h4 class="font-bold mb-4 text-green-400">🔬 Temperature Experiment Code (Free Version)</h4>
+                        <pre class="overflow-x-auto"><code class="language-python"># parameter_lab.py - Using free Ollama models
+import ollama
 import time
 from typing import List
 
 class ParameterLab:
-    """Parameter Laboratory"""
+    """Parameter Laboratory - Free Version"""
 
-    def __init__(self):
-        self.client = openai.OpenAI()
+    def __init__(self, model: str = "llama3.2"):
+        """
+        Initialize laboratory
+        model: Model name to use (llama3.2 or qwen2.5)
+        """
+        self.model = model
         self.results = []
+
+        # Check if model is available
+        try:
+            available = ollama.list()
+            model_names = [m['name'] for m in available['models']]
+            if not any(model in name for name in model_names):
+                print(f"⚠️ Model {model} not installed")
+                print(f"   Run: ollama pull {model}")
+        except:
+            print("⚠️ Cannot connect to Ollama, ensure it's running")
 
     def experiment_temperature(self,
                               prompt: str,
@@ -840,7 +854,7 @@ class ParameterLab:
                               n_samples: int = 3):
         """Temperature experiment"""
 
-        print(f"🧪 Temperature Experiment")
+        print(f"🧪 Temperature Experiment (using {self.model})")
         print(f"Prompt: {prompt}")
         print("=" * 60)
 
@@ -850,16 +864,18 @@ class ParameterLab:
 
             samples = []
             for i in range(n_samples):
-                response = self.client.chat.completions.create(
-                    model="gpt-3.5-turbo",
+                response = ollama.chat(
+                    model=self.model,
                     messages=[{"role": "user", "content": prompt}],
-                    temperature=temp,
-                    max_tokens=30
+                    options={
+                        "temperature": temp,
+                        "num_predict": 30  # equivalent to max_tokens
+                    }
                 )
 
-                text = response.choices[0].message.content
+                text = response['message']['content']
                 samples.append(text)
-                print(f"  Sample {i+1}: {text}")
+                print(f"  Sample {i+1}: {text[:80]}...")
 
             # Calculate diversity
             diversity = self._calculate_diversity(samples)
@@ -881,13 +897,22 @@ class ParameterLab:
 
 # Usage example
 if __name__ == "__main__":
-    lab = ParameterLab()
+    # Use free Llama 3.2 model
+    lab = ParameterLab(model="llama3.2")
+
+    # Or use Chinese-optimized Qwen 2.5
+    # lab = ParameterLab(model="qwen2.5")
 
     # Test creative writing
     lab.experiment_temperature("Describe a sunset in one sentence")
 
     # Test fact query
-    lab.experiment_temperature("The capital of China is", temperatures=[0, 0.5, 1.0])</code></pre>
+    lab.experiment_temperature("The capital of China is", temperatures=[0, 0.5, 1.0])
+
+    print("\n💰 Experiment cost: $0.00 (Completely free!)")</code></pre>
+                        <div class="mt-2 p-2 bg-green-900 rounded text-xs">
+                            <p class="text-green-300">✅ This version uses free Ollama models, no API key needed! First run: ollama pull llama3.2</p>
+                        </div>
                     </div>
                 </div>
             </section>

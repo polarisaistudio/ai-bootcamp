@@ -701,8 +701,11 @@ Hello世界! 这是2025年的AI课程。</textarea>
                     </div>
 
                     <!-- Token经济学代码 -->
-                    <div class="bg-gray-900 text-white p-6 rounded-lg">
-                        <h4 class="font-bold mb-4 text-green-400">💰 Token经济学演示代码</h4>
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <h4 class="font-bold mb-4 text-orange-400">💰 Token经济学演示代码（需要tiktoken库）</h4>
+                        <div class="mb-3 p-3 bg-yellow-900 border border-yellow-700 rounded">
+                            <p class="text-yellow-200 text-sm"><strong>ℹ️ 注意：</strong>此代码用于学习付费API的成本计算。实际使用建议用下面的免费版本。</p>
+                        </div>
                         <pre class="overflow-x-auto"><code class="language-python"># token_economics.py
 import tiktoken
 import matplotlib.pyplot as plt
@@ -774,7 +777,227 @@ def calculate_cost(text, model='gpt-3.5-turbo', calls_per_day=1000):
     print(f"📆 月成本: ${monthly_cost:.2f}")
     print(f"🎯 年成本: ${monthly_cost*12:.2f}")
 
-    return monthly_cost</code></pre>
+    return monthly_cost
+
+def compare_all_models(text, calls_per_day=1000):
+    """比较所有模型的成本"""
+
+    encoder = tiktoken.get_encoding("cl100k_base")
+    tokens = len(encoder.encode(text))
+
+    # 价格表（2025年最新）
+    pricing = {
+        'gpt-5': 0.05,
+        'gpt-4.5-turbo': 0.015,
+        'gpt-4o': 0.0075,
+        'gpt-4o-mini': 0.0004,
+        'gpt-3.5-turbo': 0.0005,
+        'claude-sonnet-4.5': 0.003,
+        'gemini-2.0-pro': 0.002
+    }
+
+    print(f"📝 Token数: {tokens}")
+    print(f"📞 每日调用次数: {calls_per_day}")
+    print("\n" + "="*70)
+
+    results = []
+    for model, price in pricing.items():
+        cost_per_call = (tokens / 1000) * price
+        daily_cost = cost_per_call * calls_per_day
+        monthly_cost = daily_cost * 30
+        yearly_cost = monthly_cost * 12
+
+        results.append({
+            'model': model,
+            'price_per_1k': price,
+            'cost_per_call': cost_per_call,
+            'daily_cost': daily_cost,
+            'monthly_cost': monthly_cost,
+            'yearly_cost': yearly_cost
+        })
+
+        print(f"\n{model}:")
+        print(f"  价格: ${price}/1K tokens")
+        print(f"  单次成本: ${cost_per_call:.6f}")
+        print(f"  日成本: ${daily_cost:.2f}")
+        print(f"  月成本: ${monthly_cost:.2f}")
+        print(f"  年成本: ${yearly_cost:.2f}")
+
+    print("\n" + "="*70)
+    return results
+
+def plot_cost_comparison(results):
+    """绘制成本对比图表"""
+
+    models = [r['model'] for r in results]
+    monthly_costs = [r['monthly_cost'] for r in results]
+    yearly_costs = [r['yearly_cost'] for r in results]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+
+    # 月成本对比
+    bars1 = ax1.bar(range(len(models)), monthly_costs, color='skyblue', edgecolor='navy')
+    ax1.set_xlabel('Model', fontsize=12)
+    ax1.set_ylabel('Monthly Cost ($)', fontsize=12)
+    ax1.set_title('Monthly Cost Comparison (1000 calls/day)', fontsize=14, fontweight='bold')
+    ax1.set_xticks(range(len(models)))
+    ax1.set_xticklabels(models, rotation=45, ha='right')
+    ax1.grid(axis='y', alpha=0.3)
+
+    # 添加数值标签
+    for bar in bars1:
+        height = bar.get_height()
+        ax1.text(bar.get_x() + bar.get_width()/2., height,
+                f'${height:.2f}',
+                ha='center', va='bottom', fontsize=9)
+
+    # 年成本对比
+    bars2 = ax2.bar(range(len(models)), yearly_costs, color='lightcoral', edgecolor='darkred')
+    ax2.set_xlabel('Model', fontsize=12)
+    ax2.set_ylabel('Yearly Cost ($)', fontsize=12)
+    ax2.set_title('Yearly Cost Comparison (1000 calls/day)', fontsize=14, fontweight='bold')
+    ax2.set_xticks(range(len(models)))
+    ax2.set_xticklabels(models, rotation=45, ha='right')
+    ax2.grid(axis='y', alpha=0.3)
+
+    # 添加数值标签
+    for bar in bars2:
+        height = bar.get_height()
+        ax2.text(bar.get_x() + bar.get_width()/2., height,
+                f'${height:.2f}',
+                ha='center', va='bottom', fontsize=9)
+
+    plt.tight_layout()
+    plt.savefig('model_cost_comparison.png', dpi=300, bbox_inches='tight')
+    print("\n📊 图表已保存为 'model_cost_comparison.png'")
+    plt.show()
+
+if __name__ == "__main__":
+    # 运行token经济学演示
+    demo = TokenEconomicsDemo()
+
+    print("\n" + "="*50)
+    results = demo.compare_languages()
+
+    print("\n" + "="*50)
+    print("\n💰 成本计算示例")
+    print("-" * 50)
+
+    # 示例成本计算
+    example_text = "Artificial Intelligence is transforming the world through machine learning and deep learning."
+    print(f"\n示例文本: {example_text}\n")
+
+    # 对比所有模型
+    print("\n" + "="*70)
+    print("📊 所有模型成本对比")
+    print("="*70)
+    model_results = compare_all_models(example_text, calls_per_day=1000)
+
+    # 绘制对比图表
+    plot_cost_comparison(model_results)</code></pre>
+                        <div class="mt-2 p-2 bg-orange-900 rounded text-xs">
+                            <p class="text-orange-300">📦 需要安装: pip install tiktoken matplotlib</p>
+                        </div>
+                    </div>
+
+                    <!-- 免费版本 - Ollama Token计数 -->
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <h4 class="font-bold mb-4 text-green-400">💰 免费版本 - Ollama使用分析（推荐！）</h4>
+                        <div class="mb-3 p-3 bg-green-900 border border-green-700 rounded">
+                            <p class="text-green-200 text-sm"><strong>✅ 优势：</strong>完全免费！无需API密钥，无需付费。</p>
+                        </div>
+                        <pre class="overflow-x-auto"><code class="language-python"># free_token_economics.py - 免费版本
+import ollama
+import time
+
+class FreeTokenEconomics:
+    """免费模型使用分析"""
+
+    def __init__(self, model: str = "llama3.2"):
+        self.model = model
+
+    def compare_languages(self):
+        """对比不同语言的响应（无需Token计数）"""
+
+        test_cases = {
+            'English': "Artificial Intelligence is transforming the world",
+            '中文': "人工智能正在改变世界",
+            '日本語': "人工知能は世界を変えています",
+            'Code': "def hello(): return 'world'",
+            'Mixed': "AI(人工智能) is 改变ing the world"
+        }
+
+        print(f"🌍 多语言响应测试 (使用 {self.model})")
+        print("-" * 50)
+
+        for lang, text in test_cases.items():
+            start = time.time()
+
+            # 使用免费的Ollama模型
+            response = ollama.chat(
+                model=self.model,
+                messages=[{'role': 'user', 'content': f"用一句话回应: {text}"}]
+            )
+
+            elapsed = time.time() - start
+            response_text = response['message']['content']
+
+            print(f"\n{lang}:")
+            print(f"  输入: {text}")
+            print(f"  输入长度: {len(text)} 字符")
+            print(f"  响应: {response_text[:80]}...")
+            print(f"  响应时间: {elapsed:.2f}秒")
+            print(f"  💰 成本: $0.00 (免费！)")
+
+    def calculate_cost_comparison(self, text: str, calls_per_day: int = 1000):
+        """对比付费API vs免费Ollama"""
+
+        # 简单估算token数 (粗略：1 token ≈ 4 字符)
+        estimated_tokens = len(text) // 4
+
+        print(f"\n📊 成本对比分析")
+        print(f"文本: {text}")
+        print(f"估算Token数: {estimated_tokens}")
+        print(f"每日调用: {calls_per_day}次")
+        print("\n" + "="*70)
+
+        # 付费API价格（2025）
+        paid_models = {
+            'GPT-5': 0.05,
+            'GPT-4.5-turbo': 0.015,
+            'GPT-4o': 0.0075,
+            'GPT-4o-mini': 0.0004,
+        }
+
+        print("\n💸 付费API成本:")
+        for model, price in paid_models.items():
+            daily = (estimated_tokens / 1000) * price * calls_per_day
+            monthly = daily * 30
+            yearly = monthly * 12
+            print(f"  {model}: 月成本${monthly:.2f}, 年成本${yearly:.2f}")
+
+        print(f"\n💚 Ollama免费模型 ({self.model}):")
+        print(f"  月成本: $0.00")
+        print(f"  年成本: $0.00")
+        print(f"  🎉 节省: 100% (完全免费！)")
+
+if __name__ == "__main__":
+    # 使用免费模型
+    demo = FreeTokenEconomics(model="llama3.2")
+
+    print("\n" + "="*50)
+    demo.compare_languages()
+
+    print("\n" + "="*50)
+    example_text = "Artificial Intelligence is transforming the world through machine learning."
+    demo.calculate_cost_comparison(example_text, calls_per_day=1000)
+
+    print("\n" + "="*70)
+    print("💡 总结: 使用Ollama免费模型，无论调用多少次，成本永远是 $0.00!")
+    print("="*70)</code></pre>
+                        <div class="mt-2 p-2 bg-green-900 rounded text-xs">
+                            <p class="text-green-300">✅ 此版本完全免费！无需tiktoken，无需API密钥。先运行: ollama pull llama3.2</p>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3 Homework: LangChain Framework - AI Bootcamp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <style>
+        .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; overflow-y: auto; }
+        .main-content { margin-left: 280px; }
+        @media (max-width: 768px) {
+            .sidebar { position: relative; width: 100%; }
+            .main-content { margin-left: 0; }
+        }
+        .code-block { position: relative; }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="sidebar bg-gray-900 text-white p-6">
+        <h2 class="text-2xl font-bold mb-6">Lesson 3 Homework</h2>
+        <nav class="space-y-2">
+            <a href="#overview" class="block py-2 px-4 rounded hover:bg-gray-800">📋 Overview</a>
+            <a href="#assignment1" class="block py-2 px-4 rounded hover:bg-gray-800">📝 Assignment 1: Learning Assistant</a>
+            <a href="#assignment2" class="block py-2 px-4 rounded hover:bg-gray-800">✍️ Assignment 2: Content Creator</a>
+            <a href="#assignment3" class="block py-2 px-4 rounded hover:bg-gray-800">🎯 Assignment 3: Customer Service</a>
+            <a href="#submission" class="block py-2 px-4 rounded hover:bg-gray-800">📤 Submission</a>
+            <a href="#resources" class="block py-2 px-4 rounded hover:bg-gray-800">📚 Resources</a>
+        </nav>
+    </div>
+
+    <div class="main-content p-8">
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Lesson 3 Homework: LangChain Framework</h1>
+            <p class="text-xl text-gray-600">Master LangChain core components through hands-on practice</p>
+        </header>
+
+        <!-- Overview -->
+        <section id="overview" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📋 Overview</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Learning Objectives</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                    <li>Master the design and use of LangChain Prompt Templates</li>
+                    <li>Understand and implement Memory systems for conversation management</li>
+                    <li>Learn to use Chains to build complex workflows</li>
+                    <li>Practice Few-shot learning and dynamic prompting techniques</li>
+                    <li>Use free Ollama models to develop real applications</li>
+                </ul>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <h4 class="font-semibold text-blue-900 mb-2">📊 Score Distribution</h4>
+                    <ul class="space-y-1 text-blue-800">
+                        <li>• Assignment 1 (Personalized Learning Assistant): 40 points (Required)</li>
+                        <li>• Assignment 2 (Content Creation Pipeline): 30 points (Optional)</li>
+                        <li>• Assignment 3 (Smart Customer Service): 30 points (Challenge)</li>
+                        <li>• Total: 100 points</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                    <h4 class="font-semibold text-yellow-900 mb-2">⏱️ Time Estimate</h4>
+                    <p class="text-yellow-800">Completing all assignments will take approximately 4-6 hours</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 1: Personalized Learning Assistant -->
+        <section id="assignment1" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📝 Assignment 1: Personalized Learning Assistant (40 points, Required)</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">Requirements</h3>
+
+                <div class="space-y-6">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-lg mb-2">Project Description</h4>
+                        <p class="text-gray-700">Develop an intelligent learning assistant that provides personalized explanations based on user's learning level (beginner, intermediate, advanced). Track learning progress through a memory system and dynamically adjust explanation difficulty.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Requirements (15 points): Correct Use of Prompt Templates</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Create Prompt templates for different difficulty levels (beginner, intermediate, advanced)</li>
+                            <li>Support variable interpolation (topic, username, difficulty level, etc.)</li>
+                            <li>Templates should include clear role definitions and output format requirements</li>
+                            <li>Use LangChain's PromptTemplate or ChatPromptTemplate</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Requirements (15 points): Implement Memory System</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Use ConversationBufferMemory or ConversationSummaryMemory</li>
+                            <li>Track user's topic learning history</li>
+                            <li>Record user comprehension feedback</li>
+                            <li>Ability to clear and view memory contents</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Requirements (10 points): Dynamic Difficulty Adjustment</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Adjust difficulty based on user feedback ("too easy", "just right", "too hard")</li>
+                            <li>Implement automatic difficulty level adjustment mechanism</li>
+                            <li>Display current difficulty level and learning statistics</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-900 mb-2">💡 Technical Points</h4>
+                        <ul class="list-disc list-inside space-y-1 text-green-800">
+                            <li>Use free Ollama models (llama2, mistral, etc.)</li>
+                            <li>Prompt templates should clearly distinguish explanation styles for different levels</li>
+                            <li>Memory should support persistence (optional: save to JSON file)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 Reference Solution</h3>
+
+                <h4 class="font-semibold mb-2">1. Install Dependencies</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-bash"># Install LangChain and Ollama
+pip install langchain langchain-community ollama
+
+# Install Ollama and download model (first time only)
+# Visit https://ollama.ai to download Ollama
+# Then run: ollama pull llama2</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">2. Learning Assistant Main Program (learning_assistant.py)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Personalized Learning Assistant - Assignment 1"""
+from langchain.prompts import ChatPromptTemplate
+from langchain.memory import ConversationBufferMemory
+from langchain_community.llms import Ollama
+from langchain.chains import LLMChain
+import json
+from datetime import datetime
+
+class LearningAssistant:
+    """Personalized Learning Assistant"""
+
+    def __init__(self, model_name="llama2"):
+        """Initialize assistant"""
+        self.llm = Ollama(model=model_name)
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+
+        # Difficulty level configuration
+        self.difficulty_levels = {
+            "beginner": {
+                "name": "Beginner",
+                "description": "Use simple language, many examples, avoid technical jargon"
+            },
+            "intermediate": {
+                "name": "Intermediate",
+                "description": "Use standard terminology, provide moderate depth"
+            },
+            "advanced": {
+                "name": "Advanced",
+                "description": "Use professional terms, dive into technical details and principles"
+            }
+        }
+
+        self.current_difficulty = "intermediate"
+        self.learning_stats = {
+            "topics_learned": [],
+            "difficulty_changes": [],
+            "total_interactions": 0
+        }
+
+        # Create prompt templates for different difficulty levels
+        self.prompt_templates = self._create_prompt_templates()
+
+    def _create_prompt_templates(self):
+        """Create prompt templates for different difficulty levels"""
+        templates = {}
+
+        # Beginner template
+        templates["beginner"] = ChatPromptTemplate.from_template("""
+You are a patient tutor teaching a beginner student.
+
+Student's question: {topic}
+
+Please explain using the following approach:
+1. Use simple, everyday language
+2. Avoid technical jargon, or explain it in detail if necessary
+3. Provide 2-3 concrete real-life examples
+4. Use analogies to aid understanding
+5. Keep it concise, under 200 words
+
+Explanation:
+""")
+
+        # Intermediate template
+        templates["intermediate"] = ChatPromptTemplate.from_template("""
+You are a professional technical instructor teaching a student with some background.
+
+Student's question: {topic}
+
+Please explain using the following approach:
+1. Use standard technical terminology
+2. Provide clear concept definitions
+3. Explain principles and how things work
+4. Give 1-2 practical application scenarios
+5. Be comprehensive but not overly deep
+
+Explanation:
+""")
+
+        # Advanced template
+        templates["advanced"] = ChatPromptTemplate.from_template("""
+You are a senior technical expert communicating with an experienced developer.
+
+Technical question: {topic}
+
+Please explain using the following approach:
+1. Use professional terminology and industry standards
+2. Deep dive into technical principles and underlying implementation
+3. Discuss performance, pros/cons, and best practices
+4. Provide code examples or technical details
+5. May include related advanced topics
+
+Detailed explanation:
+""")
+
+        return templates
+
+    def explain_topic(self, topic: str) -> str:
+        """Explain topic based on current difficulty level"""
+        # Get template for current difficulty
+        template = self.prompt_templates[self.current_difficulty]
+
+        # Create Chain
+        chain = LLMChain(
+            llm=self.llm,
+            prompt=template,
+            memory=self.memory
+        )
+
+        # Generate explanation
+        response = chain.run(topic=topic)
+
+        # Update statistics
+        self.learning_stats["topics_learned"].append({
+            "topic": topic,
+            "difficulty": self.current_difficulty,
+            "timestamp": datetime.now().isoformat()
+        })
+        self.learning_stats["total_interactions"] += 1
+
+        return response
+
+    def adjust_difficulty(self, feedback: str):
+        """Adjust difficulty based on user feedback"""
+        feedback = feedback.lower()
+
+        old_difficulty = self.current_difficulty
+
+        if "too easy" in feedback or "easy" in feedback or "简单" in feedback:
+            if self.current_difficulty == "beginner":
+                self.current_difficulty = "intermediate"
+            elif self.current_difficulty == "intermediate":
+                self.current_difficulty = "advanced"
+
+        elif "too hard" in feedback or "hard" in feedback or "难" in feedback:
+            if self.current_difficulty == "advanced":
+                self.current_difficulty = "intermediate"
+            elif self.current_difficulty == "intermediate":
+                self.current_difficulty = "beginner"
+
+        if old_difficulty != self.current_difficulty:
+            self.learning_stats["difficulty_changes"].append({
+                "from": old_difficulty,
+                "to": self.current_difficulty,
+                "timestamp": datetime.now().isoformat()
+            })
+            return f"Difficulty adjusted from {self.difficulty_levels[old_difficulty]['name']} to {self.difficulty_levels[self.current_difficulty]['name']}"
+
+        return "Difficulty remains unchanged"
+
+    def get_stats(self) -> dict:
+        """Get learning statistics"""
+        return {
+            "current_difficulty": self.difficulty_levels[self.current_difficulty]['name'],
+            "topics_count": len(self.learning_stats["topics_learned"]),
+            "total_interactions": self.learning_stats["total_interactions"],
+            "difficulty_changes": len(self.learning_stats["difficulty_changes"])
+        }
+
+    def save_progress(self, filepath="learning_progress.json"):
+        """Save learning progress"""
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(self.learning_stats, f, ensure_ascii=False, indent=2)
+        print(f"✅ Learning progress saved to {filepath}")
+
+    def clear_memory(self):
+        """Clear conversation memory"""
+        self.memory.clear()
+        print("✅ Conversation memory cleared")
+
+
+def main():
+    """Main program"""
+    print("🎓 Welcome to the Personalized Learning Assistant!\n")
+
+    assistant = LearningAssistant()
+
+    print("Available commands:")
+    print("  - Enter a question to learn")
+    print("  - /difficulty [too easy/just right/too hard] - Adjust difficulty")
+    print("  - /stats - View learning statistics")
+    print("  - /save - Save learning progress")
+    print("  - /clear - Clear conversation memory")
+    print("  - /quit - Exit\n")
+
+    while True:
+        user_input = input("\n💭 Your question: ").strip()
+
+        if not user_input:
+            continue
+
+        if user_input == "/quit":
+            print("\n👋 Goodbye! Keep up the learning!")
+            break
+
+        elif user_input == "/stats":
+            stats = assistant.get_stats()
+            print("\n📊 Learning Statistics:")
+            print(f"  Current difficulty: {stats['current_difficulty']}")
+            print(f"  Topics learned: {stats['topics_count']}")
+            print(f"  Total interactions: {stats['total_interactions']}")
+            print(f"  Difficulty adjustments: {stats['difficulty_changes']}")
+
+        elif user_input == "/save":
+            assistant.save_progress()
+
+        elif user_input == "/clear":
+            assistant.clear_memory()
+
+        elif user_input.startswith("/difficulty"):
+            parts = user_input.split(maxsplit=1)
+            if len(parts) > 1:
+                result = assistant.adjust_difficulty(parts[1])
+                print(f"\n{result}")
+            else:
+                print("\nPlease provide feedback: /difficulty [too easy/just right/too hard]")
+
+        else:
+            # Explain topic
+            print(f"\n🎯 Current difficulty: {assistant.difficulty_levels[assistant.current_difficulty]['name']}")
+            print("\n📖 Explanation:")
+            response = assistant.explain_topic(user_input)
+            print(response)
+            print("\n💡 Tip: If the explanation is too easy or hard, use /difficulty to adjust")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">3. Usage Example</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-bash"># Run the learning assistant
+python3 learning_assistant.py
+
+# Example conversation:
+# 💭 Your question: What is recursion?
+# 🎯 Current difficulty: Intermediate
+# 📖 Explanation: [AI's explanation]
+
+# Adjust difficulty
+# 💭 Your question: /difficulty too easy
+# ✅ Difficulty adjusted from Intermediate to Advanced
+
+# View statistics
+# 💭 Your question: /stats
+# 📊 Learning Statistics:...</code></pre>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-6">
+                    <h4 class="font-semibold text-yellow-900 mb-2">⚠️ Common Issues</h4>
+                    <ul class="list-disc list-inside space-y-1 text-yellow-800">
+                        <li>Make sure Ollama service is running (ollama serve)</li>
+                        <li>First-time use requires downloading the model (ollama pull llama2)</li>
+                        <li>If response is slow, try using a smaller model</li>
+                        <li>Memory uses more tokens, be aware of context length limits</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 2: Content Creation Pipeline -->
+        <section id="assignment2" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">✍️ Assignment 2: Content Creation Pipeline (30 points, Optional)</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">Requirements</h3>
+
+                <div class="space-y-6">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-lg mb-2">Project Description</h4>
+                        <p class="text-gray-700">Develop an automated content creation system that generates article titles, outlines, and body content based on user-provided topics. Support different article types (technical, story, marketing) and save generated content to files.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Core Features</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Use Chain composition for multi-step workflow (title → outline → body)</li>
+                            <li>Support 3 article types, each using different Prompt templates</li>
+                            <li>Automatically save generated content to Markdown files</li>
+                            <li>Display creation progress and output for each step</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Bonus Points</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Implement SEO keyword analysis (+5 points)</li>
+                            <li>Add content quality scoring (+5 points)</li>
+                            <li>Support multi-language generation (+5 points)</li>
+                            <li>Create Streamlit web interface (+10 points)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 Reference Solution</h3>
+
+                <h4 class="font-semibold mb-2">1. Content Creation System (content_creator.py)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Content Creation Pipeline System - Assignment 2"""
+from langchain.prompts import ChatPromptTemplate
+from langchain_community.llms import Ollama
+from langchain.chains import LLMChain, SequentialChain
+from datetime import datetime
+import os
+
+class ContentCreator:
+    """Automated Content Creation System"""
+
+    def __init__(self, model_name="llama2"):
+        """Initialize creation system"""
+        self.llm = Ollama(model=model_name)
+
+        # Article type configuration
+        self.article_types = {
+            "technical": "Technical Article",
+            "story": "Story/Fiction",
+            "marketing": "Marketing Copy"
+        }
+
+        # Create output directory
+        self.output_dir = "generated_content"
+        os.makedirs(self.output_dir, exist_ok=True)
+
+    def create_title_chain(self, article_type: str):
+        """Create title generation Chain"""
+        type_prompts = {
+            "technical": "Generate an attractive technical article title. Requirements:\n1. Highlight technical points\n2. Include keywords\n3. Concise and powerful (10-15 words)",
+            "story": "Generate a compelling story title. Requirements:\n1. Spark curiosity\n2. Be literary\n3. Concise and elegant (8-12 words)",
+            "marketing": "Generate an eye-catching marketing title. Requirements:\n1. Highlight selling points\n2. Create urgency\n3. Trigger action (10-15 words)"
+        }
+
+        prompt = ChatPromptTemplate.from_template(f"""
+{type_prompts[article_type]}
+
+Topic: {{topic}}
+
+Return only the title, nothing else.
+Title:
+""")
+
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            output_key="title"
+        )
+
+    def create_outline_chain(self, article_type: str):
+        """Create outline generation Chain"""
+        type_prompts = {
+            "technical": "Create detailed outline for technical article, including:\n1. Introduction\n2. Technical background\n3. Core content (3-5 points)\n4. Code example descriptions\n5. Summary",
+            "story": "Create plot outline for story, including:\n1. Beginning\n2. Development\n3. Climax\n4. Resolution",
+            "marketing": "Create structure for marketing copy, including:\n1. Pain point description\n2. Solution\n3. Product advantages\n4. Call to action"
+        }
+
+        prompt = ChatPromptTemplate.from_template(f"""
+{type_prompts[article_type]}
+
+Topic: {{topic}}
+Title: {{title}}
+
+Please generate a structured outline (use markdown format):
+""")
+
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            output_key="outline"
+        )
+
+    def create_content_chain(self, article_type: str):
+        """Create content generation Chain"""
+        type_prompts = {
+            "technical": "Write technical article based on outline. Requirements:\n1. Professional and accurate language\n2. Include code examples\n3. Clear logic\n4. 800-1000 words",
+            "story": "Create story based on outline. Requirements:\n1. Vivid plot\n2. Distinct characters\n3. Beautiful language\n4. 800-1000 words",
+            "marketing": "Write marketing copy based on outline. Requirements:\n1. Persuasive language\n2. Highlight value\n3. Guide action\n4. 600-800 words"
+        }
+
+        prompt = ChatPromptTemplate.from_template(f"""
+{type_prompts[article_type]}
+
+Topic: {{topic}}
+Title: {{title}}
+Outline: {{outline}}
+
+Please write the complete body content (use markdown format):
+""")
+
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            output_key="content"
+        )
+
+    def create_article(self, topic: str, article_type: str = "technical"):
+        """Create complete article"""
+        if article_type not in self.article_types:
+            raise ValueError(f"Unsupported article type: {article_type}")
+
+        print(f"\n📝 Creating {self.article_types[article_type]}...")
+        print(f"Topic: {topic}\n")
+
+        # Create three Chains
+        title_chain = self.create_title_chain(article_type)
+        outline_chain = self.create_outline_chain(article_type)
+        content_chain = self.create_content_chain(article_type)
+
+        # Combine into Sequential Chain
+        overall_chain = SequentialChain(
+            chains=[title_chain, outline_chain, content_chain],
+            input_variables=["topic"],
+            output_variables=["title", "outline", "content"],
+            verbose=True
+        )
+
+        # Execute creation workflow
+        print("🎯 Step 1: Generating title...")
+        result = overall_chain({"topic": topic})
+
+        # Display results
+        print(f"\n✅ Title: {result['title']}\n")
+        print("📋 Outline:")
+        print(result['outline'])
+        print("\n" + "="*50 + "\n")
+
+        # Save to file
+        filepath = self.save_article(
+            topic=topic,
+            title=result['title'],
+            outline=result['outline'],
+            content=result['content'],
+            article_type=article_type
+        )
+
+        print(f"\n✅ Article saved to: {filepath}")
+
+        return result
+
+    def save_article(self, topic, title, outline, content, article_type):
+        """Save article to file"""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{article_type}_{timestamp}.md"
+        filepath = os.path.join(self.output_dir, filename)
+
+        markdown_content = f"""# {title}
+
+> Topic: {topic}
+> Type: {self.article_types[article_type]}
+> Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+---
+
+## 📋 Article Outline
+
+{outline}
+
+---
+
+## 📖 Content
+
+{content}
+
+---
+
+*Auto-generated by AI*
+"""
+
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(markdown_content)
+
+        return filepath
+
+
+def main():
+    """Main program"""
+    print("✍️ Welcome to the AI Content Creation System!\n")
+
+    creator = ContentCreator()
+
+    print("Supported article types:")
+    for key, value in creator.article_types.items():
+        print(f"  {key}: {value}")
+    print()
+
+    while True:
+        topic = input("Enter article topic (or 'quit' to exit): ").strip()
+
+        if topic.lower() == 'quit':
+            print("\n👋 Goodbye!")
+            break
+
+        if not topic:
+            continue
+
+        article_type = input("Select article type [technical/story/marketing]: ").strip() or "technical"
+
+        try:
+            creator.create_article(topic, article_type)
+        except Exception as e:
+            print(f"\n❌ Creation failed: {e}")
+
+        print("\n" + "="*60 + "\n")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">2. Bonus: Streamlit Web Interface</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Streamlit Web Interface - Bonus Points"""
+import streamlit as st
+from content_creator import ContentCreator
+
+st.set_page_config(page_title="AI Content Creator", page_icon="✍️")
+
+st.title("✍️ AI Content Creation System")
+st.markdown("---")
+
+# Initialize creator
+if 'creator' not in st.session_state:
+    st.session_state.creator = ContentCreator()
+
+# Sidebar configuration
+with st.sidebar:
+    st.header("⚙️ Settings")
+    article_type = st.selectbox(
+        "Article Type",
+        options=["technical", "story", "marketing"],
+        format_func=lambda x: st.session_state.creator.article_types[x]
+    )
+
+# Main interface
+topic = st.text_input("📝 Enter article topic", placeholder="e.g., Introduction to Python Programming")
+
+if st.button("🚀 Start Creating", type="primary"):
+    if topic:
+        with st.spinner("Creating content..."):
+            try:
+                result = st.session_state.creator.create_article(topic, article_type)
+
+                st.success("Creation complete!")
+
+                st.subheader("📌 Title")
+                st.write(result['title'])
+
+                st.subheader("📋 Outline")
+                st.markdown(result['outline'])
+
+                st.subheader("📖 Content")
+                st.markdown(result['content'])
+
+            except Exception as e:
+                st.error(f"Creation failed: {e}")
+    else:
+        st.warning("Please enter an article topic")
+
+# Run with: streamlit run content_creator_ui.py</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 3: Smart Customer Service System -->
+        <section id="assignment3" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">🎯 Assignment 3: Smart Customer Service System (30 points, Challenge)</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">Requirements</h3>
+
+                <div class="space-y-6">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-lg mb-2">Project Description</h4>
+                        <p class="text-gray-700">Develop a smart customer service system that can answer FAQ questions, remember user information and question history, adjust response style based on user sentiment, and generate support tickets when necessary.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Technical Requirements</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Use ConversationBufferMemory to remember user information and conversation history</li>
+                            <li>Use Few-shot Prompts to provide FAQ examples</li>
+                            <li>Implement simple sentiment analysis (keyword-based)</li>
+                            <li>Save conversation logs to JSON files</li>
+                            <li>Generate structured support tickets</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">Core Features</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Automatic FAQ answering (at least 5 common questions)</li>
+                            <li>Remember user name and question history</li>
+                            <li>Adjust responses based on sentiment (friendly/empathy/professional)</li>
+                            <li>Ticket generation (including user info, issue description, priority)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 Reference Solution</h3>
+
+                <h4 class="font-semibold mb-2">1. Smart Customer Service System (customer_service.py)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">"""Smart Customer Service System - Assignment 3"""
+from langchain.prompts import ChatPromptTemplate, FewShotChatMessagePromptTemplate
+from langchain.memory import ConversationBufferMemory
+from langchain_community.llms import Ollama
+from langchain.chains import LLMChain
+import json
+from datetime import datetime
+import re
+
+class CustomerServiceBot:
+    """Smart Customer Service Bot"""
+
+    def __init__(self, model_name="llama2"):
+        """Initialize customer service bot"""
+        self.llm = Ollama(model=model_name)
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+
+        # User information
+        self.user_info = {
+            "name": None,
+            "questions_asked": [],
+            "sentiment_history": []
+        }
+
+        # Conversation log
+        self.conversation_log = []
+
+        # FAQ examples (Few-shot)
+        self.faq_examples = [
+            {
+                "question": "How do I reset my password?",
+                "answer": "You can reset your password by following these steps:\n1. Click 'Forgot Password' on the login page\n2. Enter your registered email\n3. Check your email for reset link\n4. Click the link and set a new password"
+            },
+            {
+                "question": "What is the return policy?",
+                "answer": "Our return policy is as follows:\n- 30-day no-questions-asked returns\n- Items must be in original packaging\n- Non-quality issues require customer to pay shipping\n- 3-5 business days processing after return request"
+            },
+            {
+                "question": "What payment methods are supported?",
+                "answer": "We support multiple payment methods:\n- Credit/Debit cards\n- Alipay\n- WeChat Pay\n- PayPal\n- Bank transfer"
+            },
+            {
+                "question": "How long does delivery take?",
+                "answer": "Delivery timeframes:\n- Same city: 1-2 business days\n- Within province: 2-3 business days\n- Cross-province: 3-5 business days\n- Remote areas: 5-7 business days"
+            },
+            {
+                "question": "How do I contact customer service?",
+                "answer": "You can contact customer service via:\n- Hotline: 400-123-4567 (9:00-18:00)\n- Live chat: Click bottom-right icon\n- Email: support@company.com"
+            }
+        ]
+
+        # Create Few-shot Prompt
+        self.faq_chain = self._create_faq_chain()
+        self.chat_chain = self._create_chat_chain()
+
+    def _create_faq_chain(self):
+        """Create FAQ Q&A Chain (Few-shot)"""
+        # Few-shot example format
+        example_prompt = ChatPromptTemplate.from_messages([
+            ("human", "{question}"),
+            ("ai", "{answer}")
+        ])
+
+        few_shot_prompt = FewShotChatMessagePromptTemplate(
+            example_prompt=example_prompt,
+            examples=self.faq_examples
+        )
+
+        # Complete Prompt
+        final_prompt = ChatPromptTemplate.from_messages([
+            ("system", "You are a professional customer service assistant. Please refer to the following FAQ examples to answer user questions."),
+            few_shot_prompt,
+            ("human", "{input}")
+        ])
+
+        return LLMChain(llm=self.llm, prompt=final_prompt)
+
+    def _create_chat_chain(self):
+        """Create conversation Chain"""
+        template = """You are a friendly, professional customer service representative.
+
+User sentiment: {sentiment}
+User name: {user_name}
+
+Please adjust your response style based on user sentiment:
+- Negative sentiment: Show empathy, calm emotions, actively solve problems
+- Neutral sentiment: Stay professional and friendly
+- Positive sentiment: Stay enthusiastic, thank the user
+
+Conversation history: {chat_history}
+
+User question: {input}
+
+Response:"""
+
+        prompt = ChatPromptTemplate.from_template(template)
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            memory=self.memory
+        )
+
+    def analyze_sentiment(self, text: str) -> str:
+        """Simple sentiment analysis (keyword-based)"""
+        text = text.lower()
+
+        # Negative keywords
+        negative_keywords = ['angry', 'frustrated', 'terrible', 'disappointed', 'garbage', 'bad', 'problem', 'complaint']
+        # Positive keywords
+        positive_keywords = ['thank', 'thanks', 'good', 'satisfied', 'nice', 'like', 'great', 'excellent']
+
+        negative_count = sum(1 for keyword in negative_keywords if keyword in text)
+        positive_count = sum(1 for keyword in positive_keywords if keyword in text)
+
+        if negative_count > positive_count:
+            return "negative"
+        elif positive_count > negative_count:
+            return "positive"
+        else:
+            return "neutral"
+
+    def is_faq_question(self, question: str) -> bool:
+        """Check if it's a FAQ question"""
+        for faq in self.faq_examples:
+            if self._similarity(question, faq['question']) > 0.5:
+                return True
+        return False
+
+    def _similarity(self, text1: str, text2: str) -> float:
+        """Simple text similarity calculation"""
+        words1 = set(text1.lower())
+        words2 = set(text2.lower())
+        intersection = words1 & words2
+        union = words1 | words2
+        return len(intersection) / len(union) if union else 0
+
+    def handle_query(self, user_input: str) -> str:
+        """Handle user query"""
+        # Check if asking for name
+        if not self.user_info['name'] and ('name is' in user_input.lower() or 'i am' in user_input.lower() or "i'm" in user_input.lower()):
+            # Try to extract name
+            match = re.search(r"(?:i am|i'm|name is)\s+(\w+)", user_input, re.IGNORECASE)
+            if match:
+                self.user_info['name'] = match.group(1).strip()
+
+        # Analyze sentiment
+        sentiment = self.analyze_sentiment(user_input)
+        self.user_info['sentiment_history'].append(sentiment)
+
+        # Record question
+        self.user_info['questions_asked'].append({
+            'question': user_input,
+            'timestamp': datetime.now().isoformat(),
+            'sentiment': sentiment
+        })
+
+        # Check if FAQ
+        if self.is_faq_question(user_input):
+            response = self.faq_chain.run(input=user_input)
+        else:
+            response = self.chat_chain.run(
+                input=user_input,
+                sentiment=sentiment,
+                user_name=self.user_info['name'] or "Customer"
+            )
+
+        # Log conversation
+        self.conversation_log.append({
+            'timestamp': datetime.now().isoformat(),
+            'user': user_input,
+            'bot': response,
+            'sentiment': sentiment
+        })
+
+        return response
+
+    def create_ticket(self, issue_description: str) -> dict:
+        """Create support ticket"""
+        # Analyze priority
+        sentiment = self.analyze_sentiment(issue_description)
+        priority = "High" if sentiment == "negative" else "Medium"
+
+        ticket = {
+            'ticket_id': f"TK{datetime.now().strftime('%Y%m%d%H%M%S')}",
+            'user_name': self.user_info['name'] or "Unknown",
+            'issue': issue_description,
+            'priority': priority,
+            'status': 'Pending',
+            'created_at': datetime.now().isoformat(),
+            'conversation_history': self.user_info['questions_asked']
+        }
+
+        # Save ticket
+        ticket_file = f"tickets/ticket_{ticket['ticket_id']}.json"
+        import os
+        os.makedirs('tickets', exist_ok=True)
+
+        with open(ticket_file, 'w', encoding='utf-8') as f:
+            json.dump(ticket, f, ensure_ascii=False, indent=2)
+
+        return ticket
+
+    def save_conversation_log(self, filepath="conversation_log.json"):
+        """Save conversation log"""
+        log_data = {
+            'user_info': self.user_info,
+            'conversations': self.conversation_log,
+            'saved_at': datetime.now().isoformat()
+        }
+
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(log_data, f, ensure_ascii=False, indent=2)
+
+        print(f"✅ Conversation log saved to {filepath}")
+
+
+def main():
+    """Main program"""
+    print("🤖 Welcome to Smart Customer Service System!\n")
+    print("Tip: Please tell me your name first, e.g., 'I am John'\n")
+
+    bot = CustomerServiceBot()
+
+    print("Available commands:")
+    print("  - Enter a question for assistance")
+    print("  - /ticket <issue description> - Create support ticket")
+    print("  - /save - Save conversation log")
+    print("  - /quit - Exit\n")
+
+    while True:
+        user_input = input("\n👤 You: ").strip()
+
+        if not user_input:
+            continue
+
+        if user_input == "/quit":
+            print("\nThank you for using our service! Have a great day! 👋")
+            bot.save_conversation_log()
+            break
+
+        elif user_input.startswith("/ticket"):
+            parts = user_input.split(maxsplit=1)
+            if len(parts) > 1:
+                ticket = bot.create_ticket(parts[1])
+                print(f"\n✅ Ticket created!")
+                print(f"Ticket ID: {ticket['ticket_id']}")
+                print(f"Priority: {ticket['priority']}")
+                print(f"Status: {ticket['status']}")
+            else:
+                print("\nPlease provide issue description: /ticket <issue description>")
+
+        elif user_input == "/save":
+            bot.save_conversation_log()
+
+        else:
+            response = bot.handle_query(user_input)
+            print(f"\n🤖 Agent: {response}")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                    <h4 class="font-semibold text-green-900 mb-2">💡 Optimization Suggestions</h4>
+                    <ul class="list-disc list-inside space-y-1 text-green-800">
+                        <li>Can use more sophisticated sentiment analysis models (e.g., BERT)</li>
+                        <li>FAQ matching can use vector similarity (embeddings)</li>
+                        <li>Ticket system can be integrated with a database</li>
+                        <li>Add intent recognition for multi-turn conversations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submission Requirements -->
+        <section id="submission" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📤 Submission Requirements</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Submission Contents</h3>
+
+                <div class="space-y-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h4 class="font-semibold text-blue-900 mb-2">1. Code Files</h4>
+                        <ul class="list-disc list-inside space-y-1 text-blue-800">
+                            <li>learning_assistant.py - Assignment 1 code</li>
+                            <li>content_creator.py - Assignment 2 code (optional)</li>
+                            <li>customer_service.py - Assignment 3 code (challenge)</li>
+                            <li>requirements.txt - Dependencies list</li>
+                            <li>.env.example - Environment variables example (if needed)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-900 mb-2">2. README.md Documentation</h4>
+                        <ul class="list-disc list-inside space-y-1 text-green-800">
+                            <li>Project introduction and feature description</li>
+                            <li>Environment setup steps (Ollama installation, etc.)</li>
+                            <li>How to run each assignment</li>
+                            <li>Screenshots or demo video link</li>
+                            <li>Problems encountered and solutions</li>
+                            <li>Improvement suggestions and learning reflections</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-purple-900 mb-2">3. Demo Materials</h4>
+                        <ul class="list-disc list-inside space-y-1 text-purple-800">
+                            <li>Running screenshots (at least 3, showing core features)</li>
+                            <li>Generated content samples (if applicable)</li>
+                            <li>Conversation log examples (JSON files)</li>
+                            <li>Demo video (optional but recommended)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">Grading Rubric</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 px-4 py-2">Criterion</th>
+                                <th class="border border-gray-300 px-4 py-2">Weight</th>
+                                <th class="border border-gray-300 px-4 py-2">Grading Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Code Quality & Organization</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">20%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - Clear code structure, modular<br>
+                                    - Appropriate comments and docstrings<br>
+                                    - Follow Python coding standards (PEP 8)<br>
+                                    - Comprehensive error handling
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">Functionality Completeness</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">40%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - All required features implemented<br>
+                                    - Functions work properly, no major bugs<br>
+                                    - Correct use of LangChain components<br>
+                                    - Proper Memory and Chain usage
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Documentation Quality</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">20%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - Complete and clear README<br>
+                                    - Detailed setup instructions<br>
+                                    - Running examples and screenshots<br>
+                                    - Problem and solution documentation
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">Innovation & Creativity</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">20%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - Bonus features implemented<br>
+                                    - Unique innovations<br>
+                                    - Excellent UI/UX design<br>
+                                    - Exceeds basic requirements
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-6">
+                    <h4 class="font-semibold text-red-900 mb-2">⚠️ Important Notes</h4>
+                    <ul class="list-disc list-inside space-y-1 text-red-800">
+                        <li>Must use free Ollama models (don't use paid APIs)</li>
+                        <li>Code must be runnable</li>
+                        <li>No plagiarism - learning from references is encouraged but understand the code</li>
+                        <li>README must include complete running instructions</li>
+                        <li>Test all features before submission</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                    <h4 class="font-semibold text-green-900 mb-2">🎁 Bonus Points</h4>
+                    <ul class="list-disc list-inside space-y-1 text-green-800">
+                        <li>Implement web interface (Streamlit/Gradio) (+10 points)</li>
+                        <li>Add unit tests (+5 points)</li>
+                        <li>Data persistence (database) (+5 points)</li>
+                        <li>Deploy to cloud platform (+10 points)</li>
+                        <li>Detailed development log and learning notes (+5 points)</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-6">
+                    <h4 class="font-semibold text-yellow-900 mb-2">📅 Submission Details</h4>
+                    <ul class="space-y-1 text-yellow-800">
+                        <li><strong>Submission Method:</strong> Upload code to GitHub repository</li>
+                        <li><strong>Deadline:</strong> 7 days after class</li>
+                        <li><strong>Submit:</strong> GitHub repository link</li>
+                        <li><strong>Repository Requirements:</strong> Include complete code, README, screenshots</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Resources -->
+        <section id="resources" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📚 Learning Resources</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Recommended Learning Resources</h3>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">📖 Official Documentation</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li><a href="https://python.langchain.com/" class="text-blue-600 hover:underline">LangChain Python Documentation</a></li>
+                            <li><a href="https://ollama.ai/" class="text-blue-600 hover:underline">Ollama Official Website</a></li>
+                            <li><a href="https://docs.streamlit.io/" class="text-blue-600 hover:underline">Streamlit Documentation</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-2">🎥 Video Tutorials</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li>LangChain Official YouTube Channel</li>
+                            <li>Ollama User Guide</li>
+                            <li>Course Recording Playback</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-2">💡 Example Projects</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li>LangChain Official Examples Repository</li>
+                            <li>Course Reference Code</li>
+                            <li>Open Source Projects on GitHub</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-2">🛠️ Tool Recommendations</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li>VSCode + Python Extension</li>
+                            <li>Jupyter Notebook (for experiments)</li>
+                            <li>LangSmith (debugging tool)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-6">
+                    <h4 class="font-semibold text-blue-900 mb-2">💬 Getting Help</h4>
+                    <ul class="list-disc list-inside space-y-1 text-blue-800">
+                        <li>Course Discussion Group: Ask questions anytime</li>
+                        <li>GitHub Issues: Technical questions</li>
+                        <li>Office Hours: Weekly Q&A sessions</li>
+                        <li>Peer Support: Collaborative learning encouraged</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'rgba(34, 197, 94, 0.2)';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+            });
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

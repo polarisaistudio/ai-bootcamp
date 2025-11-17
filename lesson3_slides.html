@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: LangChain框架入门 - AI工程师训练营</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .toc-item {
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+        .tag-orange { background: #ffedd5; color: #c2410c; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- 移动端菜单按钮 -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded no-print" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- 侧边栏导航 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">🚀 AI训练营</h2>
+
+            <!-- 课程进度 -->
+            <div class="mb-6">
+                <div class="text-gray-400 text-sm mb-2">课程进度</div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full" style="width: 37.5%"></div>
+                </div>
+                <div class="text-gray-400 text-xs mt-1">Lesson 3/8</div>
+            </div>
+
+            <!-- 目录 -->
+            <div class="space-y-2">
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 课程概览
+                </a>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 1: LangChain基础</div>
+                    <a href="#part1-what" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔗 什么是LangChain
+                    </a>
+                    <a href="#part1-architecture" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🏗️ 核心架构
+                    </a>
+                    <a href="#part1-setup" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📦 安装配置
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 2: 核心组件</div>
+                    <a href="#part2-llms" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🤖 LLM集成
+                    </a>
+                    <a href="#part2-prompts" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💬 提示模板
+                    </a>
+                    <a href="#part2-chains" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        ⛓️ 链式调用
+                    </a>
+                    <a href="#part2-memory" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🧠 记忆系统
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 3: 实战项目</div>
+                    <a href="#part3-simple" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 简单问答
+                    </a>
+                    <a href="#part3-chatbot" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💬 带记忆的聊天
+                    </a>
+                    <a href="#part3-advanced" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🚀 高级应用
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <a href="#homework" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📝 课后作业
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 顶部导航 -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Lesson 3: LangChain框架入门</h1>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.print()" class="p-2 rounded hover:bg-gray-100">🖨️</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 内容区 -->
+        <div class="px-6 py-8">
+
+            <!-- 课程概览 -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 课程概览</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⏱️</div>
+                            <div class="text-lg font-semibold">3小时</div>
+                            <div class="text-sm opacity-90">完整课程时长</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">💻</div>
+                            <div class="text-lg font-semibold">6个实验</div>
+                            <div class="text-sm opacity-90">动手练习</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🎯</div>
+                            <div class="text-lg font-semibold">2个项目</div>
+                            <div class="text-sm opacity-90">实战应用</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学习目标 -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🎯 学习目标</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>理解LangChain的核心概念和架构</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>掌握Prompt模板的设计与使用</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>学会使用链式调用构建复杂应用</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>实现带记忆功能的对话系统</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>使用免费Ollama模型降低成本</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>开发实际可用的AI应用程序</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: LangChain基础 -->
+            <section id="part1-what" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">1</span>
+                    🔗 什么是LangChain
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <h3 class="font-bold text-blue-900 mb-2">LangChain简介</h3>
+                        <p class="text-blue-800">LangChain是一个用于构建LLM应用的开源框架。它提供了一系列工具和抽象，让开发者能够快速构建复杂的AI应用，而无需从头编写所有代码。</p>
+                    </div>
+
+                    <h4 class="font-bold mb-4">为什么需要LangChain？</h4>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h5 class="font-bold text-red-700 mb-2">❌ 不使用LangChain</h5>
+                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                                <li>需要手动管理API调用</li>
+                                <li>重复编写提示词处理逻辑</li>
+                                <li>难以实现复杂的工作流</li>
+                                <li>缺少标准化的组件</li>
+                                <li>没有内置的记忆管理</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h5 class="font-bold text-green-700 mb-2">✅ 使用LangChain</h5>
+                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                                <li>统一的LLM接口（支持所有主流模型）</li>
+                                <li>可重用的Prompt模板</li>
+                                <li>链式调用轻松组合复杂逻辑</li>
+                                <li>丰富的预构建组件</li>
+                                <li>内置记忆和状态管理</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4 class="font-bold mb-4">LangChain核心优势</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-purple-50 p-4 rounded">
+                            <div class="text-2xl mb-2">🔌</div>
+                            <h5 class="font-bold mb-2">模型无关</h5>
+                            <p class="text-sm text-gray-700">支持OpenAI、Anthropic、Ollama等所有主流LLM</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded">
+                            <div class="text-2xl mb-2">🔗</div>
+                            <h5 class="font-bold mb-2">可组合</h5>
+                            <p class="text-sm text-gray-700">像乐高一样组合各种组件构建复杂应用</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded">
+                            <div class="text-2xl mb-2">🚀</div>
+                            <h5 class="font-bold mb-2">快速开发</h5>
+                            <p class="text-sm text-gray-700">减少80%的样板代码，专注业务逻辑</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: 核心架构 -->
+            <section id="part1-architecture" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🏗️ LangChain核心架构</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">LangChain由6个核心模块组成，每个模块负责特定功能：</p>
+
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start border-l-4 border-blue-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3">1</div>
+                            <div>
+                                <h5 class="font-bold">Models（模型）</h5>
+                                <p class="text-sm text-gray-700">统一的LLM接口，支持GPT、Claude、Ollama等</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-purple-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mr-3">2</div>
+                            <div>
+                                <h5 class="font-bold">Prompts（提示）</h5>
+                                <p class="text-sm text-gray-700">提示模板管理、优化和序列化</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-green-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">3</div>
+                            <div>
+                                <h5 class="font-bold">Chains（链）</h5>
+                                <p class="text-sm text-gray-700">将多个组件组合成一个工作流</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-yellow-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center mr-3">4</div>
+                            <div>
+                                <h5 class="font-bold">Memory（记忆）</h5>
+                                <p class="text-sm text-gray-700">在对话之间保持状态和上下文</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-red-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mr-3">5</div>
+                            <div>
+                                <h5 class="font-bold">Agents（代理）</h5>
+                                <p class="text-sm text-gray-700">让LLM自主决策使用哪些工具</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-indigo-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center mr-3">6</div>
+                            <div>
+                                <h5 class="font-bold">Callbacks（回调）</h5>
+                                <p class="text-sm text-gray-700">监控和调试LLM应用</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-4 rounded">
+                        <h5 class="font-bold mb-2">架构示意图</h5>
+                        <pre class="text-sm overflow-x-auto"><code>用户输入
+   ↓
+Prompt Template (格式化输入)
+   ↓
+LLM Model (生成响应)
+   ↓
+Output Parser (解析输出)
+   ↓
+Memory (保存上下文)
+   ↓
+返回结果</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: 安装配置 -->
+            <section id="part1-setup" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📦 安装与配置</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded">
+                        <p class="text-green-800 font-bold">💡 好消息：本课程使用免费的Ollama模型，无需API密钥！</p>
+                    </div>
+
+                    <h4 class="font-bold mb-3">步骤1：安装LangChain</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-bash"># 安装LangChain核心库
+python3 -m pip install langchain
+
+# 安装Ollama支持
+python3 -m pip install langchain-ollama
+
+# 可选：安装OpenAI支持（需要API密钥）
+# python3 -m pip install langchain-openai</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-3">步骤2：确保Ollama已安装并运行</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-bash"># 拉取llama3.2模型
+ollama pull llama3.2
+
+# 验证安装
+ollama list</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-3">步骤3：测试安装</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-4">
+                        <pre><code class="language-python"># test_langchain.py
+from langchain_ollama import OllamaLLM
+
+# 初始化模型
+llm = OllamaLLM(model="llama3.2")
+
+# 测试调用
+response = llm.invoke("Say hello in Chinese!")
+print(response)</code></pre>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <p class="text-blue-800"><strong>✅ 运行测试：</strong> <code class="bg-white px-2 py-1 rounded">python3 test_langchain.py</code></p>
+                        <p class="text-sm text-blue-700 mt-2">如果看到中文问候语，说明安装成功！</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: LLM集成 -->
+            <section id="part2-llms" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">2</span>
+                    🤖 LLM模型集成
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">LangChain支持多种LLM提供商，并提供统一的接口：</p>
+
+                    <h4 class="font-bold mb-4">方式1：使用免费的Ollama（推荐）</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># llm_ollama.py
+from langchain_ollama import OllamaLLM
+
+# 初始化Ollama模型
+llm = OllamaLLM(
+    model="llama3.2",
+    temperature=0.7,  # 控制创造性（0-2）
+)
+
+# 简单调用
+result = llm.invoke("什么是机器学习？")
+print(result)
+
+# 批量调用
+questions = [
+    "什么是深度学习？",
+    "什么是神经网络？",
+    "什么是反向传播？"
+]
+results = llm.batch(questions)
+for q, r in zip(questions, results):
+    print(f"Q: {q}")
+    print(f"A: {r}\n")</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">方式2：使用OpenAI（需要API密钥）</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># llm_openai.py
+from langchain_openai import ChatOpenAI
+import os
+
+# 设置API密钥
+os.environ["OPENAI_API_KEY"] = "your-api-key"
+
+# 初始化OpenAI模型
+llm = ChatOpenAI(
+    model="gpt-4",
+    temperature=0.7,
+)
+
+result = llm.invoke("什么是机器学习？")
+print(result.content)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">实验：对比不同模型</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># compare_models.py
+from langchain_ollama import OllamaLLM
+
+# 测试不同的Ollama模型
+models = ["llama3.2", "qwen2.5"]
+question = "用一句话解释什么是人工智能"
+
+for model_name in models:
+    llm = OllamaLLM(model=model_name, temperature=0.7)
+    response = llm.invoke(question)
+    print(f"\n{'='*50}")
+    print(f"模型: {model_name}")
+    print(f"回答: {response}")
+    print(f"{'='*50}")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: 提示模板 -->
+            <section id="part2-prompts" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">💬 提示模板（Prompt Templates）</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                        <h4 class="font-bold text-yellow-900 mb-2">为什么需要提示模板？</h4>
+                        <p class="text-yellow-800">提示模板让你可以重用和参数化提示词，避免重复编写相似的提示，提高代码的可维护性。</p>
+                    </div>
+
+                    <h4 class="font-bold mb-4">基础示例：简单模板</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># prompt_basic.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+# 创建提示模板
+template = """你是一个专业的{role}。
+请用{language}回答以下问题：
+
+问题：{question}
+
+答案："""
+
+prompt = PromptTemplate(
+    template=template,
+    input_variables=["role", "language", "question"]
+)
+
+# 初始化LLM
+llm = OllamaLLM(model="llama3.2")
+
+# 创建链
+chain = prompt | llm
+
+# 使用模板
+result = chain.invoke({
+    "role": "Python教师",
+    "language": "中文",
+    "question": "什么是装饰器？"
+})
+
+print(result)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">进阶示例：聊天消息模板</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># prompt_chat.py
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama import OllamaLLM
+
+# 创建聊天模板
+chat_template = ChatPromptTemplate.from_messages([
+    ("system", "你是一个{profession}，擅长{expertise}。"),
+    ("human", "{user_input}")
+])
+
+llm = OllamaLLM(model="llama3.2")
+chain = chat_template | llm
+
+# 使用案例1：编程助手
+result1 = chain.invoke({
+    "profession": "高级程序员",
+    "expertise": "Python和算法",
+    "user_input": "如何实现快速排序？"
+})
+print("编程助手:", result1)
+
+# 使用案例2：营销顾问
+result2 = chain.invoke({
+    "profession": "市场营销专家",
+    "expertise": "社交媒体推广",
+    "user_input": "如何提高品牌知名度？"
+})
+print("\n营销顾问:", result2)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">实用模板：Few-shot学习</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># prompt_fewshot.py
+from langchain_core.prompts import FewShotPromptTemplate, PromptTemplate
+from langchain_ollama import OllamaLLM
+
+# 准备示例
+examples = [
+    {"input": "快乐", "output": "悲伤"},
+    {"input": "高", "output": "矮"},
+    {"input": "白天", "output": "黑夜"},
+]
+
+# 示例格式模板
+example_template = """
+输入：{input}
+输出：{output}
+"""
+
+example_prompt = PromptTemplate(
+    input_variables=["input", "output"],
+    template=example_template
+)
+
+# Few-shot模板
+few_shot_prompt = FewShotPromptTemplate(
+    examples=examples,
+    example_prompt=example_prompt,
+    prefix="请找出以下词语的反义词：",
+    suffix="输入：{word}\n输出：",
+    input_variables=["word"]
+)
+
+llm = OllamaLLM(model="llama3.2")
+chain = few_shot_prompt | llm
+
+# 测试
+result = chain.invoke({"word": "聪明"})
+print(f"聪明的反义词: {result}")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: 链式调用 -->
+            <section id="part2-chains" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">⛓️ 链式调用（Chains）</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">链（Chains）是LangChain的核心概念，它允许你将多个组件组合成一个工作流。</p>
+
+                    <h4 class="font-bold mb-4">简单链：LLMChain</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># chain_simple.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+# 创建组件
+template = "将以下文本翻译成{target_language}：\n{text}"
+prompt = PromptTemplate(
+    template=template,
+    input_variables=["target_language", "text"]
+)
+
+llm = OllamaLLM(model="llama3.2")
+
+# 使用LCEL（LangChain Expression Language）创建链
+chain = prompt | llm
+
+# 执行链
+result = chain.invoke({
+    "target_language": "英语",
+    "text": "人工智能正在改变世界"
+})
+
+print(result)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">顺序链：多步骤处理</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># chain_sequential.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+llm = OllamaLLM(model="llama3.2")
+
+# 第一步：生成故事概要
+synopsis_template = """为以下主题写一个故事概要：
+主题：{topic}
+概要："""
+
+synopsis_prompt = PromptTemplate(
+    template=synopsis_template,
+    input_variables=["topic"]
+)
+
+synopsis_chain = synopsis_prompt | llm
+
+# 第二步：基于概要写评论
+review_template = """为以下故事概要写一篇评论：
+概要：{synopsis}
+评论："""
+
+review_prompt = PromptTemplate(
+    template=review_template,
+    input_variables=["synopsis"]
+)
+
+review_chain = review_prompt | llm
+
+# 组合链
+full_chain = synopsis_chain | (lambda x: {"synopsis": x}) | review_chain
+
+# 执行
+result = full_chain.invoke({"topic": "一个机器人学会了爱"})
+print(result)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">实战：内容创作流水线</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># content_pipeline.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+llm = OllamaLLM(model="llama3.2", temperature=0.8)
+
+# 步骤1：生成标题
+title_chain = (
+    PromptTemplate.from_template("为以下主题生成一个吸引人的博客标题：{topic}\n标题：")
+    | llm
+)
+
+# 步骤2：生成大纲
+outline_chain = (
+    PromptTemplate.from_template("为标题'{title}'生成博客大纲（3-5个要点）：\n大纲：")
+    | llm
+)
+
+# 步骤3：写文章
+article_chain = (
+    PromptTemplate.from_template("基于以下大纲写一篇500字的文章：\n{outline}\n文章：")
+    | llm
+)
+
+# 执行完整流程
+def create_blog_post(topic):
+    print("🎯 主题:", topic)
+
+    title = title_chain.invoke({"topic": topic})
+    print(f"\n📌 标题: {title}\n")
+
+    outline = outline_chain.invoke({"title": title})
+    print(f"📋 大纲:\n{outline}\n")
+
+    article = article_chain.invoke({"outline": outline})
+    print(f"📝 文章:\n{article}")
+
+# 测试
+create_blog_post("人工智能在教育中的应用")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: 记忆系统 -->
+            <section id="part2-memory" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🧠 记忆系统（Memory）</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-6">
+                        <h4 class="font-bold text-purple-900 mb-2">为什么需要记忆？</h4>
+                        <p class="text-purple-800">LLM本身是无状态的，每次调用都是独立的。记忆系统让对话能够保持上下文，实现真正的多轮对话。</p>
+                    </div>
+
+                    <h4 class="font-bold mb-4">记忆类型对比</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="min-w-full border">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="border px-4 py-2">记忆类型</th>
+                                    <th class="border px-4 py-2">描述</th>
+                                    <th class="border px-4 py-2">适用场景</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border px-4 py-2"><code>ConversationBufferMemory</code></td>
+                                    <td class="border px-4 py-2">保存完整对话历史</td>
+                                    <td class="border px-4 py-2">短对话，token成本低</td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2"><code>ConversationBufferWindowMemory</code></td>
+                                    <td class="border px-4 py-2">只保留最近N轮对话</td>
+                                    <td class="border px-4 py-2">长对话，控制成本</td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2"><code>ConversationSummaryMemory</code></td>
+                                    <td class="border px-4 py-2">总结历史对话</td>
+                                    <td class="border px-4 py-2">需要保留语义，节省token</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold mb-4">示例1：基础对话记忆</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># memory_basic.py
+from langchain_ollama import OllamaLLM
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferMemory
+
+# 初始化
+llm = OllamaLLM(model="llama3.2")
+memory = ConversationBufferMemory()
+
+# 创建对话链
+conversation = ConversationChain(
+    llm=llm,
+    memory=memory,
+    verbose=True  # 显示详细信息
+)
+
+# 多轮对话
+print(conversation.predict(input="我叫张三，是一名程序员"))
+print("\n" + "="*50 + "\n")
+
+print(conversation.predict(input="我喜欢Python编程"))
+print("\n" + "="*50 + "\n")
+
+print(conversation.predict(input="我叫什么名字？"))  # 测试记忆
+print("\n" + "="*50 + "\n")
+
+# 查看记忆
+print("对话历史:")
+print(memory.load_memory_variables({}))</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">示例2：窗口记忆（控制成本）</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># memory_window.py
+from langchain_ollama import OllamaLLM
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferWindowMemory
+
+llm = OllamaLLM(model="llama3.2")
+
+# 只保留最近2轮对话
+memory = ConversationBufferWindowMemory(k=2)
+
+conversation = ConversationChain(
+    llm=llm,
+    memory=memory
+)
+
+# 测试
+responses = []
+inputs = [
+    "我最喜欢的颜色是蓝色",
+    "我的爱好是游泳",
+    "我今天吃了披萨",
+    "我最喜欢的颜色是什么？"  # 这个信息应该已经被遗忘了
+]
+
+for user_input in inputs:
+    response = conversation.predict(input=user_input)
+    print(f"\n用户: {user_input}")
+    print(f"AI: {response}")
+    print("-" * 50)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">示例3：自定义记忆</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># memory_custom.py
+from langchain_ollama import OllamaLLM
+from langchain.memory import ConversationBufferMemory
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables import RunnablePassthrough
+
+llm = OllamaLLM(model="llama3.2")
+memory = ConversationBufferMemory(return_messages=True)
+
+# 自定义提示模板
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "你是一个友好的AI助手，名字叫小智。"),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}")
+])
+
+# 创建链
+def get_memory(_):
+    return memory.load_memory_variables({})["history"]
+
+chain = (
+    RunnablePassthrough.assign(history=get_memory)
+    | prompt
+    | llm
+)
+
+# 对话函数
+def chat(user_input):
+    response = chain.invoke({"input": user_input})
+
+    # 保存到记忆
+    memory.save_context(
+        {"input": user_input},
+        {"output": response}
+    )
+
+    return response
+
+# 测试
+print(chat("你好！你叫什么名字？"))
+print("\n" + "="*50 + "\n")
+print(chat("你能帮我做什么？"))
+print("\n" + "="*50 + "\n")
+print(chat("我刚才问你什么了？"))</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: 简单问答 -->
+            <section id="part3-simple" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">3</span>
+                    🎯 实战项目1：智能问答系统
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">构建一个能够根据不同角色回答问题的智能系统。</p>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <pre><code class="language-python"># qa_system.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+from langchain_core.output_parsers import StrOutputParser
+
+class QASystem:
+    """智能问答系统"""
+
+    def __init__(self, model="llama3.2"):
+        self.llm = OllamaLLM(model=model, temperature=0.7)
+        self.parser = StrOutputParser()
+
+        # 不同角色的提示模板
+        self.roles = {
+            "teacher": """你是一位耐心的教师。
+用简单易懂的语言解释：{question}
+
+解释：""",
+
+            "expert": """你是一位技术专家。
+用专业术语详细解答：{question}
+
+答案：""",
+
+            "comedian": """你是一位幽默的喜剧演员。
+用搞笑的方式回答：{question}
+
+回答："""
+        }
+
+    def ask(self, question, role="teacher"):
+        """提问"""
+        if role not in self.roles:
+            return f"错误：角色'{role}'不存在"
+
+        template = self.roles[role]
+        prompt = PromptTemplate.from_template(template)
+
+        # 创建链
+        chain = prompt | self.llm | self.parser
+
+        # 执行
+        return chain.invoke({"question": question})
+
+# 使用示例
+if __name__ == "__main__":
+    qa = QASystem()
+
+    question = "什么是区块链？"
+
+    print("📚 教师版本:")
+    print(qa.ask(question, "teacher"))
+    print("\n" + "="*70 + "\n")
+
+    print("🔬 专家版本:")
+    print(qa.ask(question, "expert"))
+    print("\n" + "="*70 + "\n")
+
+    print("😄 喜剧版本:")
+    print(qa.ask(question, "comedian"))</code></pre>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded">
+                        <h5 class="font-bold text-green-900 mb-2">💡 扩展思路</h5>
+                        <ul class="list-disc list-inside text-sm text-green-800 space-y-1">
+                            <li>添加更多角色：诗人、科学家、5岁小孩等</li>
+                            <li>保存用户偏好的角色设置</li>
+                            <li>实现多语言支持</li>
+                            <li>添加评分系统让用户评价答案质量</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: 带记忆的聊天 -->
+            <section id="part3-chatbot" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">💬 实战项目2：带记忆的聊天机器人</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">构建一个能记住对话历史的智能聊天机器人。</p>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <pre><code class="language-python"># chatbot.py
+from langchain_ollama import OllamaLLM
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferWindowMemory
+from langchain_core.prompts import PromptTemplate
+
+class SmartChatbot:
+    """智能聊天机器人"""
+
+    def __init__(self, name="小智", personality="友好、乐于助人", model="llama3.2"):
+        self.name = name
+        self.llm = OllamaLLM(model=model, temperature=0.8)
+
+        # 只保留最近5轮对话
+        self.memory = ConversationBufferWindowMemory(k=5)
+
+        # 自定义提示模板
+        template = f"""你是{name}，一个{personality}的AI助手。
+
+当前对话:
+{{history}}
+人类: {input}
+AI助手:"""
+
+        prompt = PromptTemplate(
+            input_variables=["history", "input"],
+            template=template
+        )
+
+        # 创建对话链
+        self.conversation = ConversationChain(
+            llm=self.llm,
+            memory=self.memory,
+            prompt=prompt,
+            verbose=False
+        )
+
+    def chat(self, user_input):
+        """聊天"""
+        return self.conversation.predict(input=user_input)
+
+    def reset(self):
+        """重置记忆"""
+        self.memory.clear()
+        return f"{self.name}的记忆已重置"
+
+    def get_history(self):
+        """获取对话历史"""
+        return self.memory.load_memory_variables({})
+
+# 使用示例
+if __name__ == "__main__":
+    bot = SmartChatbot(name="小智", personality="友好、幽默")
+
+    print("🤖 小智: 你好！我是小智，有什么可以帮你的吗？")
+
+    # 模拟对话
+    conversations = [
+        "你好！我叫李明，是一名学生",
+        "我正在学习人工智能",
+        "你能推荐一些学习资源吗？",
+        "我叫什么名字？",  # 测试记忆
+        "我在学什么？"  # 测试记忆
+    ]
+
+    for user_input in conversations:
+        print(f"\n👤 用户: {user_input}")
+        response = bot.chat(user_input)
+        print(f"🤖 小智: {response}")
+        print("-" * 70)</code></pre>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded">
+                        <h5 class="font-bold text-blue-900 mb-2">🎯 运行测试</h5>
+                        <pre class="bg-white p-2 rounded text-sm"><code>python3 chatbot.py</code></pre>
+                        <p class="text-sm text-blue-800 mt-2">观察机器人如何记住之前的对话内容！</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: 高级应用 -->
+            <section id="part3-advanced" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🚀 高级应用：多功能AI助手</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">综合运用所学知识，构建一个功能丰富的AI助手。</p>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <pre><code class="language-python"># ai_assistant.py
+from langchain_ollama import OllamaLLM
+from langchain_core.prompts import PromptTemplate
+from langchain.memory import ConversationBufferWindowMemory
+from langchain.chains import ConversationChain
+import json
+
+class AIAssistant:
+    """多功能AI助手"""
+
+    def __init__(self, model="llama3.2"):
+        self.llm = OllamaLLM(model=model, temperature=0.7)
+        self.memory = ConversationBufferWindowMemory(k=10)
+
+        # 功能列表
+        self.features = {
+            "translate": self.translate,
+            "summarize": self.summarize,
+            "code": self.code_helper,
+            "chat": self.chat
+        }
+
+    def translate(self, text, target_lang="英语"):
+        """翻译功能"""
+        template = f"将以下文本翻译成{target_lang}：\n{{text}}\n翻译："
+        prompt = PromptTemplate.from_template(template)
+        chain = prompt | self.llm
+        return chain.invoke({"text": text})
+
+    def summarize(self, text):
+        """摘要功能"""
+        template = """请将以下文本总结成3-5个要点：
+
+文本: {text}
+
+要点:"""
+        prompt = PromptTemplate.from_template(template)
+        chain = prompt | self.llm
+        return chain.invoke({"text": text})
+
+    def code_helper(self, description, language="Python"):
+        """代码助手"""
+        template = """请用{language}编写代码来实现以下功能：
+
+需求: {description}
+
+代码:"""
+        prompt = PromptTemplate.from_template(template)
+        chain = prompt | self.llm
+        return chain.invoke({"description": description, "language": language})
+
+    def chat(self, user_input):
+        """对话功能"""
+        template = """你是一个友好的AI助手。
+
+对话历史:
+{history}
+
+人类: {input}
+助手:"""
+        prompt = PromptTemplate(
+            template=template,
+            input_variables=["history", "input"]
+        )
+
+        conversation = ConversationChain(
+            llm=self.llm,
+            memory=self.memory,
+            prompt=prompt
+        )
+
+        return conversation.predict(input=user_input)
+
+    def execute(self, command):
+        """执行命令"""
+        parts = command.split(":", 1)
+        if len(parts) != 2:
+            return self.chat(command)
+
+        feature, content = parts[0].strip(), parts[1].strip()
+
+        if feature in self.features:
+            return self.features[feature](content)
+        else:
+            return f"未知命令: {feature}。可用命令: {', '.join(self.features.keys())}"
+
+# CLI界面
+def main():
+    assistant = AIAssistant()
+
+    print("="*70)
+    print("🤖 AI多功能助手")
+    print("="*70)
+    print("\n可用命令:")
+    print("  translate: 文本   - 翻译文本")
+    print("  summarize: 文本   - 总结文本")
+    print("  code: 描述        - 生成代码")
+    print("  直接输入          - 聊天对话")
+    print("  quit              - 退出\n")
+    print("="*70)
+
+    while True:
+        user_input = input("\n👤 你: ").strip()
+
+        if user_input.lower() in ['quit', 'exit', '退出']:
+            print("\n👋 再见！")
+            break
+
+        if not user_input:
+            continue
+
+        try:
+            response = assistant.execute(user_input)
+            print(f"\n🤖 助手: {response}")
+        except Exception as e:
+            print(f"\n❌ 错误: {e}")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-purple-50 border border-purple-200 rounded">
+                        <h5 class="font-bold text-purple-900 mb-2">💡 使用示例</h5>
+                        <pre class="bg-white p-3 rounded text-sm"><code># 翻译
+👤 你: translate: 人工智能正在改变世界
+
+# 总结
+👤 你: summarize: LangChain是一个...（长文本）
+
+# 代码生成
+👤 你: code: 实现快速排序算法
+
+# 聊天
+👤 你: 今天天气真好</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 课后作业 -->
+            <section id="homework" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">📝</span>
+                    课后作业
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                        <p class="text-yellow-900"><strong>⏰ 截止时间：</strong>课程结束后7天</p>
+                        <p class="text-yellow-900"><strong>📤 提交方式：</strong>将代码上传到GitHub并提交仓库链接</p>
+                    </div>
+
+                    <!-- 作业1 -->
+                    <div class="mb-8 p-6 border-2 border-blue-200 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 text-blue-700">作业1：个性化学习助手（必做）</h3>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">📋 需求</h4>
+                            <p class="text-gray-700 mb-4">创建一个学习助手，帮助用户学习新概念。要求：</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>使用提示模板实现不同难度级别的解释（初级、中级、高级）</li>
+                                <li>使用记忆系统记住用户的学习进度</li>
+                                <li>能够根据用户理解程度调整解释方式</li>
+                                <li>使用免费的Ollama模型</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">💻 示例交互</h4>
+                            <div class="bg-gray-100 p-4 rounded">
+                                <pre class="text-sm"><code>👤 用户: 我想学习机器学习，我是初学者
+🤖 助手: 好的！我会用简单的方式解释。机器学习就像...
+👤 用户: 什么是神经网络？
+🤖 助手: （记得用户是初学者，用简单语言解释）
+👤 用户: 我觉得我可以理解更深入的内容了
+🤖 助手: （调整到中级难度）</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded">
+                            <h4 class="font-bold mb-2 text-blue-900">✅ 评分标准</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-blue-800">
+                                <li>正确使用Prompt Template（30分）</li>
+                                <li>正确实现记忆系统（30分）</li>
+                                <li>能够动态调整难度（20分）</li>
+                                <li>代码质量和注释（20分）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 作业2 -->
+                    <div class="mb-8 p-6 border-2 border-purple-200 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 text-purple-700">作业2：内容创作流水线（选做）</h3>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">📋 需求</h4>
+                            <p class="text-gray-700 mb-4">创建一个内容创作工具，包含以下功能：</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>根据主题生成文章标题、大纲、正文</li>
+                                <li>使用链式调用实现多步骤流程</li>
+                                <li>支持不同文章类型（技术文章、故事、营销文案）</li>
+                                <li>生成的内容保存到文件</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded">
+                            <h4 class="font-bold mb-2 text-purple-900">🌟 加分项</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-purple-800">
+                                <li>实现文章SEO关键词分析</li>
+                                <li>添加内容质量评分功能</li>
+                                <li>支持多语言内容生成</li>
+                                <li>实现GUI界面（使用Streamlit）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 作业3 -->
+                    <div class="p-6 border-2 border-green-200 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 text-green-700">作业3：智能客服系统（挑战）</h3>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">📋 需求</h4>
+                            <p class="text-gray-700 mb-4">创建一个智能客服系统：</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>能够回答常见问题（FAQ）</li>
+                                <li>记住用户信息（姓名、问题历史）</li>
+                                <li>根据用户情绪调整回复风格</li>
+                                <li>支持工单生成功能</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded">
+                            <h4 class="font-bold mb-2 text-green-900">🎯 技术要点</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-green-800">
+                                <li>使用ConversationBufferMemory保存对话</li>
+                                <li>使用Few-shot Prompts提供FAQ示例</li>
+                                <li>实现情感分析（可以简单判断关键词）</li>
+                                <li>保存对话记录到JSON文件</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 学习资源 -->
+            <section id="resources" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6">📚 学习资源</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold mb-4 text-blue-700">📖 官方文档</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://python.langchain.com/" class="text-blue-600 hover:underline" target="_blank">LangChain官方文档</a></li>
+                            <li><a href="https://ollama.ai/" class="text-blue-600 hover:underline" target="_blank">Ollama官网</a></li>
+                            <li><a href="https://smith.langchain.com/" class="text-blue-600 hover:underline" target="_blank">LangSmith调试工具</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold mb-4 text-green-700">💡 实用工具</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://www.langchain.com/hub" class="text-blue-600 hover:underline" target="_blank">LangChain Hub - Prompt模板库</a></li>
+                            <li><a href="https://github.com/langchain-ai/langchain" class="text-blue-600 hover:underline" target="_blank">LangChain GitHub</a></li>
+                            <li><a href="https://blog.langchain.dev/" class="text-blue-600 hover:underline" target="_blank">LangChain博客</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 总结 -->
+            <section class="mb-12">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-2xl font-bold mb-4">🎉 课程总结</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <h3 class="font-bold mb-2">✅ 你已掌握</h3>
+                            <ul class="text-sm space-y-1 opacity-90">
+                                <li>• LangChain核心概念</li>
+                                <li>• Prompt模板设计</li>
+                                <li>• 链式调用</li>
+                                <li>• 记忆系统</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-2">🚀 下节预告</h3>
+                            <p class="text-sm opacity-90">Lesson 4: 向量数据库与RAG</p>
+                            <p class="text-xs opacity-75 mt-2">学习如何构建知识库问答系统</p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-2">📝 记得完成</h3>
+                            <ul class="text-sm space-y-1 opacity-90">
+                                <li>• 课后作业1（必做）</li>
+                                <li>• 实践所有代码示例</li>
+                                <li>• 阅读官方文档</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+
+    <script>
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Active menu item highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            const sections = document.querySelectorAll('section[id]');
+
+            function highlightTOC() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === '#' + current) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', highlightTOC);
+            highlightTOC();
+        });
+    </script>
+</body>
+</html>

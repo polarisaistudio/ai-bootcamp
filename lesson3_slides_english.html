@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Introduction to LangChain Framework - AI Engineer Bootcamp</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
+            background: #1a202c;
+            z-index: 40;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .toc-item {
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: rgba(66, 153, 225, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .toc-item.active {
+            background: rgba(66, 153, 225, 0.2);
+            border-left: 3px solid #4299e1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .tag-blue { background: #e0f2fe; color: #0369a1; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-purple { background: #ede9fe; color: #6d28d9; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+        .tag-orange { background: #ffedd5; color: #c2410c; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Mobile menu button -->
+    <button class="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded no-print" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- Sidebar navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-white mb-6">🚀 AI Bootcamp</h2>
+
+            <!-- Course progress -->
+            <div class="mb-6">
+                <div class="text-gray-400 text-sm mb-2">Course Progress</div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full" style="width: 37.5%"></div>
+                </div>
+                <div class="text-gray-400 text-xs mt-1">Lesson 3/8</div>
+            </div>
+
+            <!-- Table of contents -->
+            <div class="space-y-2">
+                <a href="#overview" class="toc-item block p-2 text-gray-300 hover:text-white rounded">
+                    📚 Course Overview
+                </a>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 1: LangChain Basics</div>
+                    <a href="#part1-what" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🔗 What is LangChain
+                    </a>
+                    <a href="#part1-architecture" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🏗️ Core Architecture
+                    </a>
+                    <a href="#part1-setup" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📦 Installation & Setup
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 2: Core Components</div>
+                    <a href="#part2-llms" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🤖 LLM Integration
+                    </a>
+                    <a href="#part2-prompts" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💬 Prompt Templates
+                    </a>
+                    <a href="#part2-chains" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        ⛓️ Chains
+                    </a>
+                    <a href="#part2-memory" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🧠 Memory Systems
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <div class="text-gray-400 text-xs uppercase tracking-wider mb-2">Part 3: Practical Projects</div>
+                    <a href="#part3-simple" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🎯 Simple Q&A
+                    </a>
+                    <a href="#part3-chatbot" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        💬 Chat with Memory
+                    </a>
+                    <a href="#part3-advanced" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        🚀 Advanced Applications
+                    </a>
+                </div>
+
+                <div class="mt-4">
+                    <a href="#homework" class="toc-item block p-2 text-gray-300 hover:text-white rounded text-sm">
+                        📝 Homework
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <!-- Top navigation -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Lesson 3: Introduction to LangChain Framework</h1>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.print()" class="p-2 rounded hover:bg-gray-100">🖨️</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content area -->
+        <div class="px-6 py-8">
+
+            <!-- Course Overview -->
+            <section id="overview" class="mb-12">
+                <div class="gradient-bg text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-3xl font-bold mb-4">📚 Course Overview</h2>
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">⏱️</div>
+                            <div class="text-lg font-semibold">3 Hours</div>
+                            <div class="text-sm opacity-90">Full Course Duration</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">💻</div>
+                            <div class="text-lg font-semibold">6 Labs</div>
+                            <div class="text-sm opacity-90">Hands-on Practice</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded">
+                            <div class="text-4xl mb-2">🎯</div>
+                            <div class="text-lg font-semibold">2 Projects</div>
+                            <div class="text-sm opacity-90">Practical Applications</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Objectives -->
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4">🎯 Learning Objectives</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Understand LangChain core concepts and architecture</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Master prompt template design and usage</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Learn to build complex apps with chains</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Implement conversation systems with memory</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Use free Ollama models to reduce costs</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-500 mr-2">✅</span>
+                            <span>Develop production-ready AI applications</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: What is LangChain -->
+            <section id="part1-what" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">1</span>
+                    🔗 What is LangChain
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <h3 class="font-bold text-blue-900 mb-2">LangChain Introduction</h3>
+                        <p class="text-blue-800">LangChain is an open-source framework for building LLM applications. It provides a set of tools and abstractions that enable developers to quickly build complex AI applications without writing all the code from scratch.</p>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Why Do We Need LangChain?</h4>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h5 class="font-bold text-red-700 mb-2">❌ Without LangChain</h5>
+                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                                <li>Need to manually manage API calls</li>
+                                <li>Repeatedly write prompt processing logic</li>
+                                <li>Difficult to implement complex workflows</li>
+                                <li>Lack of standardized components</li>
+                                <li>No built-in memory management</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h5 class="font-bold text-green-700 mb-2">✅ With LangChain</h5>
+                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                                <li>Unified LLM interface (supports all major models)</li>
+                                <li>Reusable Prompt templates</li>
+                                <li>Easy complex logic with chain composition</li>
+                                <li>Rich pre-built components</li>
+                                <li>Built-in memory and state management</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4 class="font-bold mb-4">LangChain Core Advantages</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-purple-50 p-4 rounded">
+                            <div class="text-2xl mb-2">🔌</div>
+                            <h5 class="font-bold mb-2">Model Agnostic</h5>
+                            <p class="text-sm text-gray-700">Supports OpenAI, Anthropic, Ollama and all major LLMs</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded">
+                            <div class="text-2xl mb-2">🔗</div>
+                            <h5 class="font-bold mb-2">Composable</h5>
+                            <p class="text-sm text-gray-700">Build complex apps like LEGO with various components</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded">
+                            <div class="text-2xl mb-2">🚀</div>
+                            <h5 class="font-bold mb-2">Rapid Development</h5>
+                            <p class="text-sm text-gray-700">Reduce 80% boilerplate code, focus on business logic</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Core Architecture -->
+            <section id="part1-architecture" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🏗️ LangChain Core Architecture</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">LangChain consists of 6 core modules, each responsible for specific functions:</p>
+
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start border-l-4 border-blue-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3">1</div>
+                            <div>
+                                <h5 class="font-bold">Models</h5>
+                                <p class="text-sm text-gray-700">Unified LLM interface, supports GPT, Claude, Ollama, etc.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-purple-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mr-3">2</div>
+                            <div>
+                                <h5 class="font-bold">Prompts</h5>
+                                <p class="text-sm text-gray-700">Prompt template management, optimization and serialization</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-green-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mr-3">3</div>
+                            <div>
+                                <h5 class="font-bold">Chains</h5>
+                                <p class="text-sm text-gray-700">Combine multiple components into a workflow</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-yellow-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center mr-3">4</div>
+                            <div>
+                                <h5 class="font-bold">Memory</h5>
+                                <p class="text-sm text-gray-700">Maintain state and context between conversations</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-red-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mr-3">5</div>
+                            <div>
+                                <h5 class="font-bold">Agents</h5>
+                                <p class="text-sm text-gray-700">Let LLM autonomously decide which tools to use</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start border-l-4 border-indigo-500 pl-4 py-2">
+                            <div class="flex-shrink-0 w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center mr-3">6</div>
+                            <div>
+                                <h5 class="font-bold">Callbacks</h5>
+                                <p class="text-sm text-gray-700">Monitor and debug LLM applications</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-4 rounded">
+                        <h5 class="font-bold mb-2">Architecture Diagram</h5>
+                        <pre class="text-sm overflow-x-auto"><code>User Input
+   ↓
+Prompt Template (format input)
+   ↓
+LLM Model (generate response)
+   ↓
+Output Parser (parse output)
+   ↓
+Memory (save context)
+   ↓
+Return Result</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 1: Installation & Setup -->
+            <section id="part1-setup" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">📦 Installation & Setup</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded">
+                        <p class="text-green-800 font-bold">💡 Good News: This course uses free Ollama models, no API keys required!</p>
+                    </div>
+
+                    <h4 class="font-bold mb-3">Step 1: Install LangChain</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-bash"># Install LangChain core library
+python3 -m pip install langchain
+
+# Install Ollama support
+python3 -m pip install langchain-ollama
+
+# Optional: Install OpenAI support (requires API key)
+# python3 -m pip install langchain-openai</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-3">Step 2: Ensure Ollama is installed and running</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-bash"># Pull llama3.2 model
+ollama pull llama3.2
+
+# Verify installation
+ollama list</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-3">Step 3: Test Installation</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-4">
+                        <pre><code class="language-python"># test_langchain.py
+from langchain_ollama import OllamaLLM
+
+# Initialize model
+llm = OllamaLLM(model="llama3.2")
+
+# Test call
+response = llm.invoke("Say hello in Chinese!")
+print(response)</code></pre>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <p class="text-blue-800"><strong>✅ Run test:</strong> <code class="bg-white px-2 py-1 rounded">python3 test_langchain.py</code></p>
+                        <p class="text-sm text-blue-700 mt-2">If you see a Chinese greeting, installation succeeded!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: LLM Integration -->
+            <section id="part2-llms" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">2</span>
+                    🤖 LLM Model Integration
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">LangChain supports multiple LLM providers with a unified interface:</p>
+
+                    <h4 class="font-bold mb-4">Option 1: Using Free Ollama (Recommended)</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># llm_ollama.py
+from langchain_ollama import OllamaLLM
+
+# Initialize Ollama model
+llm = OllamaLLM(
+    model="llama3.2",
+    temperature=0.7,  # Control creativity (0-2)
+)
+
+# Simple call
+result = llm.invoke("What is machine learning?")
+print(result)
+
+# Batch calls
+questions = [
+    "What is deep learning?",
+    "What is a neural network?",
+    "What is backpropagation?"
+]
+results = llm.batch(questions)
+for q, r in zip(questions, results):
+    print(f"Q: {q}")
+    print(f"A: {r}\n")</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Option 2: Using OpenAI (Requires API Key)</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># llm_openai.py
+from langchain_openai import ChatOpenAI
+import os
+
+# Set API key
+os.environ["OPENAI_API_KEY"] = "your-api-key"
+
+# Initialize OpenAI model
+llm = ChatOpenAI(
+    model="gpt-4",
+    temperature=0.7,
+)
+
+result = llm.invoke("What is machine learning?")
+print(result.content)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Lab: Compare Different Models</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># compare_models.py
+from langchain_ollama import OllamaLLM
+
+# Test different Ollama models
+models = ["llama3.2", "qwen2.5"]
+question = "Explain artificial intelligence in one sentence"
+
+for model_name in models:
+    llm = OllamaLLM(model=model_name, temperature=0.7)
+    response = llm.invoke(question)
+    print(f"\n{'='*50}")
+    print(f"Model: {model_name}")
+    print(f"Answer: {response}")
+    print(f"{'='*50}")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Prompt Templates -->
+            <section id="part2-prompts" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">💬 Prompt Templates</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                        <h4 class="font-bold text-yellow-900 mb-2">Why Prompt Templates?</h4>
+                        <p class="text-yellow-800">Prompt templates allow you to reuse and parameterize prompts, avoiding duplicate code and improving maintainability.</p>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Basic Example: Simple Template</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># prompt_basic.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+# Create prompt template
+template = """You are a professional {role}.
+Please answer the following question in {language}:
+
+Question: {question}
+
+Answer:"""
+
+prompt = PromptTemplate(
+    template=template,
+    input_variables=["role", "language", "question"]
+)
+
+# Initialize LLM
+llm = OllamaLLM(model="llama3.2")
+
+# Create chain
+chain = prompt | llm
+
+# Use template
+result = chain.invoke({
+    "role": "Python teacher",
+    "language": "English",
+    "question": "What are decorators?"
+})
+
+print(result)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Advanced Example: Chat Message Template</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># prompt_chat.py
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama import OllamaLLM
+
+# Create chat template
+chat_template = ChatPromptTemplate.from_messages([
+    ("system", "You are a {profession}, skilled in {expertise}."),
+    ("human", "{user_input}")
+])
+
+llm = OllamaLLM(model="llama3.2")
+chain = chat_template | llm
+
+# Use case 1: Programming assistant
+result1 = chain.invoke({
+    "profession": "senior programmer",
+    "expertise": "Python and algorithms",
+    "user_input": "How to implement quicksort?"
+})
+print("Programming Assistant:", result1)
+
+# Use case 2: Marketing consultant
+result2 = chain.invoke({
+    "profession": "marketing expert",
+    "expertise": "social media promotion",
+    "user_input": "How to increase brand awareness?"
+})
+print("\nMarketing Consultant:", result2)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Practical Template: Few-shot Learning</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># prompt_fewshot.py
+from langchain_core.prompts import FewShotPromptTemplate, PromptTemplate
+from langchain_ollama import OllamaLLM
+
+# Prepare examples
+examples = [
+    {"input": "happy", "output": "sad"},
+    {"input": "tall", "output": "short"},
+    {"input": "day", "output": "night"},
+]
+
+# Example format template
+example_template = """
+Input: {input}
+Output: {output}
+"""
+
+example_prompt = PromptTemplate(
+    input_variables=["input", "output"],
+    template=example_template
+)
+
+# Few-shot template
+few_shot_prompt = FewShotPromptTemplate(
+    examples=examples,
+    example_prompt=example_prompt,
+    prefix="Find the antonym of the following word:",
+    suffix="Input: {word}\nOutput:",
+    input_variables=["word"]
+)
+
+llm = OllamaLLM(model="llama3.2")
+chain = few_shot_prompt | llm
+
+# Test
+result = chain.invoke({"word": "smart"})
+print(f"Antonym of smart: {result}")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Chains -->
+            <section id="part2-chains" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">⛓️ Chains</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">Chains are a core concept in LangChain, allowing you to combine multiple components into a workflow.</p>
+
+                    <h4 class="font-bold mb-4">Simple Chain: LLMChain</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># chain_simple.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+# Create components
+template = "Translate the following text to {target_language}:\n{text}"
+prompt = PromptTemplate(
+    template=template,
+    input_variables=["target_language", "text"]
+)
+
+llm = OllamaLLM(model="llama3.2")
+
+# Create chain using LCEL (LangChain Expression Language)
+chain = prompt | llm
+
+# Execute chain
+result = chain.invoke({
+    "target_language": "Spanish",
+    "text": "Artificial intelligence is changing the world"
+})
+
+print(result)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Sequential Chain: Multi-step Processing</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># chain_sequential.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+llm = OllamaLLM(model="llama3.2")
+
+# Step 1: Generate story synopsis
+synopsis_template = """Write a story synopsis for the following topic:
+Topic: {topic}
+Synopsis:"""
+
+synopsis_prompt = PromptTemplate(
+    template=synopsis_template,
+    input_variables=["topic"]
+)
+
+synopsis_chain = synopsis_prompt | llm
+
+# Step 2: Write review based on synopsis
+review_template = """Write a review for the following story synopsis:
+Synopsis: {synopsis}
+Review:"""
+
+review_prompt = PromptTemplate(
+    template=review_template,
+    input_variables=["synopsis"]
+)
+
+review_chain = review_prompt | llm
+
+# Combine chains
+full_chain = synopsis_chain | (lambda x: {"synopsis": x}) | review_chain
+
+# Execute
+result = full_chain.invoke({"topic": "a robot that learned to love"})
+print(result)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Practical Example: Content Creation Pipeline</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># content_pipeline.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
+llm = OllamaLLM(model="llama3.2", temperature=0.8)
+
+# Step 1: Generate title
+title_chain = (
+    PromptTemplate.from_template("Generate an engaging blog title for this topic: {topic}\nTitle:")
+    | llm
+)
+
+# Step 2: Generate outline
+outline_chain = (
+    PromptTemplate.from_template("Generate a blog outline (3-5 points) for the title '{title}':\nOutline:")
+    | llm
+)
+
+# Step 3: Write article
+article_chain = (
+    PromptTemplate.from_template("Write a 500-word article based on this outline:\n{outline}\nArticle:")
+    | llm
+)
+
+# Execute full workflow
+def create_blog_post(topic):
+    print("🎯 Topic:", topic)
+
+    title = title_chain.invoke({"topic": topic})
+    print(f"\n📌 Title: {title}\n")
+
+    outline = outline_chain.invoke({"title": title})
+    print(f"📋 Outline:\n{outline}\n")
+
+    article = article_chain.invoke({"outline": outline})
+    print(f"📝 Article:\n{article}")
+
+# Test
+create_blog_post("Applications of AI in Education")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Memory Systems -->
+            <section id="part2-memory" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🧠 Memory Systems</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-6">
+                        <h4 class="font-bold text-purple-900 mb-2">Why Memory?</h4>
+                        <p class="text-purple-800">LLMs are stateless by nature - each call is independent. Memory systems allow conversations to maintain context, enabling true multi-turn dialogues.</p>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Memory Types Comparison</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="min-w-full border">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="border px-4 py-2">Memory Type</th>
+                                    <th class="border px-4 py-2">Description</th>
+                                    <th class="border px-4 py-2">Use Cases</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border px-4 py-2"><code>ConversationBufferMemory</code></td>
+                                    <td class="border px-4 py-2">Stores full conversation history</td>
+                                    <td class="border px-4 py-2">Short conversations, low token cost</td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2"><code>ConversationBufferWindowMemory</code></td>
+                                    <td class="border px-4 py-2">Only keeps last N conversation turns</td>
+                                    <td class="border px-4 py-2">Long conversations, cost control</td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2"><code>ConversationSummaryMemory</code></td>
+                                    <td class="border px-4 py-2">Summarizes conversation history</td>
+                                    <td class="border px-4 py-2">Preserve semantics, save tokens</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Example 1: Basic Conversation Memory</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># memory_basic.py
+from langchain_ollama import OllamaLLM
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferMemory
+
+# Initialize
+llm = OllamaLLM(model="llama3.2")
+memory = ConversationBufferMemory()
+
+# Create conversation chain
+conversation = ConversationChain(
+    llm=llm,
+    memory=memory,
+    verbose=True  # Show detailed information
+)
+
+# Multi-turn conversation
+print(conversation.predict(input="My name is John and I'm a programmer"))
+print("\n" + "="*50 + "\n")
+
+print(conversation.predict(input="I love Python programming"))
+print("\n" + "="*50 + "\n")
+
+print(conversation.predict(input="What's my name?"))  # Test memory
+print("\n" + "="*50 + "\n")
+
+# View memory
+print("Conversation history:")
+print(memory.load_memory_variables({}))</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Example 2: Window Memory (Cost Control)</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                        <pre><code class="language-python"># memory_window.py
+from langchain_ollama import OllamaLLM
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferWindowMemory
+
+llm = OllamaLLM(model="llama3.2")
+
+# Only keep last 2 conversation turns
+memory = ConversationBufferWindowMemory(k=2)
+
+conversation = ConversationChain(
+    llm=llm,
+    memory=memory
+)
+
+# Test
+responses = []
+inputs = [
+    "My favorite color is blue",
+    "My hobby is swimming",
+    "I ate pizza today",
+    "What's my favorite color?"  # This information should be forgotten
+]
+
+for user_input in inputs:
+    response = conversation.predict(input=user_input)
+    print(f"\nUser: {user_input}")
+    print(f"AI: {response}")
+    print("-" * 50)</code></pre>
+                    </div>
+
+                    <h4 class="font-bold mb-4">Example 3: Custom Memory</h4>
+                    <div class="bg-gray-900 text-white p-4 rounded-lg">
+                        <pre><code class="language-python"># memory_custom.py
+from langchain_ollama import OllamaLLM
+from langchain.memory import ConversationBufferMemory
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables import RunnablePassthrough
+
+llm = OllamaLLM(model="llama3.2")
+memory = ConversationBufferMemory(return_messages=True)
+
+# Custom prompt template
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a friendly AI assistant named Smarty."),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}")
+])
+
+# Create chain
+def get_memory(_):
+    return memory.load_memory_variables({})["history"]
+
+chain = (
+    RunnablePassthrough.assign(history=get_memory)
+    | prompt
+    | llm
+)
+
+# Chat function
+def chat(user_input):
+    response = chain.invoke({"input": user_input})
+
+    # Save to memory
+    memory.save_context(
+        {"input": user_input},
+        {"output": response}
+    )
+
+    return response
+
+# Test
+print(chat("Hello! What's your name?"))
+print("\n" + "="*50 + "\n")
+print(chat("What can you help me with?"))
+print("\n" + "="*50 + "\n")
+print(chat("What did I just ask you?"))</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Simple Q&A -->
+            <section id="part3-simple" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">3</span>
+                    🎯 Project 1: Smart Q&A System
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">Build an intelligent system that can answer questions with different personas.</p>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg">
+                        <pre><code class="language-python"># qa_system.py
+from langchain_core.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+from langchain_core.output_parsers import StrOutputParser
+
+class QASystem:
+    """Smart Q&A System"""
+
+    def __init__(self, model="llama3.2"):
+        self.llm = OllamaLLM(model=model, temperature=0.7)
+        self.parser = StrOutputParser()
+
+        # Different role prompt templates
+        self.roles = {
+            "teacher": """You are a patient teacher.
+Explain in simple terms: {question}
+
+Explanation:""",
+
+            "expert": """You are a technical expert.
+Provide a detailed answer using technical terminology: {question}
+
+Answer:""",
+
+            "comedian": """You are a humorous comedian.
+Answer in a funny way: {question}
+
+Answer:"""
+        }
+
+    def ask(self, question, role="teacher"):
+        """Ask a question"""
+        if role not in self.roles:
+            return f"Error: Role '{role}' doesn't exist"
+
+        template = self.roles[role]
+        prompt = PromptTemplate.from_template(template)
+
+        # Create chain
+        chain = prompt | self.llm | self.parser
+
+        # Execute
+        return chain.invoke({"question": question})
+
+# Usage example
+if __name__ == "__main__":
+    qa = QASystem()
+
+    question = "What is blockchain?"
+
+    print("📚 Teacher version:")
+    print(qa.ask(question, "teacher"))
+    print("\n" + "="*70 + "\n")
+
+    print("🔬 Expert version:")
+    print(qa.ask(question, "expert"))
+    print("\n" + "="*70 + "\n")
+
+    print("😄 Comedian version:")
+    print(qa.ask(question, "comedian"))</code></pre>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded">
+                        <h5 class="font-bold text-green-900 mb-2">💡 Extension Ideas</h5>
+                        <ul class="list-disc list-inside text-sm text-green-800 space-y-1">
+                            <li>Add more roles: poet, scientist, 5-year-old child, etc.</li>
+                            <li>Save user's preferred role settings</li>
+                            <li>Implement multi-language support</li>
+                            <li>Add rating system for users to evaluate answer quality</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Chatbot with Memory -->
+            <section id="part3-chatbot" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">💬 Project 2: Chatbot with Memory</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">Build an intelligent chatbot that remembers conversation history.</p>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <pre><code class="language-python"># chatbot.py
+from langchain_ollama import OllamaLLM
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferWindowMemory
+from langchain_core.prompts import PromptTemplate
+
+class SmartChatbot:
+    """Smart Chatbot"""
+
+    def __init__(self, name="Smarty", personality="friendly and helpful", model="llama3.2"):
+        self.name = name
+        self.llm = OllamaLLM(model=model, temperature=0.8)
+
+        # Keep only last 5 conversation turns
+        self.memory = ConversationBufferWindowMemory(k=5)
+
+        # Custom prompt template
+        template = f"""You are {name}, a {personality} AI assistant.
+
+Current conversation:
+{{history}}
+Human: {{input}}
+AI Assistant:"""
+
+        prompt = PromptTemplate(
+            input_variables=["history", "input"],
+            template=template
+        )
+
+        # Create conversation chain
+        self.conversation = ConversationChain(
+            llm=self.llm,
+            memory=self.memory,
+            prompt=prompt,
+            verbose=False
+        )
+
+    def chat(self, user_input):
+        """Chat"""
+        return self.conversation.predict(input=user_input)
+
+    def reset(self):
+        """Reset memory"""
+        self.memory.clear()
+        return f"{self.name}'s memory has been reset"
+
+    def get_history(self):
+        """Get conversation history"""
+        return self.memory.load_memory_variables({})
+
+# Usage example
+if __name__ == "__main__":
+    bot = SmartChatbot(name="Smarty", personality="friendly and humorous")
+
+    print("🤖 Smarty: Hello! I'm Smarty, how can I help you?")
+
+    # Simulate conversation
+    conversations = [
+        "Hi! My name is Alex and I'm a student",
+        "I'm studying artificial intelligence",
+        "Can you recommend some learning resources?",
+        "What's my name?",  # Test memory
+        "What am I studying?"  # Test memory
+    ]
+
+    for user_input in conversations:
+        print(f"\n👤 User: {user_input}")
+        response = bot.chat(user_input)
+        print(f"🤖 Smarty: {response}")
+        print("-" * 70)</code></pre>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded">
+                        <h5 class="font-bold text-blue-900 mb-2">🎯 Run Test</h5>
+                        <pre class="bg-white p-2 rounded text-sm"><code>python3 chatbot.py</code></pre>
+                        <p class="text-sm text-blue-800 mt-2">Observe how the bot remembers previous conversation content!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Advanced Application -->
+            <section id="part3-advanced" class="mb-12">
+                <h3 class="text-xl font-bold mb-4">🚀 Advanced Application: Multi-function AI Assistant</h3>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <p class="mb-6 text-gray-700">Combine everything you've learned to build a feature-rich AI assistant.</p>
+
+                    <div class="bg-gray-900 text-white p-6 rounded-lg mb-6">
+                        <pre><code class="language-python"># ai_assistant.py
+from langchain_ollama import OllamaLLM
+from langchain_core.prompts import PromptTemplate
+from langchain.memory import ConversationBufferWindowMemory
+from langchain.chains import ConversationChain
+import json
+
+class AIAssistant:
+    """Multi-function AI Assistant"""
+
+    def __init__(self, model="llama3.2"):
+        self.llm = OllamaLLM(model=model, temperature=0.7)
+        self.memory = ConversationBufferWindowMemory(k=10)
+
+        # Feature list
+        self.features = {
+            "translate": self.translate,
+            "summarize": self.summarize,
+            "code": self.code_helper,
+            "chat": self.chat
+        }
+
+    def translate(self, text, target_lang="Spanish"):
+        """Translation feature"""
+        template = f"Translate the following text to {target_lang}:\n{{text}}\nTranslation:"
+        prompt = PromptTemplate.from_template(template)
+        chain = prompt | self.llm
+        return chain.invoke({"text": text})
+
+    def summarize(self, text):
+        """Summary feature"""
+        template = """Please summarize the following text into 3-5 key points:
+
+Text: {text}
+
+Key points:"""
+        prompt = PromptTemplate.from_template(template)
+        chain = prompt | self.llm
+        return chain.invoke({"text": text})
+
+    def code_helper(self, description, language="Python"):
+        """Code helper"""
+        template = """Write {language} code to implement the following:
+
+Requirements: {description}
+
+Code:"""
+        prompt = PromptTemplate.from_template(template)
+        chain = prompt | self.llm
+        return chain.invoke({"description": description, "language": language})
+
+    def chat(self, user_input):
+        """Chat feature"""
+        template = """You are a friendly AI assistant.
+
+Conversation history:
+{history}
+Human: {input}
+Assistant:"""
+        prompt = PromptTemplate(
+            template=template,
+            input_variables=["history", "input"]
+        )
+
+        conversation = ConversationChain(
+            llm=self.llm,
+            memory=self.memory,
+            prompt=prompt
+        )
+
+        return conversation.predict(input=user_input)
+
+    def execute(self, command):
+        """Execute command"""
+        parts = command.split(":", 1)
+        if len(parts) != 2:
+            return self.chat(command)
+
+        feature, content = parts[0].strip(), parts[1].strip()
+
+        if feature in self.features:
+            return self.features[feature](content)
+        else:
+            return f"Unknown command: {feature}. Available commands: {', '.join(self.features.keys())}"
+
+# CLI interface
+def main():
+    assistant = AIAssistant()
+
+    print("="*70)
+    print("🤖 Multi-function AI Assistant")
+    print("="*70)
+    print("\nAvailable commands:")
+    print("  translate: text   - Translate text")
+    print("  summarize: text   - Summarize text")
+    print("  code: description - Generate code")
+    print("  direct input      - Chat conversation")
+    print("  quit              - Exit\n")
+    print("="*70)
+
+    while True:
+        user_input = input("\n👤 You: ").strip()
+
+        if user_input.lower() in ['quit', 'exit']:
+            print("\n👋 Goodbye!")
+            break
+
+        if not user_input:
+            continue
+
+        try:
+            response = assistant.execute(user_input)
+            print(f"\n🤖 Assistant: {response}")
+        except Exception as e:
+            print(f"\n❌ Error: {e}")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-purple-50 border border-purple-200 rounded">
+                        <h5 class="font-bold text-purple-900 mb-2">💡 Usage Examples</h5>
+                        <pre class="bg-white p-3 rounded text-sm"><code># Translation
+👤 You: translate: Artificial intelligence is changing the world
+
+# Summary
+👤 You: summarize: LangChain is a... (long text)
+
+# Code generation
+👤 You: code: Implement quicksort algorithm
+
+# Chat
+👤 You: The weather is nice today</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Homework Section -->
+            <section id="homework" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">📝</span>
+                    Homework
+                </h2>
+
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                        <p class="text-yellow-900"><strong>⏰ Deadline:</strong> 7 days after course completion</p>
+                        <p class="text-yellow-900"><strong>📤 Submission:</strong> Upload code to GitHub and submit repository link</p>
+                    </div>
+
+                    <!-- Assignment 1 -->
+                    <div class="mb-8 p-6 border-2 border-blue-200 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 text-blue-700">Assignment 1: Personalized Learning Assistant (Required)</h3>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">📋 Requirements</h4>
+                            <p class="text-gray-700 mb-4">Create a learning assistant that helps users learn new concepts. Requirements:</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>Use prompt templates to implement different difficulty levels (beginner, intermediate, advanced)</li>
+                                <li>Use memory system to track user learning progress</li>
+                                <li>Adjust explanation style based on user comprehension</li>
+                                <li>Use free Ollama models</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">💻 Example Interaction</h4>
+                            <div class="bg-gray-100 p-4 rounded">
+                                <pre class="text-sm"><code>👤 User: I want to learn machine learning, I'm a beginner
+🤖 Assistant: Great! I'll explain in simple terms. Machine learning is like...
+👤 User: What is a neural network?
+🤖 Assistant: (Remembers user is beginner, explains in simple language)
+👤 User: I think I can understand deeper content now
+🤖 Assistant: (Adjusts to intermediate difficulty)</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded">
+                            <h4 class="font-bold mb-2 text-blue-900">✅ Grading Criteria</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-blue-800">
+                                <li>Correct use of Prompt Template (30 points)</li>
+                                <li>Correct implementation of memory system (30 points)</li>
+                                <li>Dynamic difficulty adjustment (20 points)</li>
+                                <li>Code quality and comments (20 points)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Assignment 2 -->
+                    <div class="mb-8 p-6 border-2 border-purple-200 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 text-purple-700">Assignment 2: Content Creation Pipeline (Optional)</h3>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">📋 Requirements</h4>
+                            <p class="text-gray-700 mb-4">Create a content creation tool with the following features:</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>Generate article title, outline, and body based on topic</li>
+                                <li>Use chain composition to implement multi-step workflow</li>
+                                <li>Support different article types (technical article, story, marketing copy)</li>
+                                <li>Save generated content to file</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded">
+                            <h4 class="font-bold mb-2 text-purple-900">🌟 Bonus Points</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-purple-800">
+                                <li>Implement SEO keyword analysis</li>
+                                <li>Add content quality scoring feature</li>
+                                <li>Support multi-language content generation</li>
+                                <li>Implement GUI (using Streamlit)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Assignment 3 -->
+                    <div class="p-6 border-2 border-green-200 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 text-green-700">Assignment 3: Smart Customer Service System (Challenge)</h3>
+
+                        <div class="mb-4">
+                            <h4 class="font-bold mb-2">📋 Requirements</h4>
+                            <p class="text-gray-700 mb-4">Create a smart customer service system:</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>Answer frequently asked questions (FAQ)</li>
+                                <li>Remember user information (name, question history)</li>
+                                <li>Adjust response style based on user emotion</li>
+                                <li>Support ticket generation feature</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded">
+                            <h4 class="font-bold mb-2 text-green-900">🎯 Technical Points</h4>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-green-800">
+                                <li>Use ConversationBufferMemory to save conversations</li>
+                                <li>Use Few-shot Prompts to provide FAQ examples</li>
+                                <li>Implement sentiment analysis (can use simple keyword detection)</li>
+                                <li>Save conversation records to JSON file</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Resources -->
+            <section id="resources" class="mb-12">
+                <h2 class="text-2xl font-bold mb-6">📚 Learning Resources</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold mb-4 text-blue-700">📖 Official Documentation</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://python.langchain.com/" class="text-blue-600 hover:underline" target="_blank">LangChain Official Documentation</a></li>
+                            <li><a href="https://ollama.ai/" class="text-blue-600 hover:underline" target="_blank">Ollama Official Website</a></li>
+                            <li><a href="https://smith.langchain.com/" class="text-blue-600 hover:underline" target="_blank">LangSmith Debugging Tool</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold mb-4 text-green-700">💡 Useful Tools</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://www.langchain.com/hub" class="text-blue-600 hover:underline" target="_blank">LangChain Hub - Prompt Template Library</a></li>
+                            <li><a href="https://github.com/langchain-ai/langchain" class="text-blue-600 hover:underline" target="_blank">LangChain GitHub</a></li>
+                            <li><a href="https://blog.langchain.dev/" class="text-blue-600 hover:underline" target="_blank">LangChain Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary -->
+            <section class="mb-12">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-8 rounded-xl shadow-xl">
+                    <h2 class="text-2xl font-bold mb-4">🎉 Course Summary</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <h3 class="font-bold mb-2">✅ You Have Mastered</h3>
+                            <ul class="text-sm space-y-1 opacity-90">
+                                <li>• LangChain core concepts</li>
+                                <li>• Prompt template design</li>
+                                <li>• Chain composition</li>
+                                <li>• Memory systems</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-2">🚀 Next Lesson Preview</h3>
+                            <p class="text-sm opacity-90">Lesson 4: Vector Databases and RAG</p>
+                            <p class="text-xs opacity-75 mt-2">Learn how to build knowledge base Q&A systems</p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-2">📝 Remember to Complete</h3>
+                            <ul class="text-sm space-y-1 opacity-90">
+                                <li>• Assignment 1 (Required)</li>
+                                <li>• Practice all code examples</li>
+                                <li>• Read official documentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+
+    <script>
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Active menu item highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            const sections = document.querySelectorAll('section[id]');
+
+            function highlightTOC() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === '#' + current) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', highlightTOC);
+            highlightTOC();
+        });
+    </script>
+</body>
+</html>

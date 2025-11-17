@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第3课作业：LangChain框架实战 - AI Bootcamp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <style>
+        .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; overflow-y: auto; }
+        .main-content { margin-left: 280px; }
+        @media (max-width: 768px) {
+            .sidebar { position: relative; width: 100%; }
+            .main-content { margin-left: 0; }
+        }
+        .code-block { position: relative; }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="sidebar bg-gray-900 text-white p-6">
+        <h2 class="text-2xl font-bold mb-6">第3课作业</h2>
+        <nav class="space-y-2">
+            <a href="#overview" class="block py-2 px-4 rounded hover:bg-gray-800">📋 作业概述</a>
+            <a href="#assignment1" class="block py-2 px-4 rounded hover:bg-gray-800">📝 作业1：学习助手</a>
+            <a href="#assignment2" class="block py-2 px-4 rounded hover:bg-gray-800">✍️ 作业2：内容创作</a>
+            <a href="#assignment3" class="block py-2 px-4 rounded hover:bg-gray-800">🎯 作业3：客服系统</a>
+            <a href="#submission" class="block py-2 px-4 rounded hover:bg-gray-800">📤 提交要求</a>
+            <a href="#resources" class="block py-2 px-4 rounded hover:bg-gray-800">📚 学习资源</a>
+        </nav>
+    </div>
+
+    <div class="main-content p-8">
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">第3课作业：LangChain框架实战</h1>
+            <p class="text-xl text-gray-600">通过实践掌握LangChain核心组件和实际应用开发</p>
+        </header>
+
+        <!-- 作业概述 -->
+        <section id="overview" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📋 作业概述</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">学习目标</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                    <li>掌握LangChain Prompt Templates的设计与使用</li>
+                    <li>理解并实现Memory系统来管理对话状态</li>
+                    <li>学会使用Chain组合多个步骤构建复杂工作流</li>
+                    <li>实践Few-shot学习和动态提示词技术</li>
+                    <li>使用免费Ollama模型开发实际应用</li>
+                </ul>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <h4 class="font-semibold text-blue-900 mb-2">📊 分数分布</h4>
+                    <ul class="space-y-1 text-blue-800">
+                        <li>• 作业1（个性化学习助手）：40分（必做）</li>
+                        <li>• 作业2（内容创作流程）：30分（选做）</li>
+                        <li>• 作业3（智能客服系统）：30分（挑战）</li>
+                        <li>• 总分：100分</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                    <h4 class="font-semibold text-yellow-900 mb-2">⏱️ 预计时间</h4>
+                    <p class="text-yellow-800">完成所有作业预计需要 4-6 小时</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 作业1：个性化学习助手 -->
+        <section id="assignment1" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📝 作业1：个性化学习助手（40分，必做）</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">任务要求</h3>
+
+                <div class="space-y-6">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-lg mb-2">项目描述</h4>
+                        <p class="text-gray-700">开发一个智能学习助手，能够根据用户的学习水平（初级、中级、高级）提供个性化的解释，并通过记忆系统跟踪学习进度，动态调整解释难度。</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">功能要求（15分）：正确使用Prompt Templates</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>为不同难度级别创建Prompt模板（beginner、intermediate、advanced）</li>
+                            <li>支持变量插值（主题、用户名、难度级别等）</li>
+                            <li>模板应包含清晰的角色定义和输出格式要求</li>
+                            <li>使用LangChain的PromptTemplate或ChatPromptTemplate</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">功能要求（15分）：实现Memory系统</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>使用ConversationBufferMemory或ConversationSummaryMemory</li>
+                            <li>跟踪用户学习的主题历史</li>
+                            <li>记录用户的理解程度反馈</li>
+                            <li>能够清除和查看记忆内容</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">功能要求（10分）：动态难度调整</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>根据用户反馈（"太简单"、"刚好"、"太难"）调整难度</li>
+                            <li>实现难度级别的自动升降机制</li>
+                            <li>显示当前难度级别和学习统计</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-900 mb-2">💡 技术要点</h4>
+                        <ul class="list-disc list-inside space-y-1 text-green-800">
+                            <li>使用免费的Ollama模型（llama2、mistral等）</li>
+                            <li>Prompt模板应该清晰区分不同难度级别的解释风格</li>
+                            <li>Memory应该能够持久化保存（可选：保存到JSON文件）</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 参考答案</h3>
+
+                <h4 class="font-semibold mb-2">1. 安装依赖</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code class="language-bash"># 安装LangChain和Ollama
+pip install langchain langchain-community ollama
+
+# 安装Ollama并下载模型（首次运行）
+# 访问 https://ollama.ai 下载Ollama
+# 然后运行：ollama pull llama2</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">2. 学习助手主程序 (learning_assistant.py)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code class="language-python">"""个性化学习助手 - 作业1"""
+from langchain.prompts import ChatPromptTemplate
+from langchain.memory import ConversationBufferMemory
+from langchain_community.llms import Ollama
+from langchain.chains import LLMChain
+import json
+from datetime import datetime
+
+class LearningAssistant:
+    """个性化学习助手"""
+
+    def __init__(self, model_name="llama2"):
+        """初始化助手"""
+        self.llm = Ollama(model=model_name)
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+
+        # 难度级别配置
+        self.difficulty_levels = {
+            "beginner": {
+                "name": "初级",
+                "description": "使用简单语言，多举例子，避免专业术语"
+            },
+            "intermediate": {
+                "name": "中级",
+                "description": "使用标准术语，提供适度深度的解释"
+            },
+            "advanced": {
+                "name": "高级",
+                "description": "使用专业术语，深入技术细节和原理"
+            }
+        }
+
+        self.current_difficulty = "intermediate"
+        self.learning_stats = {
+            "topics_learned": [],
+            "difficulty_changes": [],
+            "total_interactions": 0
+        }
+
+        # 创建不同难度的Prompt模板
+        self.prompt_templates = self._create_prompt_templates()
+
+    def _create_prompt_templates(self):
+        """创建不同难度级别的Prompt模板"""
+        templates = {}
+
+        # 初级模板
+        templates["beginner"] = ChatPromptTemplate.from_template("""
+你是一位耐心的导师，正在教一个刚入门的学生。
+
+学生问题：{topic}
+
+请用以下方式解释：
+1. 使用简单、日常的语言
+2. 避免使用专业术语，如果必须使用，请详细解释
+3. 举2-3个生活中的具体例子
+4. 用类比的方式帮助理解
+5. 回答要简洁，不超过200字
+
+解释：
+""")
+
+        # 中级模板
+        templates["intermediate"] = ChatPromptTemplate.from_template("""
+你是一位专业的技术讲师，正在教一个有一定基础的学生。
+
+学生问题：{topic}
+
+请用以下方式解释：
+1. 使用标准的技术术语
+2. 提供清晰的概念定义
+3. 说明原理和工作机制
+4. 举1-2个实际应用场景
+5. 回答要全面但不过度深入
+
+解释：
+""")
+
+        # 高级模板
+        templates["advanced"] = ChatPromptTemplate.from_template("""
+你是一位资深技术专家，正在与一个有经验的开发者交流。
+
+技术问题：{topic}
+
+请用以下方式解释：
+1. 使用专业术语和行业标准
+2. 深入分析技术原理和底层实现
+3. 讨论性能、优缺点和最佳实践
+4. 提供代码示例或技术细节
+5. 可以涉及相关的高级话题
+
+详细解释：
+""")
+
+        return templates
+
+    def explain_topic(self, topic: str) -> str:
+        """根据当前难度级别解释主题"""
+        # 获取当前难度的模板
+        template = self.prompt_templates[self.current_difficulty]
+
+        # 创建Chain
+        chain = LLMChain(
+            llm=self.llm,
+            prompt=template,
+            memory=self.memory
+        )
+
+        # 生成解释
+        response = chain.run(topic=topic)
+
+        # 更新统计
+        self.learning_stats["topics_learned"].append({
+            "topic": topic,
+            "difficulty": self.current_difficulty,
+            "timestamp": datetime.now().isoformat()
+        })
+        self.learning_stats["total_interactions"] += 1
+
+        return response
+
+    def adjust_difficulty(self, feedback: str):
+        """根据用户反馈调整难度"""
+        feedback = feedback.lower()
+
+        old_difficulty = self.current_difficulty
+
+        if "太简单" in feedback or "easy" in feedback:
+            if self.current_difficulty == "beginner":
+                self.current_difficulty = "intermediate"
+            elif self.current_difficulty == "intermediate":
+                self.current_difficulty = "advanced"
+
+        elif "太难" in feedback or "hard" in feedback:
+            if self.current_difficulty == "advanced":
+                self.current_difficulty = "intermediate"
+            elif self.current_difficulty == "intermediate":
+                self.current_difficulty = "beginner"
+
+        if old_difficulty != self.current_difficulty:
+            self.learning_stats["difficulty_changes"].append({
+                "from": old_difficulty,
+                "to": self.current_difficulty,
+                "timestamp": datetime.now().isoformat()
+            })
+            return f"难度已从 {self.difficulty_levels[old_difficulty]['name']} 调整为 {self.difficulty_levels[self.current_difficulty]['name']}"
+
+        return "难度保持不变"
+
+    def get_stats(self) -> dict:
+        """获取学习统计"""
+        return {
+            "current_difficulty": self.difficulty_levels[self.current_difficulty]['name'],
+            "topics_count": len(self.learning_stats["topics_learned"]),
+            "total_interactions": self.learning_stats["total_interactions"],
+            "difficulty_changes": len(self.learning_stats["difficulty_changes"])
+        }
+
+    def save_progress(self, filepath="learning_progress.json"):
+        """保存学习进度"""
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(self.learning_stats, f, ensure_ascii=False, indent=2)
+        print(f"✅ 学习进度已保存到 {filepath}")
+
+    def clear_memory(self):
+        """清除对话记忆"""
+        self.memory.clear()
+        print("✅ 对话记忆已清除")
+
+
+def main():
+    """主程序"""
+    print("🎓 欢迎使用个性化学习助手！\n")
+
+    assistant = LearningAssistant()
+
+    print("可用命令：")
+    print("  - 直接输入问题进行学习")
+    print("  - /difficulty [太简单/刚好/太难] - 调整难度")
+    print("  - /stats - 查看学习统计")
+    print("  - /save - 保存学习进度")
+    print("  - /clear - 清除对话记忆")
+    print("  - /quit - 退出\n")
+
+    while True:
+        user_input = input("\n💭 你的问题: ").strip()
+
+        if not user_input:
+            continue
+
+        if user_input == "/quit":
+            print("\n👋 再见！继续保持学习的热情！")
+            break
+
+        elif user_input == "/stats":
+            stats = assistant.get_stats()
+            print("\n📊 学习统计：")
+            print(f"  当前难度：{stats['current_difficulty']}")
+            print(f"  学习主题数：{stats['topics_count']}")
+            print(f"  总互动次数：{stats['total_interactions']}")
+            print(f"  难度调整次数：{stats['difficulty_changes']}")
+
+        elif user_input == "/save":
+            assistant.save_progress()
+
+        elif user_input == "/clear":
+            assistant.clear_memory()
+
+        elif user_input.startswith("/difficulty"):
+            parts = user_input.split(maxsplit=1)
+            if len(parts) > 1:
+                result = assistant.adjust_difficulty(parts[1])
+                print(f"\n{result}")
+            else:
+                print("\n请提供反馈：/difficulty [太简单/刚好/太难]")
+
+        else:
+            # 解释主题
+            print(f"\n🎯 当前难度：{assistant.difficulty_levels[assistant.current_difficulty]['name']}")
+            print("\n📖 解释：")
+            response = assistant.explain_topic(user_input)
+            print(response)
+            print("\n💡 提示：如果解释太简单或太难，可以使用 /difficulty 调整")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">3. 使用示例</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code class="language-bash"># 运行学习助手
+python3 learning_assistant.py
+
+# 示例对话：
+# 💭 你的问题: 什么是递归？
+# 🎯 当前难度：中级
+# 📖 解释：[AI的解释]
+
+# 调整难度
+# 💭 你的问题: /difficulty 太简单
+# ✅ 难度已从 中级 调整为 高级
+
+# 查看统计
+# 💭 你的问题: /stats
+# 📊 学习统计：...</code></pre>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-6">
+                    <h4 class="font-semibold text-yellow-900 mb-2">⚠️ 常见问题</h4>
+                    <ul class="list-disc list-inside space-y-1 text-yellow-800">
+                        <li>确保Ollama服务正在运行（ollama serve）</li>
+                        <li>首次使用需要下载模型（ollama pull llama2）</li>
+                        <li>如果响应慢，可以尝试使用更小的模型</li>
+                        <li>Memory会占用更多tokens，注意上下文长度限制</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 作业2：内容创作流程 -->
+        <section id="assignment2" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">✍️ 作业2：内容创作流程（30分，选做）</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">任务要求</h3>
+
+                <div class="space-y-6">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-lg mb-2">项目描述</h4>
+                        <p class="text-gray-700">开发一个自动化内容创作系统，能够根据用户提供的主题，自动生成文章标题、大纲和正文。支持不同类型的文章（技术文章、故事、营销文案），并将生成的内容保存到文件。</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">核心功能</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>使用Chain组合实现多步骤工作流（标题 → 大纲 → 正文）</li>
+                            <li>支持3种文章类型，每种类型使用不同的Prompt模板</li>
+                            <li>自动保存生成的内容到Markdown文件</li>
+                            <li>显示创作进度和每个步骤的输出</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">加分项</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>实现SEO关键词分析（+5分）</li>
+                            <li>添加内容质量评分（+5分）</li>
+                            <li>支持多语言生成（+5分）</li>
+                            <li>使用Streamlit创建Web界面（+10分）</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 参考答案</h3>
+
+                <h4 class="font-semibold mb-2">1. 内容创作系统 (content_creator.py)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code class="language-python">"""内容创作流程系统 - 作业2"""
+from langchain.prompts import ChatPromptTemplate
+from langchain_community.llms import Ollama
+from langchain.chains import LLMChain, SequentialChain
+from datetime import datetime
+import os
+
+class ContentCreator:
+    """自动化内容创作系统"""
+
+    def __init__(self, model_name="llama2"):
+        """初始化创作系统"""
+        self.llm = Ollama(model=model_name)
+
+        # 文章类型配置
+        self.article_types = {
+            "technical": "技术文章",
+            "story": "故事/小说",
+            "marketing": "营销文案"
+        }
+
+        # 创建输出目录
+        self.output_dir = "generated_content"
+        os.makedirs(self.output_dir, exist_ok=True)
+
+    def create_title_chain(self, article_type: str):
+        """创建标题生成Chain"""
+        type_prompts = {
+            "technical": "生成一个吸引人的技术文章标题，要求：\n1. 突出技术要点\n2. 包含关键词\n3. 简洁有力（10-15字）",
+            "story": "生成一个引人入胜的故事标题，要求：\n1. 激发好奇心\n2. 富有文学性\n3. 简洁优雅（8-12字）",
+            "marketing": "生成一个吸引眼球的营销标题，要求：\n1. 突出卖点\n2. 制造紧迫感\n3. 引发行动（10-15字）"
+        }
+
+        prompt = ChatPromptTemplate.from_template(f"""
+{type_prompts[article_type]}
+
+主题：{{topic}}
+
+只返回标题，不要其他内容。
+标题：
+""")
+
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            output_key="title"
+        )
+
+    def create_outline_chain(self, article_type: str):
+        """创建大纲生成Chain"""
+        type_prompts = {
+            "technical": "为技术文章创建详细大纲，包括：\n1. 引言\n2. 技术背景\n3. 核心内容（3-5个要点）\n4. 代码示例说明\n5. 总结",
+            "story": "为故事创建情节大纲，包括：\n1. 开端\n2. 发展\n3. 高潮\n4. 结局",
+            "marketing": "为营销文案创建结构，包括：\n1. 痛点描述\n2. 解决方案\n3. 产品优势\n4. 行动召唤"
+        }
+
+        prompt = ChatPromptTemplate.from_template(f"""
+{type_prompts[article_type]}
+
+主题：{{topic}}
+标题：{{title}}
+
+请生成结构化的大纲（使用markdown格式）：
+""")
+
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            output_key="outline"
+        )
+
+    def create_content_chain(self, article_type: str):
+        """创建正文生成Chain"""
+        type_prompts = {
+            "technical": "根据大纲撰写技术文章，要求：\n1. 语言专业准确\n2. 包含代码示例\n3. 逻辑清晰\n4. 800-1000字",
+            "story": "根据大纲创作故事，要求：\n1. 情节生动\n2. 人物鲜明\n3. 语言优美\n4. 800-1000字",
+            "marketing": "根据大纲撰写营销文案，要求：\n1. 语言有说服力\n2. 突出价值\n3. 引导行动\n4. 600-800字"
+        }
+
+        prompt = ChatPromptTemplate.from_template(f"""
+{type_prompts[article_type]}
+
+主题：{{topic}}
+标题：{{title}}
+大纲：{{outline}}
+
+请撰写完整的正文内容（使用markdown格式）：
+""")
+
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            output_key="content"
+        )
+
+    def create_article(self, topic: str, article_type: str = "technical"):
+        """创建完整文章"""
+        if article_type not in self.article_types:
+            raise ValueError(f"不支持的文章类型：{article_type}")
+
+        print(f"\n📝 开始创作{self.article_types[article_type]}...")
+        print(f"主题：{topic}\n")
+
+        # 创建三个Chain
+        title_chain = self.create_title_chain(article_type)
+        outline_chain = self.create_outline_chain(article_type)
+        content_chain = self.create_content_chain(article_type)
+
+        # 组合成Sequential Chain
+        overall_chain = SequentialChain(
+            chains=[title_chain, outline_chain, content_chain],
+            input_variables=["topic"],
+            output_variables=["title", "outline", "content"],
+            verbose=True
+        )
+
+        # 执行创作流程
+        print("🎯 步骤1：生成标题...")
+        result = overall_chain({"topic": topic})
+
+        # 显示结果
+        print(f"\n✅ 标题：{result['title']}\n")
+        print("📋 大纲：")
+        print(result['outline'])
+        print("\n" + "="*50 + "\n")
+
+        # 保存到文件
+        filepath = self.save_article(
+            topic=topic,
+            title=result['title'],
+            outline=result['outline'],
+            content=result['content'],
+            article_type=article_type
+        )
+
+        print(f"\n✅ 文章已保存到：{filepath}")
+
+        return result
+
+    def save_article(self, topic, title, outline, content, article_type):
+        """保存文章到文件"""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{article_type}_{timestamp}.md"
+        filepath = os.path.join(self.output_dir, filename)
+
+        markdown_content = f"""# {title}
+
+> 主题：{topic}
+> 类型：{self.article_types[article_type]}
+> 生成时间：{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+---
+
+## 📋 文章大纲
+
+{outline}
+
+---
+
+## 📖 正文内容
+
+{content}
+
+---
+
+*由AI自动生成*
+"""
+
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(markdown_content)
+
+        return filepath
+
+
+def main():
+    """主程序"""
+    print("✍️ 欢迎使用AI内容创作系统！\n")
+
+    creator = ContentCreator()
+
+    print("支持的文章类型：")
+    for key, value in creator.article_types.items():
+        print(f"  {key}: {value}")
+    print()
+
+    while True:
+        topic = input("请输入文章主题（或输入 'quit' 退出）: ").strip()
+
+        if topic.lower() == 'quit':
+            print("\n👋 再见！")
+            break
+
+        if not topic:
+            continue
+
+        article_type = input("请选择文章类型 [technical/story/marketing]: ").strip() or "technical"
+
+        try:
+            creator.create_article(topic, article_type)
+        except Exception as e:
+            print(f"\n❌ 创作失败：{e}")
+
+        print("\n" + "="*60 + "\n")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+
+                <h4 class="font-semibold mb-2 mt-6">2. 加分项：Streamlit Web界面</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code class="language-python">"""Streamlit Web界面 - 加分项"""
+import streamlit as st
+from content_creator import ContentCreator
+
+st.set_page_config(page_title="AI内容创作系统", page_icon="✍️")
+
+st.title("✍️ AI内容创作系统")
+st.markdown("---")
+
+# 初始化创作器
+if 'creator' not in st.session_state:
+    st.session_state.creator = ContentCreator()
+
+# 侧边栏配置
+with st.sidebar:
+    st.header("⚙️ 配置")
+    article_type = st.selectbox(
+        "文章类型",
+        options=["technical", "story", "marketing"],
+        format_func=lambda x: st.session_state.creator.article_types[x]
+    )
+
+# 主界面
+topic = st.text_input("📝 请输入文章主题", placeholder="例如：Python编程入门")
+
+if st.button("🚀 开始创作", type="primary"):
+    if topic:
+        with st.spinner("正在创作中..."):
+            try:
+                result = st.session_state.creator.create_article(topic, article_type)
+
+                st.success("创作完成！")
+
+                st.subheader("📌 标题")
+                st.write(result['title'])
+
+                st.subheader("📋 大纲")
+                st.markdown(result['outline'])
+
+                st.subheader("📖 正文")
+                st.markdown(result['content'])
+
+            except Exception as e:
+                st.error(f"创作失败：{e}")
+    else:
+        st.warning("请输入文章主题")
+
+# 运行方式：streamlit run content_creator_ui.py</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 作业3：智能客服系统 -->
+        <section id="assignment3" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">🎯 作业3：智能客服系统（30分，挑战）</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4">任务要求</h3>
+
+                <div class="space-y-6">
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-lg mb-2">项目描述</h4>
+                        <p class="text-gray-700">开发一个智能客服系统，能够回答常见问题（FAQ），记住用户信息和问题历史，根据用户情绪调整回复风格，并在必要时生成支持工单。</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">技术要求</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>使用ConversationBufferMemory记住用户信息和对话历史</li>
+                            <li>使用Few-shot Prompts提供FAQ示例</li>
+                            <li>实现简单的情绪分析（基于关键词）</li>
+                            <li>保存对话日志到JSON文件</li>
+                            <li>能够生成结构化的支持工单</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg mb-2">核心功能</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>FAQ自动回答（至少5个常见问题）</li>
+                            <li>记住用户姓名、历史问题</li>
+                            <li>根据情绪调整回复（友好/同理心/专业）</li>
+                            <li>工单生成（包含用户信息、问题描述、优先级）</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">📘 参考答案</h3>
+
+                <h4 class="font-semibold mb-2">1. 智能客服系统 (customer_service.py)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code class="language-python">"""智能客服系统 - 作业3"""
+from langchain.prompts import ChatPromptTemplate, FewShotChatMessagePromptTemplate
+from langchain.memory import ConversationBufferMemory
+from langchain_community.llms import Ollama
+from langchain.chains import LLMChain
+import json
+from datetime import datetime
+import re
+
+class CustomerServiceBot:
+    """智能客服机器人"""
+
+    def __init__(self, model_name="llama2"):
+        """初始化客服机器人"""
+        self.llm = Ollama(model=model_name)
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+
+        # 用户信息
+        self.user_info = {
+            "name": None,
+            "questions_asked": [],
+            "sentiment_history": []
+        }
+
+        # 对话日志
+        self.conversation_log = []
+
+        # FAQ示例（Few-shot）
+        self.faq_examples = [
+            {
+                "question": "如何重置密码？",
+                "answer": "您可以通过以下步骤重置密码：\n1. 点击登录页面的"忘记密码"\n2. 输入注册邮箱\n3. 查收重置邮件\n4. 点击链接设置新密码"
+            },
+            {
+                "question": "退货政策是什么？",
+                "answer": "我们的退货政策如下：\n- 30天内可无理由退货\n- 商品需保持原包装\n- 非质量问题退货需承担运费\n- 填写退货申请单后3-5个工作日处理"
+            },
+            {
+                "question": "支持哪些支付方式？",
+                "answer": "我们支持多种支付方式：\n- 信用卡/借记卡\n- 支付宝\n- 微信支付\n- PayPal\n- 银行转账"
+            },
+            {
+                "question": "配送需要多长时间？",
+                "answer": "配送时效如下：\n- 同城：1-2个工作日\n- 省内：2-3个工作日\n- 跨省：3-5个工作日\n- 偏远地区：5-7个工作日"
+            },
+            {
+                "question": "如何联系人工客服？",
+                "answer": "您可以通过以下方式联系人工客服：\n- 客服热线：400-123-4567（9:00-18:00）\n- 在线客服：点击右下角图标\n- 邮箱：support@company.com"
+            }
+        ]
+
+        # 创建Few-shot Prompt
+        self.faq_chain = self._create_faq_chain()
+        self.chat_chain = self._create_chat_chain()
+
+    def _create_faq_chain(self):
+        """创建FAQ问答Chain（Few-shot）"""
+        # Few-shot示例格式
+        example_prompt = ChatPromptTemplate.from_messages([
+            ("human", "{question}"),
+            ("ai", "{answer}")
+        ])
+
+        few_shot_prompt = FewShotChatMessagePromptTemplate(
+            example_prompt=example_prompt,
+            examples=self.faq_examples
+        )
+
+        # 完整Prompt
+        final_prompt = ChatPromptTemplate.from_messages([
+            ("system", "你是一个专业的客服助手。请参考以下FAQ示例来回答用户问题。"),
+            few_shot_prompt,
+            ("human", "{input}")
+        ])
+
+        return LLMChain(llm=self.llm, prompt=final_prompt)
+
+    def _create_chat_chain(self):
+        """创建对话Chain"""
+        template = """你是一个友好、专业的客服代表。
+
+用户情绪：{sentiment}
+用户姓名：{user_name}
+
+请根据用户情绪调整回复风格：
+- 消极情绪：表达同理心，安抚情绪，积极解决问题
+- 中性情绪：保持专业、友好
+- 积极情绪：保持热情、感谢用户
+
+对话历史：{chat_history}
+
+用户问题：{input}
+
+回复："""
+
+        prompt = ChatPromptTemplate.from_template(template)
+        return LLMChain(
+            llm=self.llm,
+            prompt=prompt,
+            memory=self.memory
+        )
+
+    def analyze_sentiment(self, text: str) -> str:
+        """简单的情绪分析（基于关键词）"""
+        text = text.lower()
+
+        # 消极关键词
+        negative_keywords = ['生气', '愤怒', '糟糕', '失望', '垃圾', '差', '问题', '投诉']
+        # 积极关键词
+        positive_keywords = ['谢谢', '感谢', '很好', '满意', '不错', '喜欢', '棒']
+
+        negative_count = sum(1 for keyword in negative_keywords if keyword in text)
+        positive_count = sum(1 for keyword in positive_keywords if keyword in text)
+
+        if negative_count > positive_count:
+            return "消极"
+        elif positive_count > negative_count:
+            return "积极"
+        else:
+            return "中性"
+
+    def is_faq_question(self, question: str) -> bool:
+        """判断是否为FAQ问题"""
+        for faq in self.faq_examples:
+            if self._similarity(question, faq['question']) > 0.5:
+                return True
+        return False
+
+    def _similarity(self, text1: str, text2: str) -> float:
+        """简单的文本相似度计算"""
+        words1 = set(text1)
+        words2 = set(text2)
+        intersection = words1 & words2
+        union = words1 | words2
+        return len(intersection) / len(union) if union else 0
+
+    def handle_query(self, user_input: str) -> str:
+        """处理用户查询"""
+        # 检查是否询问姓名
+        if not self.user_info['name'] and ('叫' in user_input or '名字' in user_input or '我是' in user_input):
+            # 尝试提取姓名
+            match = re.search(r'我是(.+)', user_input)
+            if match:
+                self.user_info['name'] = match.group(1).strip()
+
+        # 分析情绪
+        sentiment = self.analyze_sentiment(user_input)
+        self.user_info['sentiment_history'].append(sentiment)
+
+        # 记录问题
+        self.user_info['questions_asked'].append({
+            'question': user_input,
+            'timestamp': datetime.now().isoformat(),
+            'sentiment': sentiment
+        })
+
+        # 判断是否为FAQ
+        if self.is_faq_question(user_input):
+            response = self.faq_chain.run(input=user_input)
+        else:
+            response = self.chat_chain.run(
+                input=user_input,
+                sentiment=sentiment,
+                user_name=self.user_info['name'] or "客户"
+            )
+
+        # 记录对话
+        self.conversation_log.append({
+            'timestamp': datetime.now().isoformat(),
+            'user': user_input,
+            'bot': response,
+            'sentiment': sentiment
+        })
+
+        return response
+
+    def create_ticket(self, issue_description: str) -> dict:
+        """创建支持工单"""
+        # 分析优先级
+        sentiment = self.analyze_sentiment(issue_description)
+        priority = "高" if sentiment == "消极" else "中"
+
+        ticket = {
+            'ticket_id': f"TK{datetime.now().strftime('%Y%m%d%H%M%S')}",
+            'user_name': self.user_info['name'] or "未知",
+            'issue': issue_description,
+            'priority': priority,
+            'status': '待处理',
+            'created_at': datetime.now().isoformat(),
+            'conversation_history': self.user_info['questions_asked']
+        }
+
+        # 保存工单
+        ticket_file = f"tickets/ticket_{ticket['ticket_id']}.json"
+        import os
+        os.makedirs('tickets', exist_ok=True)
+
+        with open(ticket_file, 'w', encoding='utf-8') as f:
+            json.dump(ticket, f, ensure_ascii=False, indent=2)
+
+        return ticket
+
+    def save_conversation_log(self, filepath="conversation_log.json"):
+        """保存对话日志"""
+        log_data = {
+            'user_info': self.user_info,
+            'conversations': self.conversation_log,
+            'saved_at': datetime.now().isoformat()
+        }
+
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(log_data, f, ensure_ascii=False, indent=2)
+
+        print(f"✅ 对话日志已保存到 {filepath}")
+
+
+def main():
+    """主程序"""
+    print("🤖 欢迎使用智能客服系统！\n")
+    print("提示：请先告诉我您的姓名，例如：'我是张三'\n")
+
+    bot = CustomerServiceBot()
+
+    print("可用命令：")
+    print("  - 直接输入问题进行咨询")
+    print("  - /ticket <问题描述> - 创建支持工单")
+    print("  - /save - 保存对话日志")
+    print("  - /quit - 退出\n")
+
+    while True:
+        user_input = input("\n👤 您: ").strip()
+
+        if not user_input:
+            continue
+
+        if user_input == "/quit":
+            print("\n感谢使用！祝您生活愉快！👋")
+            bot.save_conversation_log()
+            break
+
+        elif user_input.startswith("/ticket"):
+            parts = user_input.split(maxsplit=1)
+            if len(parts) > 1:
+                ticket = bot.create_ticket(parts[1])
+                print(f"\n✅ 工单已创建！")
+                print(f"工单号：{ticket['ticket_id']}")
+                print(f"优先级：{ticket['priority']}")
+                print(f"状态：{ticket['status']}")
+            else:
+                print("\n请提供问题描述：/ticket <问题描述>")
+
+        elif user_input == "/save":
+            bot.save_conversation_log()
+
+        else:
+            response = bot.handle_query(user_input)
+            print(f"\n🤖 客服: {response}")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                    <h4 class="font-semibold text-green-900 mb-2">💡 优化建议</h4>
+                    <ul class="list-disc list-inside space-y-1 text-green-800">
+                        <li>可以使用更复杂的情绪分析模型（如BERT）</li>
+                        <li>FAQ匹配可以使用向量相似度（embeddings）</li>
+                        <li>工单系统可以集成到数据库</li>
+                        <li>添加多轮对话的意图识别</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 提交要求 -->
+        <section id="submission" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📤 提交要求</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">提交内容</h3>
+
+                <div class="space-y-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h4 class="font-semibold text-blue-900 mb-2">1. 代码文件</h4>
+                        <ul class="list-disc list-inside space-y-1 text-blue-800">
+                            <li>learning_assistant.py - 作业1代码</li>
+                            <li>content_creator.py - 作业2代码（选做）</li>
+                            <li>customer_service.py - 作业3代码（挑战）</li>
+                            <li>requirements.txt - 依赖列表</li>
+                            <li>.env.example - 环境变量示例（如果需要）</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h4 class="font-semibold text-green-900 mb-2">2. README.md文档</h4>
+                        <ul class="list-disc list-inside space-y-1 text-green-800">
+                            <li>项目简介和功能说明</li>
+                            <li>环境配置步骤（Ollama安装等）</li>
+                            <li>如何运行每个作业</li>
+                            <li>运行截图或演示视频链接</li>
+                            <li>遇到的问题和解决方案</li>
+                            <li>改进建议和学习心得</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                        <h4 class="font-semibold text-purple-900 mb-2">3. 演示材料</h4>
+                        <ul class="list-disc list-inside space-y-1 text-purple-800">
+                            <li>运行截图（至少3张，展示核心功能）</li>
+                            <li>生成的内容示例（如果适用）</li>
+                            <li>对话日志示例（JSON文件）</li>
+                            <li>演示视频（可选，但推荐）</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-8 mb-4">评分标准</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 px-4 py-2">评分维度</th>
+                                <th class="border border-gray-300 px-4 py-2">权重</th>
+                                <th class="border border-gray-300 px-4 py-2">评分要点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">代码质量与组织</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">20%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - 代码结构清晰，模块化<br>
+                                    - 有适当的注释和文档字符串<br>
+                                    - 遵循Python编码规范（PEP 8）<br>
+                                    - 错误处理完善
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">功能完整性</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">40%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - 实现了所有必需功能<br>
+                                    - 功能运行正常，无重大bug<br>
+                                    - 正确使用LangChain组件<br>
+                                    - Memory和Chain使用得当
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">文档质量</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">20%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - README完整清晰<br>
+                                    - 配置说明详细<br>
+                                    - 有运行示例和截图<br>
+                                    - 问题和解决方案记录
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">创新与创意</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">20%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    - 实现了加分功能<br>
+                                    - 有独特的创新点<br>
+                                    - UI/UX设计优秀<br>
+                                    - 超出基本要求
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-6">
+                    <h4 class="font-semibold text-red-900 mb-2">⚠️ 注意事项</h4>
+                    <ul class="list-disc list-inside space-y-1 text-red-800">
+                        <li>确保使用免费的Ollama模型（不要使用付费API）</li>
+                        <li>代码必须能够实际运行</li>
+                        <li>不要抄袭，鼓励学习参考但要理解代码</li>
+                        <li>README必须包含完整的运行说明</li>
+                        <li>提交前请测试所有功能</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-6">
+                    <h4 class="font-semibold text-green-900 mb-2">🎁 加分项</h4>
+                    <ul class="list-disc list-inside space-y-1 text-green-800">
+                        <li>实现Web界面（Streamlit/Gradio）（+10分）</li>
+                        <li>添加单元测试（+5分）</li>
+                        <li>数据持久化（数据库）（+5分）</li>
+                        <li>部署到云平台（+10分）</li>
+                        <li>详细的开发日志和学习笔记（+5分）</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-6">
+                    <h4 class="font-semibold text-yellow-900 mb-2">📅 提交信息</h4>
+                    <ul class="space-y-1 text-yellow-800">
+                        <li><strong>提交方式：</strong>上传代码到GitHub仓库</li>
+                        <li><strong>截止时间：</strong>课程后7天</li>
+                        <li><strong>提交内容：</strong>GitHub仓库链接</li>
+                        <li><strong>仓库要求：</strong>包含完整代码、README、运行截图</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 学习资源 -->
+        <section id="resources" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📚 学习资源</h2>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">推荐学习资源</h3>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">📖 官方文档</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li><a href="https://python.langchain.com/" class="text-blue-600 hover:underline">LangChain Python文档</a></li>
+                            <li><a href="https://ollama.ai/" class="text-blue-600 hover:underline">Ollama官网</a></li>
+                            <li><a href="https://docs.streamlit.io/" class="text-blue-600 hover:underline">Streamlit文档</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-2">🎥 视频教程</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li>LangChain官方YouTube频道</li>
+                            <li>Ollama使用指南</li>
+                            <li>本课程回放录像</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-2">💡 示例项目</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li>LangChain官方示例库</li>
+                            <li>课程提供的参考代码</li>
+                            <li>GitHub上的开源项目</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-2">🛠️ 工具推荐</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                            <li>VSCode + Python扩展</li>
+                            <li>Jupyter Notebook（实验）</li>
+                            <li>LangSmith（调试工具）</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-6">
+                    <h4 class="font-semibold text-blue-900 mb-2">💬 获取帮助</h4>
+                    <ul class="list-disc list-inside space-y-1 text-blue-800">
+                        <li>课程讨论群：随时提问</li>
+                        <li>GitHub Issues：技术问题</li>
+                        <li>Office Hours：每周固定答疑时间</li>
+                        <li>同学互助：鼓励协作学习</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '已复制！';
+                button.style.background = 'rgba(34, 197, 94, 0.2)';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败：', err);
+            });
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
